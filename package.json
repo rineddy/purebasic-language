@@ -1,0 +1,26 @@
+{
+    "name": "purebasic-extension",
+    "displayName": "PureBasic Extension",
+    "description": "PureBasic language support for Visual Studio Code",
+    "version": "0.0.1",
+    "publisher": "Eddy-R",
+    "engines": {
+        "vscode": "^1.25.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "purebasic",
+            "aliases": ["purebasic", "PureBasic", "Pure Basic"],
+            "extensions": [".pb",".pbi"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "purebasic",
+            "scopeName": "source.purebasic",
+            "path": "./syntaxes/purebasic.tmLanguage.json"
+        }]
+    }
+}

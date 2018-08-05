@@ -1,0 +1,116 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "purebasic",
+	"patterns": [
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#strings"
+		},
+		{
+			"include": "#comments"
+		},
+		{
+			"include": "#numbers"
+		},
+		{
+			"include": "#constants"
+		},
+		{
+			"include": "#labels"
+		}
+	],
+	"repository": {
+		"comments": {
+			"patterns": [
+				{
+					"begin": ";",
+					"end": "\\s*$",
+					"name": "comment.line.semicolon.purebasic"
+				}
+			]
+		},
+		"strings": {
+			"patterns": [
+				{
+					"begin": "~\"",
+					"end": "\"",
+					"name": "string.interpolated.purebasic",
+					"patterns": [
+						{
+							"match": "\\\\.",
+							"name": "constant.character.escape.purebasic"
+						}
+					]
+				},
+				{
+					"begin": "\"",
+					"end": "\"",
+					"name": "string.quoted.double.purebasic"
+				},
+				{
+					"begin": "'",
+					"end": "'",
+					"name": "string.quoted.single.purebasic"					
+				}
+			]
+		},
+		"labels": {
+			"patterns": [
+				{
+					"match": "(?i)(?<=:|^)\\s*[_a-z]\\w*:(?=\\s*($|;))",
+					"name": "entity.name.tag.label.purebasic"
+				},
+				{
+					"match": "(?i)\\b(Goto|Gosub)\\s+([_a-z]\\w*\\b)?",
+					"captures":{
+						"1": {
+							"name": "keyword.control.purebasic"
+						},
+						"2": {
+							"name": "entity.name.tag.label.purebasic"
+						}
+					}
+				}
+			]
+		},
+		"keywords": {
+			"patterns": [
+				{
+					"match": "(?i)\\b(Align|And|Array|As|Break|CallDebugger|Case|CompilerCase|CompilerDefault|CompilerElse|CompilerElseIf|CompilerEndIf|CompilerEndSelect|CompilerError|CompilerIf|CompilerSelect|CompilerWarning|Continue|Data|DataSection|Debug|DebugLevel|Declare|DeclareC|DeclareCDLL|DeclareDLL|DeclareModule|Default|Define|Dim|DisableASM|DisableDebugger|DisableExplicit|Else|ElseIf|EnableASM|EnableDebugger|EnableExplicit|End|EndDataSection|EndDeclareModule|EndEnumeration|EndIf|EndImport|EndInterface|EndMacro|EndModule|EndProcedure|EndSelect|EndStructure|EndStructureUnion|EndWith|Enumeration|EnumerationBinary|Extends|FakeReturn|For|ForEach|ForEver|Global|If|Import|ImportC|IncludeBinary|IncludeFile|IncludePath|Interface|List|Macro|MacroExpandedCount|Map|Module|NewList|NewMap|Next|Not|Or|Procedure|ProcedureC|ProcedureCDLL|ProcedureDLL|ProcedureReturn|Protected|Prototype|PrototypeC|ReDim|Read|Repeat|Restore|Return|Runtime|Select|Shared|Static|Step|Structure|StructureUnion|Swap|Threaded|To|UndefineMacro|Until|UnuseModule|UseModule|Wend|While|With|XIncludeFile|XOr)\\b",
+					"name": "keyword.control.purebasic"
+				}
+			]
+		},
+		"numbers": {
+			"patterns": [
+				{
+					"match": "(?i)(?<=\\W|^)\\s*(%[01]+)",
+					"captures":{
+						"1": {
+							"name": "constant.numeric.bin.purebasic"
+						}
+					}
+				},
+				{
+					"match": "(?i)(?<!\\w)[$][a-f\\d]+",
+					"name": "constant.numeric.hex.purebasic"
+				},
+				{
+					"match": "(?i)\\b\\d+(\\.\\d+)?e?",
+					"name": "constant.numeric.purebasic"
+				}
+			]
+		},
+		"constants": {
+			"patterns": [
+				{
+					"match": "(?i)#[_a-z]\\w*[$]?",
+					"name": "constant.language.purebasic"
+				}
+			]
+		}
+	},
+	"scopeName": "source.purebasic"
+}
