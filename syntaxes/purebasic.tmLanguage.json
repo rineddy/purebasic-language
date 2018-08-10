@@ -3,9 +3,6 @@
 	"name": "purebasic",
 	"patterns": [
 		{
-			"include": "#keywords"
-		},
-		{
 			"include": "#strings"
 		},
 		{
@@ -18,7 +15,28 @@
 			"include": "#constants"
 		},
 		{
+			"include": "#storages"
+		},
+		{
+			"include": "#entities"
+		},
+		{
 			"include": "#labels"
+		},
+		{
+			"include": "#asm"
+		},
+		{
+			"include": "#preprocesssors"
+		},
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#functions"
+		},
+		{
+			"include": "#variables"
 		}
 	],
 	"repository": {
@@ -28,6 +46,15 @@
 					"begin": ";",
 					"end": "\\s*$",
 					"name": "comment.line.semicolon.purebasic"
+				}
+			]
+		},
+		"asm": {
+			"patterns": [
+				{
+					"begin": "!",
+					"end": "\\s*$",
+					"name": "keyword.control.asm.purebasic"
 				}
 			]
 		},
@@ -52,7 +79,7 @@
 				{
 					"begin": "'",
 					"end": "'",
-					"name": "string.quoted.single.purebasic"					
+					"name": "string.quoted.single.purebasic"
 				}
 			]
 		},
@@ -60,25 +87,93 @@
 			"patterns": [
 				{
 					"match": "(?i)(?<=:|^)\\s*[_a-z]\\w*:(?=\\s*($|;))",
-					"name": "entity.name.tag.label.purebasic"
+					"name": "entity.name.tag.lab.purebasic"
 				},
 				{
 					"match": "(?i)\\b(Goto|Gosub)\\s+([_a-z]\\w*\\b)?",
-					"captures":{
+					"captures": {
 						"1": {
 							"name": "keyword.control.purebasic"
 						},
 						"2": {
-							"name": "entity.name.tag.label.purebasic"
+							"name": "entity.name.tag.purebasic"
 						}
 					}
+				}
+			]
+		},
+		"preprocesssors": {
+			"patterns": [
+				{
+					"match": "(?i)\\b(CompilerCase|CompilerDefault|CompilerElse|CompilerElseIf|CompilerEndIf|CompilerEndSelect|CompilerError|CompilerIf|CompilerSelect|CompilerWarning)\\b",
+					"name": "meta.preprocessor.purebasic"
+				}
+			]
+		},
+		"variables": {
+			"patterns": [
+				{
+					"match": "(?i)((@[*]|@|[*]|\\b)[_a-z]\\w*([$]|\\b))",
+					"captures": {
+						"1": {
+							"name": "variable.other.purebasic"
+						}
+					}					
+				}
+			]
+		},
+		"entities": {
+			"patterns": [
+				{
+					"match": "(?i)\\b\\.([_a-z]\\w*)\\b",
+					"captures": {
+						"1": {
+							"name": "entity.name.type.purebasic"
+						}
+					}
+				},
+				{
+					"match": "(?i)(?<=\\W|^)\\s*([_a-z]\\w*)::",
+					"captures": {
+						"1": {
+							"name": "entity.name.type.purebasic"
+						}
+					}
+				},
+				{
+					"match": "(?i)\\b(Dim|NewList|NewMap|Array|List|Map)\\b",
+					"name": "entity.name.type.purebasic"
+				},
+				{
+					"match": "(?i)\\b(?<=Enumeration|EnumerationBinary|Module|DeclareModule|Interface|Structure|UnuseModule|UseModule)\\s+([_a-z]\\w*)\\b",
+					"captures": {
+						"1": {
+							"name": "entity.name.type.purebasic"
+						}
+					}
+				}
+			]
+		},
+		"storages": {
+			"patterns": [
+				{
+					"match": "(?i)\\b(Protected|Global|Shared|Static|Define|Runtime|(Un)?useModule)\\b",
+					"name": "storage.modifier.purebasic"
+				},
+				{
+					"match": "(?i)\\b(Procedure(C|CDLL|DLL)?|DataSection|Macro|Import(C)?|Structure(Union)?|(Declare)?Module|Enumeration(Binary)?|Interface|Prototype(C)?|Declare(C|CDLL|DLL)?)\\b",
+					"name": "storage.type.purebasic"
+				},
+				{
+					"match": "(?i)\\b(EndProcedure|EndDataSection|EndMacro|EndImport|EndStructure(Union)?|End(Declare)?Module|EndEnumeration|EndInterface)\\b",
+					"name": "storage.type.purebasic"
 				}
 			]
 		},
 		"keywords": {
 			"patterns": [
 				{
-					"match": "(?i)\\b(Align|And|Array|As|Break|CallDebugger|Case|CompilerCase|CompilerDefault|CompilerElse|CompilerElseIf|CompilerEndIf|CompilerEndSelect|CompilerError|CompilerIf|CompilerSelect|CompilerWarning|Continue|Data|DataSection|Debug|DebugLevel|Declare|DeclareC|DeclareCDLL|DeclareDLL|DeclareModule|Default|Define|Dim|DisableASM|DisableDebugger|DisableExplicit|Else|ElseIf|EnableASM|EnableDebugger|EnableExplicit|End|EndDataSection|EndDeclareModule|EndEnumeration|EndIf|EndImport|EndInterface|EndMacro|EndModule|EndProcedure|EndSelect|EndStructure|EndStructureUnion|EndWith|Enumeration|EnumerationBinary|Extends|FakeReturn|For|ForEach|ForEver|Global|If|Import|ImportC|IncludeBinary|IncludeFile|IncludePath|Interface|List|Macro|MacroExpandedCount|Map|Module|NewList|NewMap|Next|Not|Or|Procedure|ProcedureC|ProcedureCDLL|ProcedureDLL|ProcedureReturn|Protected|Prototype|PrototypeC|ReDim|Read|Repeat|Restore|Return|Runtime|Select|Shared|Static|Step|Structure|StructureUnion|Swap|Threaded|To|UndefineMacro|Until|UnuseModule|UseModule|Wend|While|With|XIncludeFile|XOr)\\b",
+					"match": "(?i)\\b(Align|And|As|Break|CallDebugger|Case|Continue|Data|ReDim|Debug|DebugLevel|Default|DisableASM|DisableDebugger|DisableExplicit|Else|ElseIf|EnableASM|EnableDebugger|EnableExplicit|End|EndIf|EndSelect|EndWith|Extends|FakeReturn|For|ForEach|ForEver|If|IncludeBinary|IncludeFile|IncludePath|MacroExpandedCount|Next|Not|Or|ProcedureReturn|Read|Repeat|Restore|Return|Select|Step|Swap|Threaded|To|UndefineMacro|Until|Wend|While|With|XIncludeFile|XOr)\\b",
 					"name": "keyword.control.purebasic"
 				}
 			]
@@ -87,7 +182,7 @@
 			"patterns": [
 				{
 					"match": "(?i)(?<=\\W|^)\\s*(%[01]+)",
-					"captures":{
+					"captures": {
 						"1": {
 							"name": "constant.numeric.bin.purebasic"
 						}
@@ -108,6 +203,18 @@
 				{
 					"match": "(?i)#[_a-z]\\w*[$]?",
 					"name": "constant.language.purebasic"
+				}
+			]
+		},
+		"functions": {
+			"patterns": [
+				{
+					"match": "(?i)\\b([_a-z]\\w*)\\s*[(]",
+					"captures": {
+						"1": {
+							"name": "entity.name.function.purebasic"
+						}
+					}
 				}
 			]
 		}

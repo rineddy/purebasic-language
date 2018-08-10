@@ -2,13 +2,15 @@
     "name": "purebasic-extension",
     "displayName": "PureBasic Extension",
     "description": "PureBasic language support for Visual Studio Code",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "publisher": "Eddy-R",
     "engines": {
         "vscode": "^1.25.0"
     },
     "categories": [
-        "Programming Languages"
+        "Programming Languages",
+        "Snippets",
+        "Themes"
     ],
     "contributes": {
         "languages": [{
@@ -21,6 +23,13 @@
             "language": "purebasic",
             "scopeName": "source.purebasic",
             "path": "./syntaxes/purebasic.tmLanguage.json"
-        }]
+        }],
+        "themes": [
+            {
+              "label": "PureBasic Dark+",
+              "uiTheme": "vs-dark",
+              "path": "./themes/dark-plus.json"
+            }            
+          ]
     }
 }
