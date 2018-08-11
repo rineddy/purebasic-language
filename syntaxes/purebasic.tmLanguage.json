@@ -113,13 +113,21 @@
 		"variables": {
 			"patterns": [
 				{
-					"match": "(?i)((@[*]|@|[*]|\\b)[_a-z]\\w*([$]|\\b))",
+					"match": "(?i)((@[*]|@|\\b)[_a-z]\\w*([$]|\\b))",
 					"captures": {
 						"1": {
 							"name": "variable.other.purebasic"
 						}
 					}					
-				}
+				},
+				{
+					"match": "(?i)((?<=[^)\\]\\w\\s]|^)\\s*[*]|[_a-z]\\w*([$]|\\b))",
+					"captures": {
+						"1": {
+							"name": "variable.other.purebasic"
+						}
+					}					
+				}				
 			]
 		},
 		"entities": {
@@ -174,14 +182,18 @@
 			"patterns": [
 				{
 					"match": "(?i)\\b(Align|And|As|Break|CallDebugger|Case|Continue|Data|ReDim|Debug|DebugLevel|Default|DisableASM|DisableDebugger|DisableExplicit|Else|ElseIf|EnableASM|EnableDebugger|EnableExplicit|End|EndIf|EndSelect|EndWith|Extends|FakeReturn|For|ForEach|ForEver|If|IncludeBinary|IncludeFile|IncludePath|MacroExpandedCount|Next|Not|Or|ProcedureReturn|Read|Repeat|Restore|Return|Select|Step|Swap|Threaded|To|UndefineMacro|Until|Wend|While|With|XIncludeFile|XOr)\\b",
-					"name": "keyword.control.purebasic"
+					"captures": {
+						"1": {
+							"name": "keyword.control.purebasic"
+						}
+					}
 				}
 			]
 		},
 		"numbers": {
 			"patterns": [
 				{
-					"match": "(?i)(?<=\\W|^)\\s*(%[01]+)",
+					"match": "(?i)(?<=[^)\\]\\w\\s]|^)\\s*(%[01]+)",
 					"captures": {
 						"1": {
 							"name": "constant.numeric.bin.purebasic"
