@@ -12,7 +12,7 @@
 		"list.dropBackground": "#383b3d",
 		"sideBarTitle.foreground": "#bbbbbb",		
 	},
-	"tokenColors": [
+	"tokenColors": [		
 		{
 			"scope": [
 				"meta.embedded",

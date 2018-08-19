@@ -17,18 +17,18 @@
             "id": "purebasic",
             "aliases": ["purebasic", "PureBasic", "Pure Basic"],
             "extensions": [".pb",".pbi"],
-            "configuration": "./language-configuration.json"
+            "configuration": "./language-configuration.json"            
         }],
         "grammars": [{
             "language": "purebasic",
             "scopeName": "source.purebasic",
-            "path": "./syntaxes/purebasic.tmLanguage.json"
+            "path": "./syntaxes/purebasic.tmLanguage.json"            
         }],
         "themes": [
             {
               "label": "PureBasic Dark+",
               "uiTheme": "vs-dark",
-              "path": "./themes/dark-plus.json"
+              "path": "./themes/dark-plus.json"              
             }            
           ]
     }
