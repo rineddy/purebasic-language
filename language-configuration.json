@@ -17,7 +17,7 @@
         ["[", "]"],
         ["(", ")"],
         ["\"", "\""],
-        ["'", "'"]
+        ["'", "'"]        
     ],
     // symbols that that can be used to surround a selection
     "surroundingPairs": [
@@ -26,5 +26,13 @@
         ["(", ")"],
         ["\"", "\""],
         ["'", "'"]
-    ]
+    ],
+    // symbols to define custom folding region
+    "folding": {
+        "offSide": true,
+        "markers": {
+            "start": ";[{]",
+            "end": ";[}]"
+        }
+    },
 }

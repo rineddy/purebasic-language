@@ -116,7 +116,11 @@
 		"entities": {
 			"patterns": [
 				{
-					"match": "(?i)\\b\\.([_a-z]\\w*)\\b",
+					"match": "(?i)\\b(?<=\\.)([_a-z]\\w*)\\b",
+					"name": "entity.name.type.purebasic"
+				},
+				{
+					"match": "(?i)(?<=\\W|^)\\s*([_a-z]\\w*)(?=::)",
 					"captures": {
 						"1": {
 							"name": "entity.name.type.purebasic"
@@ -124,20 +128,8 @@
 					}
 				},
 				{
-					"match": "(?i)(?<=\\W|^)\\s*([_a-z]\\w*)::",
-					"captures": {
-						"1": {
-							"name": "entity.name.type.purebasic"
-						}
-					}
-				},
-				{
-					"match": "(?i)\\b(?<=Enumeration|EnumerationBinary|Module|DeclareModule|Interface|Structure|UnuseModule|UseModule)\\s+([_a-z]\\w*)\\b",
-					"captures": {
-						"1": {
-							"name": "entity.name.type.purebasic"
-						}
-					}
+					"match": "(?i)\\b(?<=Enumeration|EnumerationBinary|Module|DeclareModule|Interface|Structure|UnuseModule|UseModule)\\s+[_a-z]\\w*\\b",
+					"name": "entity.name.type.purebasic"
 				}
 			]
 		},
@@ -180,46 +172,20 @@
 			},
 			"patterns": [
 				{
-					"match": "(?i)\\b(Align|And|As|Break|CallDebugger|Case|Continue|Data|ReDim|Debug|DebugLevel|Default|DisableASM|DisableDebugger|DisableExplicit|Else|ElseIf|EnableASM|EnableDebugger|EnableExplicit|End|EndIf|EndSelect|EndWith|Extends|FakeReturn|For|ForEach|ForEver|If|IncludeBinary|IncludeFile|IncludePath|MacroExpandedCount|Next|Not|Or|ProcedureReturn|Read|Repeat|Restore|Return|Select|Step|Swap|Threaded|To|UndefineMacro|Until|Wend|While|With|XIncludeFile|XOr)\\b(\\s*[*%].+)?",										
+					"match": "(?i)\\b(Dim|NewList|NewMap|Array|List|Map|Protected|Global|Shared|Static|Define|Runtime|UnuseModule|useModule|Align|And|As|Break|CallDebugger|Case|Continue|Data|ReDim|Debug|DebugLevel|Default|DisableASM|DisableDebugger|DisableExplicit|Else|ElseIf|EnableASM|EnableDebugger|EnableExplicit|End|EndIf|EndSelect|EndWith|Extends|FakeReturn|For|ForEach|ForEver|If|IncludeBinary|IncludeFile|IncludePath|MacroExpandedCount|Next|Not|Or|ProcedureReturn|Read|Repeat|Restore|Return|Select|Step|Swap|Threaded|To|UndefineMacro|Until|Wend|While|With|XIncludeFile|XOr)\\b(\\s*[*%].+)?",										
 					"captures": {
 						"1":{
-							"name": "keyword.control.purebasic"
-						},
-						"2": {
+							"name": "keyword.control.purebasic",
 							"patterns": [
 								{
-									"include": "#keyword-first-parameter"	
+									"match": "\\b(Protected|Global|Shared|Static|Define|Runtime|UnuseModule|useModule|Dim|NewList|NewMap)\\b",
+									"name": "keyword.control.modifier.decls.purebasic"
 								},
 								{
-									"include": "$self"	
-								}									
+									"match": "\\b(Array|List|Map)\\b",
+									"name": "keyword.control.modifier.params.purebasic"
+								}
 							]							
-						}
-					}
-				},
-				{
-					"match": "(?i)\\b(Protected|Global|Shared|Static|Define|Runtime|(Un)?useModule)\\b(\\s*[*%].+)?",
-					"captures": {
-						"1":{
-							"name": "keyword.control.modifier.purebasic"
-						},
-						"2": {
-							"patterns": [
-								{
-									"include": "#keyword-first-parameter"	
-								},
-								{
-									"include": "$self"	
-								}									
-							]							
-						}
-					}
-				},
-				{
-					"match": "(?i)\\b(Dim|NewList|NewMap|Array|List|Map)\\b(\\s*[*%].+)?",
-					"captures": {
-						"1":{
-							"name": "keyword.control.modifier.purebasic"
 						},
 						"2": {
 							"patterns": [
@@ -238,8 +204,8 @@
 		"operators": {
 			"patterns": [
 				{
-					"match": "[-=*/%&|!~<>]",
-					"name": "keyword.operator.purebasic"
+					"match": "[-+=*/%&|!~<>]",
+					"name": "punctuation.operator.purebasic"
 				}
 			]
 		},
@@ -247,11 +213,7 @@
 			"patterns": [
 				{
 					"match": "(?i)(?<=[^)}\\]\\w\\s]|^)\\s*([*][_a-z]\\w*([$]|\\b))",
-					"captures": {
-						"1": {
-							"name": "variable.pointer.purebasic"
-						}
-					}
+					"name": "variable.pointer.purebasic"
 				},
 				{
 					"match": "(?i)([?]|@[*]|@)[_a-z]\\w*([$]|\\b)|@(?=\")",
@@ -267,11 +229,7 @@
 			"patterns": [
 				{
 					"match": "(?i)(?<=[^)}\\]\\w\\s]|^)\\s*(%[01]+)",
-					"captures": {
-						"1": {
-							"name": "constant.numeric.bin.purebasic"
-						}
-					}
+					"name": "constant.numeric.bin.purebasic"
 				},
 				{
 					"match": "(?i)(?<!\\w)[$][a-f\\d]+",

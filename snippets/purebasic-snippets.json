@@ -1,0 +1,38 @@
+{
+    "For_Loop": {
+        "prefix": "for",
+        "body": [
+            "For ${1:variable} = ${2:startValue} To ${3:endValue}",
+            "\t$0",
+            "Next"
+        ],
+        "description": "For loop"
+    },
+    "For_Loop_Step": {
+        "prefix": "fors",
+        "body": [
+            "For ${1:variable} = ${2:startValue} To ${3:endValue} Step ${4:1}",
+            "\t$0",
+            "Next"
+        ],
+        "description": "For loop with steps"
+    },
+    "For_Loop_Reverse": {
+        "prefix": "forr",
+        "body": [
+            "For ${1:variable} = ${2:startValue} To ${3:endValue} Step -${4:1}",
+            "\t$0",
+            "Next"
+        ],
+        "description": "Reverse for loop"
+    },
+    "Folding_Region": {
+        "prefix": "region",
+        "body": [
+            ";{ ${1:region}",
+            "${TM_SELECTED_TEXT}$0",
+            ";}"
+        ],
+        "description": ";{ Custom folding region"
+    }
+}
