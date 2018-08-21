@@ -13,23 +13,44 @@
         "Themes"
     ],
     "contributes": {
-        "languages": [{
-            "id": "purebasic",
-            "aliases": ["purebasic", "PureBasic", "Pure Basic"],
-            "extensions": [".pb",".pbi"],
-            "configuration": "./language-configuration.json"
-        }],
-        "grammars": [{
-            "language": "purebasic",
-            "scopeName": "source.purebasic",
-            "path": "./syntaxes/purebasic.tmLanguage.json"
-        }],
+        "languages": [
+            {
+                "id": "purebasic",
+                "aliases": [
+                    "purebasic",
+                    "PureBasic",
+                    "Pure Basic"
+                ],
+                "extensions": [
+                    ".pb",
+                    ".pbi"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "purebasic",
+                "scopeName": "source.purebasic",
+                "path": "./syntaxes/purebasic.tmLanguage.json"
+            }
+        ],
         "themes": [
             {
-              "label": "PureBasic Dark+",
-              "uiTheme": "vs-dark",
-              "path": "./themes/dark-plus.json"
-            }            
-          ]
+                "label": "PureBasic Dark+",
+                "uiTheme": "vs-dark",
+                "path": "./themes/purebasic-dark-plus.json"
+            }
+        ],
+        "snippets": [
+            {
+                "language": "purebasic",
+                "path": "./snippets/purebasic-snippets.json"
+            },
+            {
+                "language": "purebasic",
+                "path": "./snippets/purebasic-more-snippets.json"
+            }
+        ]
     }
 }
