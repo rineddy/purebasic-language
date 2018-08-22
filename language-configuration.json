@@ -1,4 +1,22 @@
 {
+    "indentationRules": {
+        "increaseIndentPattern": {
+            "pattern": "\\b(Select)\\b|x|y",
+            "flags": "img"
+        },
+        "decreaseIndentPattern": {
+            "pattern": "\\b(EndSelect)\\b",
+            "flags": "i"
+        },
+        "indentNextLinePattern": {
+            "pattern": "\\b(case)\\b",
+            "flags": "i"
+        },
+        "unIndentedLinePattern": {
+            "pattern": "\\b(Casex)\\b",
+            "flags": "i"
+        },
+    },
     "comments": {
         // symbol used for single line comment. Remove this entry if your language does not support line comments
         "lineComment": ";",
@@ -7,25 +25,64 @@
     },
     // symbols used as brackets
     "brackets": [
-        ["{", "}"],
-        ["[", "]"],
-        ["(", ")"]
+        [
+            "{",
+            "}"
+        ],
+        [
+            "[",
+            "]"
+        ],
+        [
+            "(",
+            ")"
+        ]
     ],
     // symbols that are auto closed when typing
     "autoClosingPairs": [
-        ["{", "}"],
-        ["[", "]"],
-        ["(", ")"],
-        ["\"", "\""],
-        ["'", "'"]        
+        [
+            "{",
+            "}"
+        ],
+        [
+            "[",
+            "]"
+        ],
+        [
+            "(",
+            ")"
+        ],
+        [
+            "\"",
+            "\""
+        ],
+        [
+            "'",
+            "'"
+        ]
     ],
     // symbols that that can be used to surround a selection
     "surroundingPairs": [
-        ["{", "}"],
-        ["[", "]"],
-        ["(", ")"],
-        ["\"", "\""],
-        ["'", "'"]
+        [
+            "{",
+            "}"
+        ],
+        [
+            "[",
+            "]"
+        ],
+        [
+            "(",
+            ")"
+        ],
+        [
+            "\"",
+            "\""
+        ],
+        [
+            "'",
+            "'"
+        ]
     ],
     // symbols to define custom folding region
     "folding": {

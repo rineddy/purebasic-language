@@ -136,7 +136,7 @@
 		"storages": {
 			"patterns": [
 				{
-					"match": "(?i)\\b((\\bRuntime\\b)?\\s*Procedure(C|CDLL|DLL)?|DataSection|Macro|Import(C)?|Structure(Union)?|(Declare)?Module|Enumeration(Binary)?|Interface|Prototype(C)?|Declare(C|CDLL|DLL)?)\\b",
+					"match": "(?i)\\b((\\bRuntime\\b)?\\s*Procedure(C|CDLL|DLL)?|DataSection|Macro|Import(C)?|Structure(Union)?|(Declare)?Module|Enumeration(Binary)?|Interface)\\b",
 					"name": "storage.type.purebasic"
 				},
 				{
@@ -172,7 +172,7 @@
 			},
 			"patterns": [
 				{
-					"match": "(?i)\\b(Dim|NewList|NewMap|Array|List|Map|Protected|Global|Shared|Static|Define|Runtime|UnuseModule|useModule|Align|And|As|Break|CallDebugger|Case|Continue|Data|ReDim|Debug|DebugLevel|Default|DisableASM|DisableDebugger|DisableExplicit|Else|ElseIf|EnableASM|EnableDebugger|EnableExplicit|End|EndIf|EndSelect|EndWith|Extends|FakeReturn|For|ForEach|ForEver|If|IncludeBinary|IncludeFile|IncludePath|MacroExpandedCount|Next|Not|Or|ProcedureReturn|Read|Repeat|Restore|Return|Select|Step|Swap|Threaded|To|UndefineMacro|Until|Wend|While|With|XIncludeFile|XOr)\\b(\\s*[*%].+)?",										
+					"match": "(?i)\\b(Dim|NewList|NewMap|Array|List|Map|Protected|Global|Shared|Static|Define|Runtime|UnuseModule|useModule|Align|And|As|Break|CallDebugger|Case|Continue|Data|ReDim|Debug|DebugLevel|Default|DisableASM|DisableDebugger|DisableExplicit|Else|ElseIf|EnableASM|EnableDebugger|EnableExplicit|End|EndIf|EndSelect|EndWith|Extends|FakeReturn|For|ForEach|ForEver|If|IncludeBinary|IncludeFile|IncludePath|MacroExpandedCount|Next|Not|Or|ProcedureReturn|Read|Repeat|Restore|Return|Select|Step|Swap|Threaded|To|UndefineMacro|Until|Wend|While|With|XIncludeFile|XOr|Prototype|PrototypeC|Declare|DeclareC|DeclareCDLL|DeclareDLL)\\b(\\s*[*%].+)?",										
 					"captures": {
 						"1":{
 							"name": "keyword.control.purebasic",
