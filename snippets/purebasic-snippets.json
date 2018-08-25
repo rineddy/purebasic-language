@@ -1,6 +1,6 @@
 {
-    "For_Loop": {
-        "prefix": "for",
+    "For": {
+        "prefix": "For",
         "body": [
             "For ${1:variable} = ${2:startValue} To ${3:endValue}",
             "\t$0",
@@ -8,8 +8,8 @@
         ],
         "description": "For loop"
     },
-    "For_Loop_Step": {
-        "prefix": "fors",
+    "For_Step": {
+        "prefix": "Fors",
         "body": [
             "For ${1:variable} = ${2:startValue} To ${3:endValue} Step ${4:1}",
             "\t$0",
@@ -17,8 +17,8 @@
         ],
         "description": "For loop with steps"
     },
-    "For_Loop_Reverse": {
-        "prefix": "forr",
+    "For_Reverse": {
+        "prefix": "Forr",
         "body": [
             "For ${1:variable} = ${2:startValue} To ${3:endValue} Step -${4:1}",
             "\t$0",
@@ -26,8 +26,8 @@
         ],
         "description": "Reverse for loop"
     },
-    "Folding_Region": {
-        "prefix": "region",
+    "Region": {
+        "prefix": "Region",
         "body": [
             ";{ ${1:region}",
             "${TM_SELECTED_TEXT}$0",

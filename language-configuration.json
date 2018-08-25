@@ -1,19 +1,19 @@
 {
     "indentationRules": {
         "increaseIndentPattern": {
-            "pattern": "\\b(Select)\\b|x|y",
-            "flags": "img"
+            "pattern": "\\b(Procedure)\\b",
+            "flags": "i"
         },
         "decreaseIndentPattern": {
-            "pattern": "\\b(EndSelect)\\b",
+            "pattern": "\\b(EndProcedure)\\b",
             "flags": "i"
         },
         "indentNextLinePattern": {
-            "pattern": "\\b(case)\\b",
+            "pattern": "\\b(test)\\b",
             "flags": "i"
         },
         "unIndentedLinePattern": {
-            "pattern": "\\b(Casex)\\b",
+            "pattern": "\\b(test2)\\b",
             "flags": "i"
         },
     },
