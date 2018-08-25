@@ -28,27 +28,27 @@
                     ".pb",
                     ".pbi"
                 ],
-                "configuration": "./language-configuration.json"
+                "configuration": "./contributes/languages/purebasic.language-configuration.json"
             }
         ],
         "grammars": [
             {
                 "language": "purebasic",
                 "scopeName": "source.purebasic",
-                "path": "./grammars/purebasic.tmLanguage.json"
+                "path": "./contributes/grammars/purebasic.tmLanguage.json"
             }
         ],
         "themes": [
             {
                 "label": "PureBasic Dark+",
                 "uiTheme": "vs-dark",
-                "path": "./themes/purebasic-dark-plus.json"
+                "path": "./contributes/themes/purebasic.dark-plus.json"
             }
         ],
         "snippets": [
             {
                 "language": "purebasic",
-                "path": "./snippets/purebasic-snippets.json"
+                "path": "./contributes/snippets/purebasic.custom-snippets.json"
             }
         ],
         "commands": [
@@ -60,6 +60,7 @@
     },
     "main": "./out/extension",
     "activationEvents": [
+        "onLanguage:purebasic",
         "onCommand:extension.sayHello"
     ],
     "scripts": {
