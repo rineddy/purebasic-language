@@ -21,8 +21,7 @@
                 "id": "purebasic",
                 "aliases": [
                     "purebasic",
-                    "PureBasic",
-                    "Pure Basic"
+                    "PureBasic"
                 ],
                 "extensions": [
                     ".pb",
@@ -35,22 +34,45 @@
             {
                 "language": "purebasic",
                 "scopeName": "source.purebasic",
-                "path": "./contributes/grammars/purebasic.tmLanguage.json"
+                "path": "./contributes/grammars/purebasic.tmLanguage.json"                          
             }
         ],
         "themes": [
             {
-                "label": "PureBasic Dark+",
+                "id": "PureBasic Dark+",
+                "label": "Dark+ (PureBasic)",
                 "uiTheme": "vs-dark",
-                "path": "./contributes/themes/purebasic.dark-plus.json"
+                "path": "./contributes/themes/darkplus.color-theme.json"
             }
         ],
-        "snippets": [
-            {
+        "snippets": [            
+            {                
                 "language": "purebasic",
-                "path": "./contributes/snippets/purebasic.custom-snippets.json"
+                "path": "./contributes/snippets/purebasic.code-snippets.json"
             }
         ],
+        "iconThemes": [            
+            {
+                "id": "PureBasic Seti",
+                "label": "Seti (PureBasic)",
+                "path": "./contributes/iconThemes/seti.icon-theme.json"
+            }
+        ],
+        "configurationDefaults": {
+            "[purebasic]": {
+                "editor.insertSpaces": false,
+                "editor.formatOnSave": true,
+                "editor.autoIndent": true,
+                "editor.tabSize": 3
+            }
+        },        
+        "configuration": {
+            "type": "object",
+            "title": "PureBasic configuration",
+            "properties": {
+                
+            }
+        },
         "commands": [
             {
                 "command": "extension.sayHello",
