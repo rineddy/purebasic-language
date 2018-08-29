@@ -3,7 +3,12 @@
     "displayName": "PureBasic Extension",
     "description": "PureBasic language support for Visual Studio Code",
     "version": "0.0.2",
+    "license": "MIT",
     "publisher": "Eddy-R",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/rineddy/extension-pb"
+    },
     "engines": {
         "vscode": "^1.26.0"
     },
@@ -14,6 +19,9 @@
         "Debuggers",
         "Formatters",
         "Linters"
+    ],
+    "keywords": [
+        "multi-root ready"
     ],
     "contributes": {
         "languages": [
@@ -34,7 +42,7 @@
             {
                 "language": "purebasic",
                 "scopeName": "source.purebasic",
-                "path": "./contributes/grammars/purebasic.tmLanguage.json"                          
+                "path": "./contributes/grammars/purebasic.tmLanguage.json"
             }
         ],
         "themes": [
@@ -45,13 +53,13 @@
                 "path": "./contributes/themes/darkplus.color-theme.json"
             }
         ],
-        "snippets": [            
-            {                
+        "snippets": [
+            {
                 "language": "purebasic",
                 "path": "./contributes/snippets/purebasic.code-snippets.json"
             }
         ],
-        "iconThemes": [            
+        "iconThemes": [
             {
                 "id": "PureBasic Seti",
                 "label": "Seti (PureBasic)",
@@ -65,13 +73,11 @@
                 "editor.autoIndent": true,
                 "editor.tabSize": 3
             }
-        },        
+        },
         "configuration": {
             "type": "object",
             "title": "PureBasic configuration",
-            "properties": {
-                
-            }
+            "properties": {}
         },
         "commands": [
             {
@@ -93,10 +99,10 @@
         "test": "npm run compile && node ./node_modules/vscode/bin/test"
     },
     "devDependencies": {
-        "typescript": "^2.6.1",
+        "typescript": "^2.8.3",
         "vscode": "^1.1.21",
         "tslint": "^5.8.0",
         "@types/node": "^8.10.25",
-        "@types/mocha": "^2.2.42"
+        "@types/mocha": "^5.2.0"
     }
 }
