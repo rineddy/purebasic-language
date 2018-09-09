@@ -40,7 +40,7 @@ It also includes an End-to-End test.
 
 ### For more information
 
-* [Language Server Protocol Specification](https://microsoft.github.io/language-server-protocol/specification/)
-* [Texmate Language Grammar Reference](https://macromates.com/manual/en/language_grammars/)
+* [Language Server Protocol Specification](https://microsoft.github.io/language-server-protocol/specification)
+* [Texmate Language Grammar Reference](https://macromates.com/manual/en/language_grammars)
 * [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
 * [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
