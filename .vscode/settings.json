@@ -8,6 +8,15 @@
 	},
 	"typescript.tsdk": "./node_modules/typescript/lib",
 	"typescript.tsc.autoDetect": "off",
-	"npm.exclude": ["**/client", "**/server"],
-	"npm.enableScriptExplorer": true
+	"npm.exclude": [
+		"**/client",
+		"**/server"
+	],
+	"npm.enableScriptExplorer": true,
+	"tslint.autoFixOnSave": true,
+	"editor.formatOnPaste": true,
+	"editor.formatOnSave": true,
+	"editor.insertSpaces": true,
+	"editor.tabSize": 4,
+	"files.trimTrailingWhitespace": true,
 }

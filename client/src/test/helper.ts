@@ -1,7 +1,7 @@
 /* --------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- * ------------------------------------------------------------------------------------------ */
+* Copyright (c) Microsoft Corporation. All rights reserved.
+* Licensed under the MIT License. See License.txt in the project root for license information.
+* ------------------------------------------------------------------------------------------ */
 'use strict';
 
 import * as vscode from 'vscode';
@@ -16,13 +16,18 @@ export let platformEol: string;
  * Activates the vscode.lsp-sample extension
  */
 export async function activate(docUri: vscode.Uri) {
-	// The extensionId is `publisher.name` from package.json
-	const ext = vscode.extensions.getExtension('Eddy-R.purebasic-extension');
-	await ext.activate();
+	const extensionId = 'Eddy-R.purebasic-extension'; // The extensionId is `publisher.name` from package.json
+	const ext = vscode.extensions.getExtension(extensionId);
+	if (ext) {
+		await ext.activate();
+	} else {
+		console.error(`The extension '${extensionId}' is unknown`);
+	}
 	try {
 		doc = await vscode.workspace.openTextDocument(docUri);
 		editor = await vscode.window.showTextDocument(doc);
-		await sleep(2000); // Wait for server activation
+		await sleep(2000); // Wait for server activation when opening '.pb' file
+		console.log(`The extension '${extensionId}' is ready`);
 	} catch (e) {
 		console.error(e);
 	}

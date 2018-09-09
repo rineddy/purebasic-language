@@ -48,8 +48,8 @@ export function activate(context: ExtensionContext) {
 
 	// Create the language client and start the client.
 	client = new LanguageClient(
-		'languageServerExample',
-		'Language Server Example',
+		'purebasicLanguageServer',
+		'PureBasic Language Server',
 		serverOptions,
 		clientOptions
 	);
@@ -58,7 +58,7 @@ export function activate(context: ExtensionContext) {
 	client.start();
 }
 
-export function deactivate(): Thenable<void> {
+export function deactivate(): Thenable<void> | undefined {
 	if (!client) {
 		return undefined;
 	}

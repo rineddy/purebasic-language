@@ -78,13 +78,13 @@
 			"type": "object",
 			"title": "Example configuration",
 			"properties": {
-				"languageServerExample.maxNumberOfProblems": {
+				"purebasicCustomSettings.maxNumberOfProblems": {
 					"scope": "resource",
 					"type": "number",
 					"default": 100,
 					"description": "Controls the maximum number of problems produced by the server."
 				},
-				"languageServerExample.trace.server": {
+				"purebasicCustomSettings.trace.server": {
 					"scope": "window",
 					"type": "string",
 					"enum": [
