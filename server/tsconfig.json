@@ -3,13 +3,13 @@
 	"compilerOptions": {
 		"target": "es6",
 		"module": "commonjs",
-		"moduleResolution": "node",
-		"sourceMap": true,
 		"outDir": "out",
 		"rootDir": ".",
 		"lib": [
 			"es6"
-		]
+		],
+		"sourceMap": true,
+		"moduleResolution": "node"
 	},
 	"include": [
 		"."
