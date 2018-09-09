@@ -16,13 +16,11 @@ It also includes an End-to-End test.
 ```
 .
 ├── client // Language Client
-│   ├── src
-│   │   ├── test // End to End tests for Language Client / Server
-│   │   └── pbClient.ts // Language Client entry point
+│   ├── test // End to End tests for Language Client / Server
+│   └── pbClient.ts // Language Client entry point
 ├── package.json // The extension manifest.
 └── server // Language Server
-    └── src
-        └── pbServer.ts // Language Server entry point
+    └── pbServer.ts // Language Server entry point
 ```
 
 ## Compile and Run
