@@ -98,7 +98,7 @@
 			}
 		}
 	},
-	"main": "./client/out/extension",
+	"main": "./client/out/pbClient",
 	"activationEvents": [
 		"onLanguage:purebasic"
 	],
