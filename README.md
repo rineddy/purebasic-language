@@ -1,66 +1,46 @@
-# purebasic README
+# Purebasic Language Server Protocol
 
-This is the README for your extension "purebasic". After writing up a brief description, we recommend including the following sections.
+It's based on heavily documented sample code for https://code.visualstudio.com/docs/extensions/example-language-server.
 
-## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+## Functionality
 
-For example if there is an image subfolder under your extension project workspace:
+This Language Server works for PureBasic file. It has the following language features:
+- Completions
+- Diagnostics regenerated on each file change or configuration change
 
-\!\[feature X\]\(images/feature-x.png\)
+It also includes an End-to-End test.
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+## Structure
 
-## Requirements
+```
+.
+├── client // Language Client
+│   ├── src
+│   │   ├── test // End to End tests for Language Client / Server
+│   │   └── extension.ts // Language Client entry point
+├── package.json // The extension manifest.
+└── server // Language Server
+    └── src
+        └── server.ts // Language Server entry point
+```
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+## Compile and Run
 
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
+- Run `npm install` in this folder. This installs all necessary npm modules in both the client and server folder
+- Open VS Code on this folder.
+- Press Ctrl+Shift+B to compile the client and server.
+- Switch to the Debug viewlet.
+- Select `Launch Client` from the drop down.
+- Run the lauch config.
+- If you want to debug the server as well use the launch configuration `Attach to Server`
+- In the [Extension Development Host] instance of VSCode, open a document in 'plain text' language mode.
+  - Type `j` or `t` to see `Javascript` and `TypeScript` completion.
+  - Enter text content such as `AAA aaa BBB`. The extension will emit diagnostics for all words in all-uppercase.
 
 ### For more information
 
+* [Language Server Protocol Specification](https://microsoft.github.io/language-server-protocol/specification/)
+* [Texmate Language Grammar Reference](https://macromates.com/manual/en/language_grammars/)
 * [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
 * [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-* [Texmate Language Grammar Reference](https://macromates.com/manual/en/language_grammars/)
-
-**Enjoy!**
