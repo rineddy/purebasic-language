@@ -90,7 +90,7 @@ connection.onDidChangeConfiguration(change => {
 		documentSettings.clear();
 	} else {
 		globalSettings = <PureBasicSettings>(
-			(change.settings.purebasicCustomSettings || defaultSettings)
+			(change.settings.purebasicLanguage || defaultSettings)
 		);
 	}
 
@@ -106,7 +106,7 @@ function getDocumentSettings(resource: string): Thenable<PureBasicSettings> {
 	if (!result) {
 		result = connection.workspace.getConfiguration({
 			scopeUri: resource,
-			section: 'purebasicCustomSettings'
+			section: 'purebasicLanguage'
 		});
 		documentSettings.set(resource, result);
 	}
