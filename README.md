@@ -39,6 +39,7 @@ It also includes an End-to-End test.
 ### For more information
 
 * [Language Server Protocol Specification](https://microsoft.github.io/language-server-protocol/specification)
+* [Extension Language Support](https://code.visualstudio.com/docs/extensionAPI/language-support#_format-source-code-in-an-editor)
 * [Texmate Language Grammar Reference](https://macromates.com/manual/en/language_grammars)
 * [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
 * [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
