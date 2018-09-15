@@ -70,6 +70,8 @@
 			"[purebasic]": {
 				"editor.insertSpaces": false,
 				"editor.formatOnSave": true,
+				"editor.formatOnType": true,
+				"editor.detectIndentation": false,
 				"editor.autoIndent": true,
 				"editor.tabSize": 3
 			}

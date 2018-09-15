@@ -4,7 +4,8 @@
 		"**/out": true,
 		"**/.gitattributes": true,
 		"**/.gitignore": true,
-		"**/package*.json": true,
+		"**/package-lock.json": true,
+		"?*/package.json": true,
 		"**/tsconfig*.json": true,
 		"**/tslint.json": true
 	},
@@ -19,11 +20,12 @@
 		"**/server"
 	],
 	"npm.enableScriptExplorer": true,
-	"tslint.autoFixOnSave": true,
 	"editor.formatOnPaste": true,
 	"editor.formatOnSave": true,
+	"editor.formatOnType": true,
 	"editor.detectIndentation": false,
 	"editor.insertSpaces": false,
 	"editor.tabSize": 4,
 	"files.trimTrailingWhitespace": true,
+	"tslint.autoFixOnSave": true,
 }

@@ -5,20 +5,20 @@
 'use strict';
 
 import {
-	createConnection,
-	TextDocuments,
-	TextDocument,
-	Diagnostic,
-	DiagnosticSeverity,
-	ProposedFeatures,
-	InitializeParams,
-	DidChangeConfigurationNotification,
 	CompletionItem,
 	CompletionItemKind,
-	TextDocumentPositionParams,
+	Diagnostic,
+	DiagnosticSeverity,
+	DidChangeConfigurationNotification,
 	DocumentFormattingParams,
+	InitializeParams,
+	Position,
+	ProposedFeatures,
+	TextDocument,
+	TextDocumentPositionParams,
+	TextDocuments,
 	TextEdit,
-	Position
+	createConnection,
 } from 'vscode-languageserver';
 
 // Create a connection for the server. The connection uses Node's IPC as a transport.
@@ -40,17 +40,18 @@ connection.onInitialize((params: InitializeParams) => {
 	// If not, we will fall back using global settings
 	hasConfigurationCapability = capabilities.workspace && !!capabilities.workspace.configuration;
 	hasWorkspaceFolderCapability = capabilities.workspace && !!capabilities.workspace.workspaceFolders;
-	hasDiagnosticRelatedInformationCapability = capabilities.textDocument
-		&& capabilities.textDocument.publishDiagnostics
-		&& capabilities.textDocument.publishDiagnostics.relatedInformation;
+	hasDiagnosticRelatedInformationCapability = capabilities.textDocument && capabilities.textDocument.publishDiagnostics && capabilities.textDocument.publishDiagnostics.relatedInformation;
 
 	return {
 		capabilities: {
 			textDocumentSync: documents.syncKind,
-			documentFormattingProvider: true, 	// Tell the client that the server supports formatting
-			completionProvider: { 				// Tell the client that the server supports code completion
-				resolveProvider: true
-			}
+			documentRangeFormattingProvider: true,			// Tell the client that the server supports formatting
+			documentFormattingProvider: true, 				// Tell the client that the server supports formatting
+			documentOnTypeFormattingProvider: {				// Tell the client that the server supports formatting
+				firstTriggerCharacter: ':',
+				moreTriggerCharacter: ['(', '[', '{']
+			},
+			completionProvider: { resolveProvider: true } 	// Tell the client that the server supports code completion
 		}
 	};
 });
@@ -181,13 +182,13 @@ connection.onCompletion(
 		// info and always provide the same completion items.
 		return [
 			{
-				label: 'TypeScript',
-				kind: CompletionItemKind.Text,
+				label: 'Procedure',
+				kind: CompletionItemKind.Keyword,
 				data: 1
 			},
 			{
-				label: 'JavaScript',
-				kind: CompletionItemKind.Text,
+				label: 'EndProcedure',
+				kind: CompletionItemKind.Keyword,
 				data: 2
 			}
 		];
@@ -198,20 +199,39 @@ connection.onDocumentFormatting(
 	(docFormattingParams: DocumentFormattingParams): TextEdit[] => {
 		docFormattingParams.options.insertSpaces;
 		return [
-			TextEdit.insert(Position.create(0, 3), 'xxxxxxx'),
+			TextEdit.insert(Position.create(0, 3), 'xx1'),
 		];
-	});
+	}
+);
+
+connection.onDocumentRangeFormatting(
+	(docFormattingParams: DocumentFormattingParams): TextEdit[] => {
+		docFormattingParams.options.insertSpaces;
+		return [
+			TextEdit.insert(Position.create(0, 3), 'xxx2'),
+		];
+	}
+);
+
+connection.onDocumentOnTypeFormatting(
+	(docFormattingParams: DocumentFormattingParams): TextEdit[] => {
+		docFormattingParams.options.insertSpaces;
+		return [
+			TextEdit.insert(Position.create(0, 3), 'xxx3'),
+		];
+	}
+);
 
 // This handler resolve additional information for the item selected in
 // the completion list.
 connection.onCompletionResolve(
 	(item: CompletionItem): CompletionItem => {
-		if (item.data === 1) {
-			(item.detail = 'TypeScript details'),
-				(item.documentation = 'TypeScript documentation');
-		} else if (item.data === 2) {
-			(item.detail = 'JavaScript details'),
-				(item.documentation = 'JavaScript documentation');
+		if (item.data === 2) {
+			(item.detail = 'EndProcedure details'),
+				(item.documentation = 'EndProcedure documentation');
+		} else if (item.data === 1) {
+			(item.detail = 'Procedure details'),
+				(item.documentation = 'Procedure documentation');
 		}
 		return item;
 	}
