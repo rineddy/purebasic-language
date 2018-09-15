@@ -15,7 +15,10 @@ import {
 	DidChangeConfigurationNotification,
 	CompletionItem,
 	CompletionItemKind,
-	TextDocumentPositionParams
+	TextDocumentPositionParams,
+	DocumentFormattingParams,
+	TextEdit,
+	Position
 } from 'vscode-languageserver';
 
 // Create a connection for the server. The connection uses Node's IPC as a transport.
@@ -35,20 +38,17 @@ connection.onInitialize((params: InitializeParams) => {
 
 	// Does the client support the `workspace/configuration` request?
 	// If not, we will fall back using global settings
-	hasConfigurationCapability =
-		capabilities.workspace && !!capabilities.workspace.configuration;
-	hasWorkspaceFolderCapability =
-		capabilities.workspace && !!capabilities.workspace.workspaceFolders;
-	hasDiagnosticRelatedInformationCapability =
-		capabilities.textDocument &&
-		capabilities.textDocument.publishDiagnostics &&
-		capabilities.textDocument.publishDiagnostics.relatedInformation;
+	hasConfigurationCapability = capabilities.workspace && !!capabilities.workspace.configuration;
+	hasWorkspaceFolderCapability = capabilities.workspace && !!capabilities.workspace.workspaceFolders;
+	hasDiagnosticRelatedInformationCapability = capabilities.textDocument
+		&& capabilities.textDocument.publishDiagnostics
+		&& capabilities.textDocument.publishDiagnostics.relatedInformation;
 
 	return {
 		capabilities: {
 			textDocumentSync: documents.syncKind,
-			// Tell the client that the server supports code completion
-			completionProvider: {
+			documentFormattingProvider: true, 	// Tell the client that the server supports formatting
+			completionProvider: { 				// Tell the client that the server supports code completion
 				resolveProvider: true
 			}
 		}
@@ -58,10 +58,7 @@ connection.onInitialize((params: InitializeParams) => {
 connection.onInitialized(() => {
 	if (hasConfigurationCapability) {
 		// Register for all configuration changes.
-		connection.client.register(
-			DidChangeConfigurationNotification.type,
-			undefined
-		);
+		connection.client.register(DidChangeConfigurationNotification.type, undefined);
 	}
 	if (hasWorkspaceFolderCapability) {
 		connection.workspace.onDidChangeWorkspaceFolders(_event => {
@@ -196,6 +193,14 @@ connection.onCompletion(
 		];
 	}
 );
+
+connection.onDocumentFormatting(
+	(docFormattingParams: DocumentFormattingParams): TextEdit[] => {
+		docFormattingParams.options.insertSpaces;
+		return [
+			TextEdit.insert(Position.create(0, 3), 'xxxxxxx'),
+		];
+	});
 
 // This handler resolve additional information for the item selected in
 // the completion list.
