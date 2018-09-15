@@ -29,18 +29,18 @@ let connection = createConnection(ProposedFeatures.all);
 // supports full document sync only
 let documents: TextDocuments = new TextDocuments();
 
-let hasConfigurationCapability: boolean | undefined = false;
-let hasWorkspaceFolderCapability: boolean | undefined = false;
-let hasDiagnosticRelatedInformationCapability: boolean | undefined = false;
+let hasConfigurationCapability: boolean = false;
+let hasWorkspaceFolderCapability: boolean = false;
+let hasDiagnosticRelatedInformationCapability: boolean = false;
 
 connection.onInitialize((params: InitializeParams) => {
 	let capabilities = params.capabilities;
 
 	// Does the client support the `workspace/configuration` request?
 	// If not, we will fall back using global settings
-	hasConfigurationCapability = capabilities.workspace && !!capabilities.workspace.configuration;
-	hasWorkspaceFolderCapability = capabilities.workspace && !!capabilities.workspace.workspaceFolders;
-	hasDiagnosticRelatedInformationCapability = capabilities.textDocument && capabilities.textDocument.publishDiagnostics && capabilities.textDocument.publishDiagnostics.relatedInformation;
+	hasConfigurationCapability = !!(capabilities.workspace && capabilities.workspace.configuration);
+	hasWorkspaceFolderCapability = !!(capabilities.workspace && capabilities.workspace.workspaceFolders);
+	hasDiagnosticRelatedInformationCapability = !!(capabilities.textDocument && capabilities.textDocument.publishDiagnostics && capabilities.textDocument.publishDiagnostics.relatedInformation);
 
 	return {
 		capabilities: {
@@ -199,7 +199,7 @@ connection.onDocumentFormatting(
 	(docFormattingParams: DocumentFormattingParams): TextEdit[] => {
 		docFormattingParams.options.insertSpaces;
 		return [
-			TextEdit.insert(Position.create(0, 3), 'xx1'),
+			// TextEdit.insert(Position.create(0, 3), 'xx1'),
 		];
 	}
 );
@@ -207,8 +207,10 @@ connection.onDocumentFormatting(
 connection.onDocumentRangeFormatting(
 	(docFormattingParams: DocumentFormattingParams): TextEdit[] => {
 		docFormattingParams.options.insertSpaces;
+		let doc: TextDocument = documents.get(docFormattingParams.textDocument.uri) as TextDocument;
+		let txt = doc.getText();
 		return [
-			TextEdit.insert(Position.create(0, 3), 'xxx2'),
+			// TextEdit.insert(Position.create(0, 3), 'xxx2'),
 		];
 	}
 );
@@ -217,7 +219,7 @@ connection.onDocumentOnTypeFormatting(
 	(docFormattingParams: DocumentFormattingParams): TextEdit[] => {
 		docFormattingParams.options.insertSpaces;
 		return [
-			TextEdit.insert(Position.create(0, 3), 'xxx3'),
+			// TextEdit.insert(Position.create(0, 3), 'xxx3'),
 		];
 	}
 );
@@ -226,12 +228,12 @@ connection.onDocumentOnTypeFormatting(
 // the completion list.
 connection.onCompletionResolve(
 	(item: CompletionItem): CompletionItem => {
-		if (item.data === 2) {
-			(item.detail = 'EndProcedure details'),
-				(item.documentation = 'EndProcedure documentation');
-		} else if (item.data === 1) {
+		if (item.data === 1) {
 			(item.detail = 'Procedure details'),
 				(item.documentation = 'Procedure documentation');
+		} else if (item.data === 2) {
+			(item.detail = 'EndProcedure details'),
+				(item.documentation = 'EndProcedure documentation');
 		}
 		return item;
 	}
