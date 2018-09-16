@@ -11,7 +11,9 @@ import pb from './pbAPI';
  * All Purebasic settings customized by user
  */
 export interface ICustomizableSettings {
-	maxNumberOfProblems: number;
+	diagnostics: {
+		maxNumberOfProblems: number;
+	};
 }
 
 export class PureBasicSettings {
@@ -24,7 +26,11 @@ export class PureBasicSettings {
 	// The global settings, used when the `workspace/configuration` request is not supported by the client.
 	// Please note that this is not the case when using this server with the client provided in this example
 	// but could happen with other clients.
-	private static DEFAULT_SETTINGS: ICustomizableSettings = { maxNumberOfProblems: 1000 };
+	private static DEFAULT_SETTINGS: ICustomizableSettings = {
+		diagnostics: {
+			maxNumberOfProblems: 1000
+		}
+	};
 	private globalSettings: ICustomizableSettings = PureBasicSettings.DEFAULT_SETTINGS;
 	// Cache the settings of all open documents
 	private documentSettings: Map<string, Thenable<ICustomizableSettings>> = new Map();

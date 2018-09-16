@@ -22,7 +22,7 @@ export class PureBasicDocValidation {
 
 		let problems = 0;
 		let diagnostics: Diagnostic[] = [];
-		while ((m = pattern.exec(text)) && problems < settings.maxNumberOfProblems) {
+		while ((m = pattern.exec(text)) && problems < settings.diagnostics.maxNumberOfProblems) {
 			problems++;
 			let diagnosic: Diagnostic = {
 				severity: DiagnosticSeverity.Warning,
