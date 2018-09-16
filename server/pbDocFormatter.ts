@@ -2,7 +2,6 @@ import {
 	DocumentFormattingParams,
 	DocumentOnTypeFormattingParams,
 	DocumentRangeFormattingParams,
-	TextDocument,
 	TextEdit
 } from 'vscode-languageserver';
 
@@ -14,9 +13,7 @@ export class PureBasicDocFormatter {
 	 * @param formattingParams
 	 */
 	public formatDocument(formattingParams: DocumentFormattingParams): TextEdit[] {
-		// docFormattingParams.options.insertSpaces;
-		// let doc: TextDocument = documents.get(docFormattingParams.textDocument.uri) as TextDocument;
-		// doc.getText();
+		let txt = pb.helpers.ReadDocText(formattingParams.textDocument);
 		return [];
 	}
 
@@ -25,10 +22,20 @@ export class PureBasicDocFormatter {
 	 * @param formattingParams
 	 */
 	public formatDocumentRange(formattingParams: DocumentRangeFormattingParams): TextEdit[] {
+		let txt = pb.helpers.ReadDocText(formattingParams.textDocument, formattingParams.range);
 		formattingParams.options.insertSpaces;
-		let doc: TextDocument = pb.documents.get(formattingParams.textDocument.uri) as TextDocument;
-		let txt = doc.getText();
-		return [];
+		return [
+			TextEdit.replace({
+				start: {
+					line: 1
+					, character: 1
+				},
+				end: {
+					line: 1
+					, character: 10
+				}
+			}, 'xxxxx')
+		];
 	}
 
 	/**
@@ -36,9 +43,7 @@ export class PureBasicDocFormatter {
 	 * @param formattingParams
 	 */
 	public formatDocumentOnType(formattingParams: DocumentOnTypeFormattingParams): TextEdit[] {
-		// docFormattingParams.options.insertSpaces;
-		// let doc: TextDocument = documents.get(docFormattingParams.textDocument.uri) as TextDocument;
-		// doc.getText();
+		// let txt = pb.helpers.ReadDocText(formattingParams.textDocument, formattingParams.position.line)
 		return [];
 	}
 
