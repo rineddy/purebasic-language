@@ -1,7 +1,6 @@
 import * as pbCompletion from './pbCompletion';
 import * as pbDocFormatter from './pbDocFormatter';
 import * as pbDocValidation from './pbDocValidation';
-import * as pbSettings from './pbSettings';
 
 import {
 	Connection,
@@ -9,6 +8,8 @@ import {
 	TextDocuments,
 	createConnection
 } from 'vscode-languageserver';
+
+import pbSettings from './pbSettings';
 
 export class PureBasicAPI {
 	/**

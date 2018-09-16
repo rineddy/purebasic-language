@@ -5,7 +5,6 @@
 		"**/.gitattributes": true,
 		"**/.gitignore": true,
 		"**/package-lock.json": true,
-		"?*/package.json": true,
 		"**/tsconfig*.json": true,
 		"**/tslint.json": true
 	},

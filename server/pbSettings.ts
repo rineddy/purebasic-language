@@ -9,8 +9,8 @@ import pb from './pbAPI';
 
 export let initParams: InitializeParams;
 export let clientCapabilities: ClientCapabilities;
-export let hasWorkspaceConfigCapability: boolean = false;
-export let hasWorkspaceFolderCapability: boolean = false;
+export let supportsWorkspaceConfig: boolean = false;
+export let supportsWorkspaceFolder: boolean = false;
 export let hasDiagnosticRelatedInformationCapability: boolean = false;
 
 // Purebasic custom settings
@@ -36,8 +36,8 @@ export function onInitialize(params: InitializeParams) {
 	hasDiagnosticRelatedInformationCapability = !!(clientCapabilities.textDocument && clientCapabilities.textDocument.publishDiagnostics && clientCapabilities.textDocument.publishDiagnostics.relatedInformation);
 }
 
-export function changeConfig(change: DidChangeConfigurationParams) {
-	if (!hasWorkspaceConfigCapability) {
+export function changeDocumentSettings(change: DidChangeConfigurationParams) {
+	if (!supportsWorkspaceConfig) {
 		globalSettings = <PureBasicSettings>(change.settings.purebasicLanguage || defaultSettings);
 	} else {
 		// Reset all cached document settings
@@ -46,15 +46,12 @@ export function changeConfig(change: DidChangeConfigurationParams) {
 }
 
 export function getDocumentSettings(doc: TextDocument): Thenable<PureBasicSettings> {
-	if (!hasWorkspaceConfigCapability) {
+	if (!supportsWorkspaceConfig) {
 		return Promise.resolve(globalSettings);
 	}
 	let docSettings = documentSettings.get(doc.uri);
 	if (!docSettings) {
-		docSettings = pb.connection.workspace.getConfiguration({
-			scopeUri: doc.uri,
-			section: 'purebasicLanguage'
-		});
+		docSettings = pb.connection.workspace.getConfiguration({ scopeUri: doc.uri, section: 'purebasicLanguage' });
 		documentSettings.set(doc.uri, docSettings);
 	}
 	return docSettings;
