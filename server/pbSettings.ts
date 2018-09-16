@@ -7,14 +7,16 @@ import {
 
 import pb from './pbAPI';
 
-// Purebasic custom settings
-export interface ICustomSettings {
+/**
+ * All Purebasic settings customized by user
+ */
+export interface ICustomizableSettings {
 	maxNumberOfProblems: number;
 }
 
-export class PureBasic_Settings {
-	public initParams?: InitializeParams = undefined;
-	public clientCapabilities?: ClientCapabilities = undefined;
+export class PureBasicSettings {
+	public initParams?: InitializeParams;
+	public clientCapabilities?: ClientCapabilities;
 	public hasWorkspaceConfigCapability: boolean = false;
 	public hasWorkspaceFolderCapability: boolean = false;
 	public hasDiagnosticRelatedInformationCapability: boolean = false;
@@ -22,10 +24,11 @@ export class PureBasic_Settings {
 	// The global settings, used when the `workspace/configuration` request is not supported by the client.
 	// Please note that this is not the case when using this server with the client provided in this example
 	// but could happen with other clients.
-	private static DEFAULT_SETTINGS: ICustomSettings = { maxNumberOfProblems: 1000 };
-	private globalSettings: ICustomSettings = PureBasic_Settings.DEFAULT_SETTINGS;
+	private static DEFAULT_SETTINGS: ICustomizableSettings = { maxNumberOfProblems: 1000 };
+	private globalSettings: ICustomizableSettings = PureBasicSettings.DEFAULT_SETTINGS;
 	// Cache the settings of all open documents
-	private documentSettings: Map<string, Thenable<ICustomSettings>> = new Map();
+	private documentSettings: Map<string, Thenable<ICustomizableSettings>> = new Map();
+
 
 	onInitialize(params: InitializeParams) {
 		this.initParams = params;
@@ -39,14 +42,14 @@ export class PureBasic_Settings {
 
 	changeDocumentSettings(change: DidChangeConfigurationParams) {
 		if (!this.hasWorkspaceConfigCapability) {
-			this.globalSettings = <ICustomSettings>(change.settings.purebasicLanguage || PureBasic_Settings.DEFAULT_SETTINGS);
+			this.globalSettings = <ICustomizableSettings>(change.settings.purebasicLanguage || PureBasicSettings.DEFAULT_SETTINGS);
 		} else {
 			// Reset all cached document settings
 			this.documentSettings.clear();
 		}
 	}
 
-	getDocumentSettings(doc: TextDocument): Thenable<ICustomSettings> {
+	getDocumentSettings(doc: TextDocument): Thenable<ICustomizableSettings> {
 		if (!this.hasWorkspaceConfigCapability) {
 			return Promise.resolve(this.globalSettings);
 		}
@@ -63,5 +66,5 @@ export class PureBasic_Settings {
 	}
 }
 
-let pbSettings = new PureBasic_Settings();
+let pbSettings = new PureBasicSettings();
 export default pbSettings;
