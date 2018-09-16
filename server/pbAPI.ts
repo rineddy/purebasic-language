@@ -8,9 +8,14 @@ import {
 import { PureBasicCompletion } from './pbCompletion';
 import { PureBasicDocFormatter } from './pbDocFormatter';
 import { PureBasicDocValidation } from './pbDocValidation';
+import { PureBasicHelpers } from './pbHelper';
 import { PureBasicSettings } from './pbSettings';
 
 export class PureBasicAPI {
+	/**
+	 * provide helper functions used by several API components
+	 */
+	public helpers = new PureBasicHelpers();
 	/**
 	 * handle code auto completion
 	 */
