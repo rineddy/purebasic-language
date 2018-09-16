@@ -25,7 +25,7 @@ export class PureBasicAPI {
 	 */
 	public validation = pbDocValidation;
 	/**
-	 * used to store all settings
+	 * used to store all language custom settings
 	 */
 	public settings = pbSettings;
 	/**

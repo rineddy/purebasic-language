@@ -41,7 +41,7 @@ pb.connection.onInitialized(() => {
 });
 
 pb.connection.onDidChangeConfiguration(change => {
-	pb.settings.changeConfig(change);
+	pb.settings.changeDocumentSettings(change);
 
 	// Revalidate all open text pb.documents
 	pb.documents.all().forEach(pb.validation.validateDocument);
