@@ -1,7 +1,3 @@
-import * as pbCompletion from './pbCompletion';
-import * as pbDocFormatter from './pbDocFormatter';
-import * as pbDocValidation from './pbDocValidation';
-
 import {
 	Connection,
 	ProposedFeatures,
@@ -9,25 +5,28 @@ import {
 	createConnection
 } from 'vscode-languageserver';
 
-import pbSettings from './pbSettings';
+import { PureBasicCompletion } from './pbCompletion';
+import { PureBasicDocFormatter } from './pbDocFormatter';
+import { PureBasicDocValidation } from './pbDocValidation';
+import { PureBasicSettings } from './pbSettings';
 
 export class PureBasicAPI {
 	/**
 	 * handle code auto completion
 	 */
-	public completion = pbCompletion;
+	public completion = new PureBasicCompletion();
 	/**
 	 * used to format and beautify source code
 	 */
-	public formatter = pbDocFormatter;
+	public formatter = new PureBasicDocFormatter();
 	/**
 	 * used to analyze source code and retrieve diagnostic report
 	 */
-	public validation = pbDocValidation;
+	public validation = new PureBasicDocValidation();
 	/**
 	 * used to store all language custom settings
 	 */
-	public settings = pbSettings;
+	public settings = new PureBasicSettings();
 	/**
 	 * Create a connection for the server. The connection uses Node's IPC as a transport.
 	 * Also include all preview / proposed LSP features.
