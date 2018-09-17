@@ -2,32 +2,42 @@ import {
 	Range,
 	TextDocument,
 	TextDocumentIdentifier,
+	TextEdit,
 } from 'vscode-languageserver';
 
 import pb from './pbAPI';
 
 export class PureBasicHelpers {
 	/**
-	 * Extend selected range to full line range
+	 * Select document full line range
 	 * @param doc
 	 * @param selectionRange
 	 */
-	public SelectDocRange(doc: TextDocument, selectionRange?: Range | number[]): Range {
+	public SelectDocFullLineRange(doc: TextDocument, selectionRange?: Range | number[] | number): Range {
 		let extendedRange: Range | undefined;
+		let startLine: number | undefined, endLine: number | undefined;
 		if (doc) {
-			if (!selectionRange) {
-				extendedRange = Range.create(0, 0, doc.lineCount - 1, -1);
+			if (typeof (selectionRange) === 'number') {
+				startLine = endLine = selectionRange;
 			}
 			else if (Range.is(selectionRange)) {
-				extendedRange = Range.create(selectionRange.start.line, 0, selectionRange.end.line, -1);
+				startLine = selectionRange.start.line;
+				endLine = selectionRange.end.line;
 			}
 			else if (Array.isArray(selectionRange) && selectionRange.length === 2) {
-				let startLine = Math.min(selectionRange[0], doc.lineCount - 1);
-				let endLine = Math.min(selectionRange[1], doc.lineCount - 1);
-				extendedRange = Range.create(Math.min(startLine, endLine), 0, Math.max(startLine, endLine), -1);
+				startLine = Math.min(selectionRange[0], selectionRange[1]);
+				endLine = Math.max(selectionRange[0], selectionRange[1]);
+			} else if (!selectionRange) {
+				startLine = 0;
+				endLine = doc.lineCount - 1;
+			}
+			if (startLine && endLine) {
+				startLine = Math.min(startLine, doc.lineCount - 1);
+				endLine = Math.min(endLine, doc.lineCount - 1);
+				extendedRange = Range.create(startLine, 0, endLine, -1);
 			}
 		}
-		if (!extendedRange) { throw new Error('Failed to extend to full line selection!'); }
+		if (!extendedRange) { throw new Error('Failed to select doc full line range!'); }
 		return extendedRange;
 	}
 	/**
@@ -63,14 +73,16 @@ export class PureBasicHelpers {
 	 */
 	public ReadDocLines(docToRead: TextDocument | TextDocumentIdentifier | string, selectionRange?: Range): string[] | undefined {
 		let doc = this.FindDoc(docToRead);
+		let lines: string[] | undefined;
 		if (doc) {
 			let startLine = selectionRange ? selectionRange.start.line : 0;
 			let endLine = selectionRange ? selectionRange.end.line : doc.lineCount - 1;
-			let lines: string[] = [];
-			for (let line = startLine; line <= endLine; line++) {
-				lines.push();
+			lines = [];
+			for (let lineNumber = startLine; lineNumber <= endLine; lineNumber++) {
+				let line = doc.getText(Range.create(lineNumber, 0, lineNumber, Number.MAX_SAFE_INTEGER));
+				lines.push(line);
 			}
 		}
-		return undefined;
+		return lines;
 	}
 }

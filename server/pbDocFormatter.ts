@@ -22,10 +22,10 @@ export class PureBasicDocFormatter {
 	 * @param formattingParams
 	 */
 	public formatDocumentRange(formattingParams: DocumentRangeFormattingParams): TextEdit[] {
-		let txt = pb.helpers.ReadDocText(formattingParams.textDocument, formattingParams.range);
+		let lines = pb.helpers.ReadDocLines(formattingParams.textDocument, formattingParams.range);
 		formattingParams.options.insertSpaces;
 		return [
-			TextEdit.replace({
+			/*TextEdit.replace({
 				start: {
 					line: 1
 					, character: 1
@@ -34,7 +34,7 @@ export class PureBasicDocFormatter {
 					line: 1
 					, character: 10
 				}
-			}, 'xxxxx')
+			}, 'xxxxx')*/
 		];
 	}
 
