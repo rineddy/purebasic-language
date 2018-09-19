@@ -2,6 +2,7 @@ import {
 	DocumentFormattingParams,
 	DocumentOnTypeFormattingParams,
 	DocumentRangeFormattingParams,
+	Range,
 	TextEdit
 } from 'vscode-languageserver';
 
@@ -10,39 +11,37 @@ import pb from './pbAPI';
 export class PureBasicDocFormatter {
 	/**
 	 * Format whole doc
-	 * @param formattingParams
+	 * @param params
 	 */
-	public formatDocument(formattingParams: DocumentFormattingParams): TextEdit[] {
-		let txt = pb.helpers.ReadDocText(formattingParams.textDocument);
+	public formatDocument(params: DocumentFormattingParams): TextEdit[] {
+		let txt = pb.helpers.ReadDocText(params.textDocument);
 		return [];
 	}
 
 	/**
 	 * Format doc selected text
-	 * @param formattingParams
+	 * @param params
 	 */
-	public formatDocumentRange(formattingParams: DocumentRangeFormattingParams): TextEdit[] {
-		let lines = pb.helpers.ReadDocLines(formattingParams.textDocument, formattingParams.range);
-		formattingParams.options.insertSpaces;
-		return [
-			/*TextEdit.replace({
-				start: {
-					line: 1
-					, character: 1
-				},
-				end: {
-					line: 1
-					, character: 10
-				}
-			}, 'xxxxx')*/
-		];
+	public formatDocumentRange(params: DocumentRangeFormattingParams): TextEdit[] {
+		let doc = pb.helpers.FindDoc(params.textDocument);
+
+		let edits = [];
+		if (doc) {
+			for (let line = params.range.start.line; line <= params.range.end.line; line++) {
+				let rg: Range = Range.create(line, 0, line, Number.MAX_SAFE_INTEGER);
+				let src = doc.getText(rg);
+				let out = src.replace(/\s+/gi, ' ');
+				edits.push(TextEdit.replace(rg, out));
+			}
+		}
+		return edits;
 	}
 
 	/**
 	 * Format doc when user is typing
 	 * @param formattingParams
 	 */
-	public formatDocumentOnType(formattingParams: DocumentOnTypeFormattingParams): TextEdit[] {
+	public formatDocumentOnType(params: DocumentOnTypeFormattingParams): TextEdit[] {
 		// let txt = pb.helpers.ReadDocText(formattingParams.textDocument, formattingParams.position.line)
 		return [];
 	}

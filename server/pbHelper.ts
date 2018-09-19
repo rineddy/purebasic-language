@@ -2,7 +2,6 @@ import {
 	Range,
 	TextDocument,
 	TextDocumentIdentifier,
-	TextEdit,
 } from 'vscode-languageserver';
 
 import pb from './pbAPI';
@@ -73,16 +72,16 @@ export class PureBasicHelpers {
 	 */
 	public ReadDocLines(docToRead: TextDocument | TextDocumentIdentifier | string, selectionRange?: Range): string[] | undefined {
 		let doc = this.FindDoc(docToRead);
-		let lines: string[] | undefined;
+		let strLines: string[] | undefined;
 		if (doc) {
 			let startLine = selectionRange ? selectionRange.start.line : 0;
 			let endLine = selectionRange ? selectionRange.end.line : doc.lineCount - 1;
-			lines = [];
-			for (let lineNumber = startLine; lineNumber <= endLine; lineNumber++) {
-				let line = doc.getText(Range.create(lineNumber, 0, lineNumber, Number.MAX_SAFE_INTEGER));
-				lines.push(line);
+			strLines = [];
+			for (let line = startLine; line <= endLine; line++) {
+				let strLine = doc.getText(Range.create(line, 0, line, Number.MAX_SAFE_INTEGER));
+				strLines.push(strLine);
 			}
 		}
-		return lines;
+		return strLines;
 	}
 }
