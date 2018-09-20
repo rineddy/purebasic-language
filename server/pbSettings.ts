@@ -36,7 +36,7 @@ export class PureBasicSettings {
 	private documentSettings: Map<string, Thenable<ICustomizableSettings>> = new Map();
 
 
-	public onInitialize(params: InitializeParams) {
+	public onInitialize = (params: InitializeParams) => {
 		this.initParams = params;
 		this.clientCapabilities = this.initParams.capabilities;
 		// Does the client support the `workspace/configuration` request?
@@ -46,7 +46,7 @@ export class PureBasicSettings {
 		this.hasDiagnosticRelatedInformationCapability = !!(this.clientCapabilities.textDocument && this.clientCapabilities.textDocument.publishDiagnostics && this.clientCapabilities.textDocument.publishDiagnostics.relatedInformation);
 	}
 
-	public changeDocumentSettings(change: DidChangeConfigurationParams) {
+	public changeDocumentSettings = (change: DidChangeConfigurationParams) => {
 		if (!this.hasWorkspaceConfigCapability) {
 			this.globalSettings = <ICustomizableSettings>(change.settings.purebasicLanguage || PureBasicSettings.DEFAULT_SETTINGS);
 		} else {
@@ -55,7 +55,7 @@ export class PureBasicSettings {
 		}
 	}
 
-	public getDocumentSettings(doc: TextDocument): Thenable<ICustomizableSettings> {
+	public getDocumentSettings = (doc: TextDocument): Thenable<ICustomizableSettings> => {
 		if (!this.hasWorkspaceConfigCapability) {
 			return Promise.resolve(this.globalSettings);
 		}
@@ -67,7 +67,7 @@ export class PureBasicSettings {
 		return docSettings;
 	}
 
-	public deleteDocumentSettings(doc: TextDocument) {
+	public deleteDocumentSettings = (doc: TextDocument) => {
 		this.documentSettings.delete(doc.uri);
 	}
 }

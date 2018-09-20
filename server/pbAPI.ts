@@ -1,5 +1,4 @@
 import {
-	Connection,
 	ProposedFeatures,
 	TextDocuments,
 	createConnection
@@ -36,12 +35,12 @@ export class PureBasicAPI {
 	 * Create a connection for the server. The connection uses Node's IPC as a transport.
 	 * Also include all preview / proposed LSP features.
 	 */
-	public connection: Connection = createConnection(ProposedFeatures.all);
+	public connection = createConnection(ProposedFeatures.all);
 	/**
 	 * Create a simple text document manager. The text document manager
 	 * supports full document sync only
 	 */
-	public documents: TextDocuments = new TextDocuments();
+	public documents = new TextDocuments();
 }
 
 let pb: PureBasicAPI = new PureBasicAPI();

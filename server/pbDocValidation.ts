@@ -11,7 +11,7 @@ export class PureBasicDocValidation {
 	 * Detects any anomalies in source code
 	 * @param textDocument
 	 */
-	public async validateDocument(textDocument: TextDocument): Promise<void> {
+	public validateDocument = async (textDocument: TextDocument): Promise<void> => {
 		// In this simple example we get the settings for every validate run.
 		let settings = await pb.settings.getDocumentSettings(textDocument);
 
