@@ -1,7 +1,7 @@
 {
-	"name": "lsp-sample-client",
-	"description": "VSCode part of a language server",
-	"author": "Microsoft Corporation",
+	"name": "purebasic-client",
+	"description": "PureBasic Language Client",
+	"author": "Eddy R.",
 	"license": "MIT",
 	"version": "0.0.1",
 	"publisher": "vscode",

@@ -1,8 +1,8 @@
 {
-	"name": "lsp-sample-server",
-	"description": "Example implementation of a language server in node.",
+	"name": "purebasic-server",
+	"description": "PureBasic Language Server",
 	"version": "1.0.0",
-	"author": "Microsoft Corporation",
+	"author": "Eddy R.",
 	"license": "MIT",
 	"engines": {
 		"node": "*"
