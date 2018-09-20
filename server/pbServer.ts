@@ -46,6 +46,9 @@ pb.connection.onDidChangeConfiguration(change => {
 	// Revalidate all open text pb.documents
 	pb.documents.all().forEach(pb.validation.validateDocument);
 });
+// Make the text document manager listen on the pb.connection
+// for open, change and close text document events
+pb.documents.listen(pb.connection);
 
 // Only keep settings for open pb.documents
 pb.documents.onDidClose(e => {
@@ -89,10 +92,6 @@ pb.connection.onDidCloseTextDocument((params) => {
 	pb.connection.console.log(`${params.textDocument.uri} closed.`);
 });
 */
-
-// Make the text document manager listen on the pb.connection
-// for open, change and close text document events
-pb.documents.listen(pb.connection);
 
 // Listen on the pb.connection
 pb.connection.listen();
