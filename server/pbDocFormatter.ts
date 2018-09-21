@@ -30,7 +30,7 @@ export class PureBasicDocFormatter {
 	}
 	/**
 	 * Format doc when user is typing
-	 * @param formattingParams
+	 * @param params
 	 */
 	public formatDocumentOnType = (params: DocumentOnTypeFormattingParams): TextEdit[] => {
 		let doc = pb.helpers.FindDoc(params.textDocument);
@@ -42,10 +42,18 @@ export class PureBasicDocFormatter {
 		for (let line = selection.start.line; line <= selection.end.line; line++) {
 			let rg: Range = Range.create(line, 0, line, line < selection.end.line ? Number.MAX_SAFE_INTEGER : selection.end.character);
 			let original = doc.getText(rg);
-			let formatted = original.replace(/\s+/gi, ' ');
-			// if (formatted !== original) {
-			textEdits.push(TextEdit.replace(rg, formatted));
-			// }
+			let parts = original.split(/(".+?"|'.+?'|["';].*$)/gi);
+			parts.forEach((part, index, parts) => {
+				if (part.length > 0 && part.match(/^[^"';]/) !== null) {
+					part = part.replace(/\s+/g, ' ');
+					part = part.replace(/([[{(])\s+(\S)|(\S)\s+([)}]])/g, '$1$2$3$4');
+					parts[index] = part;
+				}
+			});
+			let formatted = parts.join('');
+			if (formatted !== original) {
+				textEdits.push(TextEdit.replace(rg, formatted));
+			}
 		}
 		return textEdits;
 	}
