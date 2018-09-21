@@ -20,7 +20,6 @@ export class PureBasicDocFormatter {
 		let doc = pb.helpers.FindDoc(params.textDocument);
 		return doc ? this.formatDocumentLines(doc, Range.create(0, 0, doc.lineCount - 1, Number.MAX_SAFE_INTEGER)) : [];
 	}
-
 	/**
 	 * Format doc selected text
 	 * @param params
@@ -29,7 +28,6 @@ export class PureBasicDocFormatter {
 		let doc = pb.helpers.FindDoc(params.textDocument);
 		return doc ? this.formatDocumentLines(doc, Range.create(params.range.start.line, 0, params.range.end.line, params.range.end.character)) : [];
 	}
-
 	/**
 	 * Format doc when user is typing
 	 * @param formattingParams

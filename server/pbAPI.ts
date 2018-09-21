@@ -43,5 +43,5 @@ export class PureBasicAPI {
 	public documents = new TextDocuments();
 }
 
-let pb: PureBasicAPI = new PureBasicAPI();
+let pb = new PureBasicAPI();
 export default pb;

@@ -26,7 +26,6 @@ export class PureBasicCompletion {
 			}
 		];
 	}
-
 	/**
 	 * This handler resolve additional information for the item selected in the completion list.
 	 * @param item
