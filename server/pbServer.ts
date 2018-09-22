@@ -3,7 +3,7 @@ import {
 	InitializeParams,
 } from 'vscode-languageserver';
 
-import pb from './pbAPI';
+import { pb } from './pbAPI';
 
 /* --------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
