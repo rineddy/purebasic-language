@@ -42,11 +42,18 @@ export class PureBasicDocFormatter {
 		for (let line = selection.start.line; line <= selection.end.line; line++) {
 			let rg: Range = Range.create(line, 0, line, line < selection.end.line ? Number.MAX_SAFE_INTEGER : selection.end.character);
 			let original = doc.getText(rg);
-			let parts = original.split(/(".+?"|'.+?'|["';].*$)/gi);
+			let parts = original.split(/(^\s+|".+?"|'.+?'|["';].*$)/gm);
 			parts.forEach((part, index, parts) => {
-				if (part.length > 0 && part.match(/^[^"';]/) !== null) {
+				if (part.length === 0) {
+					return;
+				}
+				else if (index === 1 && part.match(/^\s/) !== null) {
+					return;
+				}
+				else if (part.match(/^[^"';]/) !== null) {
 					part = part.replace(/\s+/g, ' ');
-					part = part.replace(/([[{(])\s+(\S)|(\S)\s+([)}]])/g, '$1$2$3$4');
+					part = part.replace(/,(?=\S)/g, ', ');
+					part = part.replace(/([{([])\s+(\S)|(\S)\s+([})\]])/g, '$1$2$3$4');
 					parts[index] = part;
 				}
 			});
