@@ -38,8 +38,8 @@ function formatDocumentLines(doc: TextDocument, selection: Range): TextEdit[] {
 	let textEdits: TextEdit[] = [];
 	for (let line = selection.start.line; line <= selection.end.line; line++) {
 		let rg: Range = Range.create(line, 0, line, line < selection.end.line ? Number.MAX_SAFE_INTEGER : selection.end.character);
-		let original = doc.getText(rg).replace(/[\r\n]+/g, '');
-		let parts = original.split(/(^[\t ]+|".+?"|'.+?'|["';].*)/g).filter(part => part !== '');
+		let original = doc.getText(rg).replace(/[\r\n]+/, '');
+		let parts = original.split(/(^\s+|".+?"|'.+?'|["';].*)/g).filter(part => part !== '');
 		parts.forEach((part, index, parts) => {
 			if (index === 0 && part.match(/^[\t ]/) !== null) {
 				return;
