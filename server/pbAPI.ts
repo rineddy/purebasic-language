@@ -1,14 +1,14 @@
-import * as pbCompletion from './pbCompletion';
-import * as pbFormatter from './formatter/pbFormatter';
-import * as pbHelpers from './pbHelper';
-import * as pbSettings from './pbSettings';
-import * as pbValidation from './pbValidation';
-
 import {
 	ProposedFeatures,
 	TextDocuments,
 	createConnection
 } from 'vscode-languageserver';
+
+import { pbCompletion } from './pbCompletion';
+import { pbFormatter } from './formatter/pbFormatter';
+import { pbHelpers } from './pbHelper';
+import { pbSettings } from './pbSettings';
+import { pbValidation } from './pbValidation';
 
 export namespace pb {
 	/**
