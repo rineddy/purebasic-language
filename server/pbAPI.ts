@@ -13,27 +13,27 @@ import { pbValidation } from './pbValidation';
 
 export namespace pb {
 	/**
-	 * provide helper functions used by several API components
+	 * Provide helper functions used by several API components
 	 */
 	export let helpers = pbHelpers;
 	/**
-	 * provide text functions used to manipulate and modify source code
+	 * Used to examine and modify text from source code
 	 */
 	export let text = pbText;
 	/**
-	 * handle code auto completion
+	 * Used to display code autocompletion list
 	 */
 	export let completion = pbCompletion;
 	/**
-	 * used to format and beautify source code
+	 * Used to beautify source code by following some formatting rules
 	 */
 	export let formatter = pbFormatter;
 	/**
-	 * used to analyze source code and retrieve diagnostic report
+	 * Used to analyze source code and retrieve diagnostic report
 	 */
 	export let validation = pbValidation;
 	/**
-	 * used to store all language custom settings
+	 * Used to save or load all language custom settings
 	 */
 	export let settings = pbSettings;
 	/**

@@ -1,20 +1,47 @@
 export namespace pbText {
-	export function removeLineBreak(txt: string): string {
-		return txt.replace(/[\r\n]+/, '');
+	/**
+	 * remove line break characters from `text`
+	 * @param text
+	 */
+	export function removeLineBreak(text: string): string {
+		return text.replace(/[\r\n]+/, '');
 	}
-	export function splitBySpacingOrStringOrComment(txt: string): string[] {
-		return txt.split(/(^\s+|".+?"|'.+?'|["';].*)/g).filter(part => part !== '');
+	/**
+	 * split `text` into parts
+	 */
+	export function splitBySpacingOrStringOrComment(text: string): string[] {
+		return text.split(/(^\s+|".+?"|'.+?'|["';].*)/g).filter(part => part !== '');
 	}
-	export function startsWithSpacing(txt: string): boolean {
-		return txt.match(/^\s/) !== null;
+	/**
+	 * Determines if `text` starts with a spacing character
+	 * @param text
+	 */
+	export function startsWithSpacing(text: string): boolean {
+		return text.match(/^\s/) !== null;
 	}
-	export function startsWithStringOrComment(txt: string): boolean {
-		return txt.match(/^["';]/) !== null;
+	/**
+	 * Determines if `text` starts with a string/comment character
+	 * @param text
+	 */
+	export function startsWithStringOrComment(text: string): boolean {
+		return text.match(/^["';]/) !== null;
 	}
-	export function addExtensions(txt: string, prefix: string, suffix: string) {
-		return (!prefix && !suffix) ? txt : prefix + txt + suffix;
+	/**
+	 * Retrieves `text` with appended `suffix` and/or prepended `prefix`
+	 * @param text
+	 * @param prefix
+	 * @param suffix
+	 */
+	export function addExtensions(text: string, prefix: string, suffix: string) {
+		return (!prefix && !suffix) ? text : prefix + text + suffix;
 	}
-	export function removeExtensions(txt: string, prefix: string, suffix: string) {
-		return (!prefix && !suffix) ? txt : txt.substr(prefix.length, txt.length - suffix.length - prefix.length);
+	/**
+	 * Retrieves `text` without
+	 * @param text
+	 * @param prefix
+	 * @param suffix
+	 */
+	export function removeExtensions(text: string, prefix: string, suffix: string) {
+		return (!prefix && !suffix) ? text : text.substr(prefix.length, text.length - suffix.length - prefix.length);
 	}
 }
