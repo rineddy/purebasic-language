@@ -7,7 +7,7 @@ import {
 	TextEdit,
 } from 'vscode-languageserver';
 
-import { pb } from '../pbAPI';
+import { pb } from './pbAPI';
 
 export namespace pbFormatter {
 	/**
@@ -39,16 +39,16 @@ export namespace pbFormatter {
 		let textEdits: TextEdit[] = [];
 		for (let line = selection.start.line; line <= selection.end.line; line++) {
 			let rg: Range = Range.create(line, 0, line, line < selection.end.line ? Number.MAX_SAFE_INTEGER : selection.end.character);
-			let original = doc.getText(rg).replace(/[\r\n]+/, '');
-			let parts = original.split(/(^\s+|".+?"|'.+?'|["';].*)/g).filter(part => part !== '');
-			parts.forEach((part, index, parts) => {
-				if (index === 0 && part.match(/^[\t ]/) !== null) {
+			let text = pb.text.removeLineBreak(doc.getText(rg));
+			let textParts = pb.text.splitBySpacingOrStringOrComment(text);
+			textParts.forEach((part, index, parts) => {
+				if (index === 0 && pb.text.startsWithSpacing(part)) {
 					return;
 				}
-				else if (part.match(/^[^"';]/) !== null) {
+				else if (!pb.text.startsWithStringOrComment(part)) {
 					let charBeforePart = (index > 0) ? parts[index - 1].substr(-1) : '';
 					let charAfterPart = (index < parts.length - 1) ? parts[index + 1].substr(0, 1) : '';
-					part = (!charBeforePart && !charAfterPart) ? part : charBeforePart + part + charAfterPart;
+					part = pb.text.addExtensions(part, charBeforePart, charAfterPart);
 					part = part.replace(/\s+/g, ' ');
 					part = part.replace(/(\s*),(?=\S)/g, ', ');
 					part = part.replace(/\s+[.]|[.]\s+/g, '.');
@@ -56,12 +56,12 @@ export namespace pbFormatter {
 					part = part.replace(/(\S)\s+(?=[})\]])/g, '$1');
 					part = part.replace(/(\S)(?=<>|<=|>=|=>|>=|\+)/g, '$1 ');
 					part = part.replace(/(<>|<=|>=|=>|>=|\+)(?=\S)/g, '$1 ');
-					parts[index] = (!charBeforePart && !charAfterPart) ? part : part.substr(charBeforePart.length, part.length - charAfterPart.length - charBeforePart.length);
+					parts[index] = pb.text.removeExtensions(part, charBeforePart, charAfterPart);
 				}
 			});
-			let formatted = parts.join('');
-			if (formatted !== original) {
-				textEdits.push(TextEdit.replace(rg, formatted));
+			let formattedText = textParts.join('');
+			if (formattedText !== text) {
+				textEdits.push(TextEdit.replace(rg, formattedText));
 			}
 		}
 		return textEdits;

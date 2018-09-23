@@ -5,9 +5,10 @@ import {
 } from 'vscode-languageserver';
 
 import { pbCompletion } from './pbCompletion';
-import { pbFormatter } from './formatter/pbFormatter';
-import { pbHelpers } from './pbHelper';
+import { pbFormatter } from './pbFormatter';
+import { pbHelpers } from './pbHelpers';
 import { pbSettings } from './pbSettings';
+import { pbText } from './pbText';
 import { pbValidation } from './pbValidation';
 
 export namespace pb {
@@ -15,6 +16,10 @@ export namespace pb {
 	 * provide helper functions used by several API components
 	 */
 	export let helpers = pbHelpers;
+	/**
+	 * provide text functions used to manipulate and modify source code
+	 */
+	export let text = pbText;
 	/**
 	 * handle code auto completion
 	 */
