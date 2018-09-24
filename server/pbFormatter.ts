@@ -47,12 +47,20 @@ export namespace pbFormatter {
 					let charAfterPart = (index < parts.length - 1) ? parts[index + 1].substr(0, 1) : '';
 					part = pb.text.addExtensions(part, charBeforePart, charAfterPart);
 					part = part.replace(/\s+/g, ' ');
-					part = part.replace(/(\s*),(?=\S)/g, ', ');
-					part = part.replace(/\s+[.]|[.]\s+/g, '.');
-					part = part.replace(/([{([])\s+(?=\S)/g, '$1');
-					part = part.replace(/(\S)\s+(?=[})\]])/g, '$1');
-					part = part.replace(/(\S)(?=<>|<=|>=|=>|>=|\+)/g, '$1 ');
-					part = part.replace(/(<>|<=|>=|=>|>=|\+)(?=\S)/g, '$1 ');
+					part = part.replace(/\s+(,)/g, '$1');
+					part = part.replace(/(,)(?=\S)/g, '$1 ');
+					part = part.replace(/\s+(\.|\\)/g, '$1');
+					part = part.replace(/(\.|\\)\s+/g, '$1');
+					part = part.replace(/\s+(::)/g, '$1');
+					part = part.replace(/(::)\s+/g, '$1');
+					part = part.replace(/\s+([})\]])/g, '$1');
+					part = part.replace(/([{([])\s+/g, '$1');
+					part = part.replace(/(\S)(?=<>|<=|>=|=>|>=|=)/g, '$1 ');
+					part = part.replace(/(<>|<=|>=|=>|>=|=)(?=\S)/g, '$1 ');
+					part = part.replace(/(\S)(?=\/|<<|>>|\+)/g, '$1 ');
+					part = part.replace(/(\/|<<|>>|\+)(?=\S)/g, '$1 ');
+					part = part.replace(/([^\s:])(?=:[^:])/g, '$1 ');
+					part = part.replace(/([^:]:)(?=[^\s:])/g, '$1 ');
 					parts[index] = pb.text.removeExtensions(part, charBeforePart, charAfterPart);
 				}
 			});
