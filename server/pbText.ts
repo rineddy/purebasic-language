@@ -1,9 +1,7 @@
 export namespace pbText {
 	export interface TextParts {
-		lineBreak: string;
 		indentation: string;
 		parts: string[];
-		[index: number]: string;
 	}
 	/**
 	 * remove line break characters from `text`
