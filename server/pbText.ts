@@ -1,4 +1,10 @@
 export namespace pbText {
+	export interface TextParts {
+		lineBreak: string;
+		indentation: string;
+		parts: string[];
+		[index: number]: string;
+	}
 	/**
 	 * remove line break characters from `text`
 	 * @param text
@@ -9,8 +15,12 @@ export namespace pbText {
 	/**
 	 * split `text` into parts
 	 */
-	export function splitBySpacingOrStringOrComment(text: string): string[] {
-		return text.split(/(^\s+|".+?"|'.+?'|["';].*)/g).filter(part => part !== '');
+	export function splitParts(text: string): TextParts {
+		let matches = text.match(/^([\t ]*)(.*?)[\r\n]*$/);
+		return matches ? <TextParts>{
+			indentation: matches[1],
+			parts: matches[2].split(/(".+?"|'.+?'|["';].*)/g).filter(part => part !== ''),
+		} : <TextParts>{};
 	}
 	/**
 	 * Determines if `text` starts with a spacing character
@@ -45,3 +55,4 @@ export namespace pbText {
 		return (!prefix && !suffix) ? text : text.substr(prefix.length, text.length - suffix.length - prefix.length);
 	}
 }
+

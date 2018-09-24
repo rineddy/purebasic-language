@@ -39,13 +39,10 @@ export namespace pbFormatter {
 		let textEdits: TextEdit[] = [];
 		for (let line = selection.start.line; line <= selection.end.line; line++) {
 			let rg: Range = Range.create(line, 0, line, line < selection.end.line ? Number.MAX_SAFE_INTEGER : selection.end.character);
-			let text = pb.text.removeLineBreak(doc.getText(rg));
-			let textParts = pb.text.splitBySpacingOrStringOrComment(text);
-			textParts.forEach((part, index, parts) => {
-				if (index === 0 && pb.text.startsWithSpacing(part)) {
-					return;
-				}
-				else if (!pb.text.startsWithStringOrComment(part)) {
+			let text = doc.getText(rg);
+			let { indentation, parts } = pb.text.splitParts(text);
+			parts.forEach((part, index, parts) => {
+				if (!pb.text.startsWithStringOrComment(part)) {
 					let charBeforePart = (index > 0) ? parts[index - 1].substr(-1) : '';
 					let charAfterPart = (index < parts.length - 1) ? parts[index + 1].substr(0, 1) : '';
 					part = pb.text.addExtensions(part, charBeforePart, charAfterPart);
@@ -59,7 +56,7 @@ export namespace pbFormatter {
 					parts[index] = pb.text.removeExtensions(part, charBeforePart, charAfterPart);
 				}
 			});
-			let formattedText = textParts.join('');
+			let formattedText = indentation + parts.join('');
 			if (formattedText !== text) {
 				textEdits.push(TextEdit.replace(rg, formattedText));
 			}
