@@ -42,7 +42,7 @@ export namespace pbFormatter {
 			let text = doc.getText(rg);
 			let { indentation, parts } = pb.text.splitParts(text);
 			parts.forEach((part, index, parts) => {
-				if (!pb.text.startsWithStringOrComment(part)) {
+				if (!part.match(pb.text.STARTS_WITH_STRING_OR_COMMENT)) {
 					let charBeforePart = (index > 0) ? parts[index - 1].substr(-1) : '';
 					let charAfterPart = (index < parts.length - 1) ? parts[index + 1].substr(0, 1) : '';
 					part = pb.text.addExtensions(part, charBeforePart, charAfterPart);

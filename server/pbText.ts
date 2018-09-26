@@ -1,5 +1,5 @@
 export namespace pbText {
-	export interface TextParts {
+	export interface ITextParts {
 		indentation: string;
 		parts: string[];
 	}
@@ -13,27 +13,29 @@ export namespace pbText {
 	/**
 	 * split `text` into parts
 	 */
-	export function splitParts(text: string): TextParts {
+	export function splitParts(text: string): ITextParts {
 		let matches = text.match(/^([\t ]*)(.*?)[\r\n]*$/);
-		return matches ? <TextParts>{
+		return matches ? <ITextParts>{
 			indentation: matches[1],
 			parts: matches[2].split(/(".+?"|'.+?'|["';].*)/g).filter(part => part !== ''),
-		} : <TextParts>{};
+		} : <ITextParts>{};
 	}
 	/**
-	 * Determines if `text` starts with a spacing character
-	 * @param text
+	 * Determines if any text ends with line breaks
 	 */
-	export function startsWithSpacing(text: string): boolean {
-		return text.match(/^\s/) !== null;
-	}
+	export const LINE_BREAKS = /[\r\n]+$/;
 	/**
-	 * Determines if `text` starts with a string/comment character
-	 * @param text
+	 * Determines if any text starts with a comment character
 	 */
-	export function startsWithStringOrComment(text: string): boolean {
-		return text.match(/^["';]/) !== null;
-	}
+	export const STARTS_WITH_COMMENT = /^;/;
+	/**
+	 * Determines if any text starts with a spacing character
+	 */
+	export const STARTS_WITH_SPACING = /^\s/;
+	/**
+	 * Determines if any text starts with a string/comment character
+	 */
+	export const STARTS_WITH_STRING_OR_COMMENT = /^["';]/;
 	/**
 	 * Retrieves `text` with appended `suffix` and/or prepended `prefix`
 	 * @param text
