@@ -1,41 +1,44 @@
 export namespace pbText {
-	export interface ITextParts {
-		indentation: string;
-		parts: string[];
-	}
-	/**
-	 * remove line break characters from `text`
-	 * @param text
-	 */
-	export function removeLineBreak(text: string): string {
-		return text.replace(/[\r\n]+/, '');
-	}
-	/**
-	 * split `text` into parts
-	 */
-	export function splitParts(text: string): ITextParts {
-		let matches = text.match(/^([\t ]*)(.*?)[\r\n]*$/);
-		return matches ? <ITextParts>{
-			indentation: matches[1],
-			parts: matches[2].split(/(".+?"|'.+?'|["';].*)/g).filter(part => part !== ''),
-		} : <ITextParts>{};
-	}
 	/**
 	 * Determines if any text ends with line breaks
+	 * @example thisText.replace(pb.text.LINE_BREAKS, '')
+	 * @example if (thisText.match(pb.text.LINE_BREAKS)) { continue; }
 	 */
 	export const LINE_BREAKS = /[\r\n]+$/;
 	/**
 	 * Determines if any text starts with a comment character
+	 * @example if (thisText.match(pb.text.STARTS_WITH_COMMENT)) { continue; }
 	 */
 	export const STARTS_WITH_COMMENT = /^;/;
 	/**
 	 * Determines if any text starts with a spacing character
+	 * @example if (thisText.match(pb.text.STARTS_WITH_SPACING)) { continue; }
 	 */
 	export const STARTS_WITH_SPACING = /^\s/;
 	/**
 	 * Determines if any text starts with a string/comment character
+	 * @example if (thisText.match(pb.text.STARTS_WITH_STRING_OR_COMMENT)) { continue; }
 	 */
 	export const STARTS_WITH_STRING_OR_COMMENT = /^["';]/;
+	/**
+	 * Represents splitted text (indent, sub-parts)
+	 */
+	export interface ISplittedText {
+		indentation: string;
+		parts: string[];
+	}
+	/**
+	 * Split `text` into parts
+	 * @param {string} text original text to parse
+	 * @returns {ISplittedText} splitted text info
+	 */
+	export function splitParts(text: string): ISplittedText {
+		let matches = text.match(/^([\t ]*)(.*?)[\r\n]*$/);
+		return matches ? <ISplittedText>{
+			indentation: matches[1],
+			parts: matches[2].split(/(".+?"|'.+?'|["';].*)/g).filter(part => part !== ''),
+		} : <ISplittedText>{};
+	}
 	/**
 	 * Retrieves `text` with appended `suffix` and/or prepended `prefix`
 	 * @param text

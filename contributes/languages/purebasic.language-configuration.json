@@ -1,95 +1,95 @@
 {
-    "indentationRules": {
-        "increaseIndentPattern": {
-            "pattern": "\\b(Procedure)\\b",
-            "flags": "i"
-        },
-        "decreaseIndentPattern": {
-            "pattern": "\\b(EndProcedure)\\b",
-            "flags": "i"
-        },
-        "indentNextLinePattern": {
-            "pattern": "\\b(test)\\b",
-            "flags": "i"
-        },
-        "unIndentedLinePattern": {
-            "pattern": "\\b(test2)\\b",
-            "flags": "i"
-        },
-    },
-    "comments": {
-        // symbol used for single line comment. Remove this entry if your language does not support line comments
-        "lineComment": ";",
-        // symbols used for start and end a block comment. Remove this entry if your language does not support block comments
-        //"blockComment": [ "/*", "*/" ]
-    },
-    // symbols used as brackets
-    "brackets": [
-        [
-            "{",
-            "}"
-        ],
-        [
-            "[",
-            "]"
-        ],
-        [
-            "(",
-            ")"
-        ]
-    ],
-    // symbols that are auto closed when typing
-    "autoClosingPairs": [
-        [
-            "{",
-            "}"
-        ],
-        [
-            "[",
-            "]"
-        ],
-        [
-            "(",
-            ")"
-        ],
-        [
-            "\"",
-            "\""
-        ],
-        [
-            "'",
-            "'"
-        ]
-    ],
-    // symbols that that can be used to surround a selection
-    "surroundingPairs": [
-        [
-            "{",
-            "}"
-        ],
-        [
-            "[",
-            "]"
-        ],
-        [
-            "(",
-            ")"
-        ],
-        [
-            "\"",
-            "\""
-        ],
-        [
-            "'",
-            "'"
-        ]
-    ],
-    // symbols to define custom folding region
-    "folding": {
-        "offSide": true,
-        "markers": {
-            "start": ";[{]",
-            "end": ";[}]"
-        }
-    },
+	/*
+	"indentationRules": {
+		"increaseIndentPattern": {
+			"pattern": "\\b(Procedure)\\b",
+			"flags": "i"
+		},
+		"decreaseIndentPattern": {
+			"pattern": "\\b(EndProcedure)\\b",
+			"flags": "i"
+		},
+		"indentNextLinePattern": {
+			"pattern": "\\b(test)\\b",
+			"flags": "i"
+		},
+		"unIndentedLinePattern": {
+			"pattern": "\\b(test2)\\b",
+			"flags": "i"
+		},
+	},
+	*/
+	"comments": {
+		"lineComment": ";", // symbol used for single line comment. Remove this entry if your language does not support line comments
+		//"blockComment": [ "/*", "*/" ] // symbols used for start and end a block comment. Remove this entry if your language does not support block comments
+	},
+	// symbols used as brackets
+	"brackets": [
+		[
+			"{",
+			"}"
+		],
+		[
+			"[",
+			"]"
+		],
+		[
+			"(",
+			")"
+		]
+	],
+	// symbols that are auto closed when typing
+	"autoClosingPairs": [
+		[
+			"{",
+			"}"
+		],
+		[
+			"[",
+			"]"
+		],
+		[
+			"(",
+			")"
+		],
+		[
+			"\"",
+			"\""
+		],
+		[
+			"'",
+			"'"
+		]
+	],
+	// symbols that that can be used to surround a selection
+	"surroundingPairs": [
+		[
+			"{",
+			"}"
+		],
+		[
+			"[",
+			"]"
+		],
+		[
+			"(",
+			")"
+		],
+		[
+			"\"",
+			"\""
+		],
+		[
+			"'",
+			"'"
+		]
+	],
+	// symbols to define custom folding region
+	"folding": {
+		"offSide": true,
+		"markers": {
+			"start": ";[{]",
+			"end": ";[}]"
+		}
+	},
 }
