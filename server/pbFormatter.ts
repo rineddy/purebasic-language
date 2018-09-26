@@ -65,6 +65,7 @@ export namespace pbFormatter {
 				}
 			});
 			let formattedText = indentation + parts.join('');
+			formattedText = formattedText.trimRight();
 			if (formattedText !== text) {
 				textEdits.push(TextEdit.replace(rg, formattedText));
 			}
