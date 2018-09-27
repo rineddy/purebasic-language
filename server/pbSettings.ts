@@ -8,6 +8,12 @@ import {
 import { pb } from './pbAPI';
 
 export namespace pbSettings {
+	export let initParams: InitializeParams;
+	export let clientCapabilities: ClientCapabilities;
+	export let hasWorkspaceConfigCapability: boolean = false;
+	export let hasWorkspaceFolderCapability: boolean = false;
+	export let hasDiagnosticRelatedInformationCapability: boolean = false;
+
 	/**
 	 * All Purebasic settings customized by user
 	 */
@@ -16,23 +22,20 @@ export namespace pbSettings {
 			maxNumberOfProblems: number;
 		};
 	}
-
-	export let initParams: InitializeParams;
-	export let clientCapabilities: ClientCapabilities;
-	export let hasWorkspaceConfigCapability: boolean = false;
-	export let hasWorkspaceFolderCapability: boolean = false;
-	export let hasDiagnosticRelatedInformationCapability: boolean = false;
-
-	// The global settings, used when the `workspace/configuration` request is not supported by the client.
-	// Please note that this is not the case when using this server with the client provided in this example
-	// but could happen with other clients.
+	/**
+	 * The global settings, used when the `workspace/configuration` request is not supported by the client.
+	 * Please note that this is not the case when using this server with the client provided in this example
+	 * but could happen with other clients.
+	 */
 	const DEFAULT_SETTINGS: ICustomizableSettings = {
 		diagnostics: {
 			maxNumberOfProblems: 1000
 		}
 	};
 	let globalSettings: ICustomizableSettings = DEFAULT_SETTINGS;
-	// Cache the settings of all open documents
+	/**
+	 * Cache the settings of all open documents
+	 */
 	let documentSettings: Map<string, Thenable<ICustomizableSettings>> = new Map();
 
 
