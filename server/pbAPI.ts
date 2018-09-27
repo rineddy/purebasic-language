@@ -7,33 +7,38 @@ import {
 import { pbCompletion } from './pbCompletion';
 import { pbFormatter } from './pbFormatter';
 import { pbHelpers } from './pbHelpers';
+import { pbIndentation } from './pbIndentation';
 import { pbSettings } from './pbSettings';
 import { pbText } from './pbText';
 import { pbValidation } from './pbValidation';
 
 export namespace pb {
 	/**
-	 * Provide helper functions used by several API components
+	 * Provide functions used by several API components
 	 */
 	export let helpers = pbHelpers;
 	/**
-	 * Used to examine and modify text from source code
+	 * Provide functions used to examine and modify text from source code
 	 */
 	export let text = pbText;
 	/**
-	 * Used to display code autocompletion list
+	 * Provide functions used to display code autocompletion list
 	 */
 	export let completion = pbCompletion;
 	/**
-	 * Used to beautify source code by following some formatting rules
+	 * Provide functions used to beautify source code by following some formatting rules
 	 */
 	export let formatter = pbFormatter;
 	/**
-	 * Used to analyze source code and retrieve diagnostic report
+	 * Provide functions used to indent source code
+	 */
+	export let indentation = pbIndentation;
+	/**
+	 * Provide functions used to analyze source code and retrieve diagnostic report
 	 */
 	export let validation = pbValidation;
 	/**
-	 * Used to save or load all language custom settings
+	 * Provide functions used to save or load all language custom settings
 	 */
 	export let settings = pbSettings;
 	/**

@@ -20,8 +20,8 @@ pb.connection.onInitialize((params: InitializeParams) => {
 			documentRangeFormattingProvider: true,			// Tell the client that the server supports formatting
 			documentFormattingProvider: true, 				// Tell the client that the server supports formatting
 			documentOnTypeFormattingProvider: {				// Tell the client that the server supports formatting
-				firstTriggerCharacter: ':',
-				moreTriggerCharacter: ['(', '[', '{']
+				firstTriggerCharacter: ':'
+				// ,moreTriggerCharacter: ['(', '[', '{']
 			},
 			completionProvider: { resolveProvider: true } 	// Tell the client that the server supports code completion
 		}
@@ -73,7 +73,7 @@ pb.connection.onDocumentFormatting(pb.formatter.formatDocument);
 pb.connection.onDocumentRangeFormatting(pb.formatter.formatDocumentRange);
 pb.connection.onDocumentOnTypeFormatting(pb.formatter.formatDocumentOnType);
 
-/*
+/**
 pb.connection.onDidOpenTextDocument((params) => {
 	// A text document got opened in VSCode.
 	// params.uri uniquely identifies the document. For pb.documents store on disk this is a file URI.
@@ -91,7 +91,7 @@ pb.connection.onDidCloseTextDocument((params) => {
 	// params.uri uniquely identifies the document.
 	pb.connection.console.log(`${params.textDocument.uri} closed.`);
 });
-*/
+/**/
 
 // Listen on the pb.connection
 pb.connection.listen();
