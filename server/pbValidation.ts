@@ -9,14 +9,14 @@ import { pb } from './pbAPI';
 export namespace pbValidation {
 	/**
 	 * Detects any anomalies in source code
-	 * @param textDocument
+	 * @param doc
 	 */
-	export async function validateDocument(textDocument: TextDocument): Promise<void> {
+	export async function validateDocument(doc: TextDocument): Promise<void> {
 		// In this simple example we get the settings for every validate run.
-		let settings = await pb.settings.getDocumentSettings(textDocument);
+		let settings = await pb.settings.load(doc);
 
 		// The validator creates diagnostics for all uppercase words length 2 and more
-		let text = textDocument.getText();
+		let text = doc.getText();
 		let pattern = /\b[A-Z]{2,}\b/g;
 		let m: RegExpExecArray | null;
 
@@ -27,8 +27,8 @@ export namespace pbValidation {
 			let diagnosic: Diagnostic = {
 				severity: DiagnosticSeverity.Warning,
 				range: {
-					start: textDocument.positionAt(m.index),
-					end: textDocument.positionAt(m.index + m[0].length)
+					start: doc.positionAt(m.index),
+					end: doc.positionAt(m.index + m[0].length)
 				},
 				message: `${m[0]} is all uppercase.`,
 				source: 'ex'
@@ -37,14 +37,14 @@ export namespace pbValidation {
 				diagnosic.relatedInformation = [
 					{
 						location: {
-							uri: textDocument.uri,
+							uri: doc.uri,
 							range: Object.assign({}, diagnosic.range)
 						},
 						message: 'Spelling matters'
 					},
 					{
 						location: {
-							uri: textDocument.uri,
+							uri: doc.uri,
 							range: Object.assign({}, diagnosic.range)
 						},
 						message: 'Particularly for names'
@@ -55,6 +55,6 @@ export namespace pbValidation {
 		}
 
 		// Send the computed diagnostics to VSCode.
-		pb.connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
+		pb.connection.sendDiagnostics({ uri: doc.uri, diagnostics });
 	}
 }

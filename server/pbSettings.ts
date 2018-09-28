@@ -39,7 +39,7 @@ export namespace pbSettings {
 	let documentSettings: Map<string, Thenable<ICustomizableSettings>> = new Map();
 
 
-	export function onInitialize(params: InitializeParams) {
+	export function initialize(params: InitializeParams) {
 		initParams = params;
 		clientCapabilities = initParams.capabilities;
 		// Does the client support the `workspace/configuration` request?
@@ -49,16 +49,16 @@ export namespace pbSettings {
 		hasDiagnosticRelatedInformationCapability = !!(clientCapabilities.textDocument && clientCapabilities.textDocument.publishDiagnostics && clientCapabilities.textDocument.publishDiagnostics.relatedInformation);
 	}
 
-	export function changeDocumentSettings(change: DidChangeConfigurationParams) {
+	export function change(params: DidChangeConfigurationParams) {
 		if (!hasWorkspaceConfigCapability) {
-			globalSettings = <ICustomizableSettings>(change.settings.purebasicLanguage || DEFAULT_SETTINGS);
+			globalSettings = <ICustomizableSettings>(params.settings.purebasicLanguage || DEFAULT_SETTINGS);
 		} else {
 			// Reset all cached document settings
 			documentSettings.clear();
 		}
 	}
 
-	export function getDocumentSettings(doc: TextDocument): Thenable<ICustomizableSettings> {
+	export function load(doc: TextDocument): Thenable<ICustomizableSettings> {
 		if (!hasWorkspaceConfigCapability) {
 			return Promise.resolve(globalSettings);
 		}
@@ -70,7 +70,7 @@ export namespace pbSettings {
 		return docSettings;
 	}
 
-	export function deleteDocumentSettings(doc: TextDocument) {
+	export function remove(doc: TextDocument) {
 		documentSettings.delete(doc.uri);
 	}
 }

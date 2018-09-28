@@ -12,7 +12,7 @@ import { pb } from './pbAPI';
 'use strict';
 
 pb.connection.onInitialize((params: InitializeParams) => {
-	pb.settings.onInitialize(params);
+	pb.settings.initialize(params);
 
 	return {
 		capabilities: {
@@ -41,7 +41,7 @@ pb.connection.onInitialized(() => {
 });
 
 pb.connection.onDidChangeConfiguration(change => {
-	pb.settings.changeDocumentSettings(change);
+	pb.settings.change(change);
 
 	// Revalidate all open text pb.documents
 	pb.documents.all().forEach(pb.validation.validateDocument);
@@ -52,13 +52,18 @@ pb.documents.listen(pb.connection);
 
 // Only keep settings for open pb.documents
 pb.documents.onDidClose(e => {
-	pb.settings.deleteDocumentSettings(e.document);
+	pb.settings.remove(e.document);
+	pb.indentation.remove(e.document);
 });
 
 // The content of a text document has changed. This event is emitted
 // when the text document first opened or when its content has changed.
 pb.documents.onDidChangeContent(change => {
 	pb.validation.validateDocument(change.document);
+});
+
+pb.documents.onDidOpen(change => {
+	pb.indentation.load(change.document);
 });
 
 pb.connection.onDidChangeWatchedFiles(_change => {
