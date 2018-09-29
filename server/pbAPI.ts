@@ -7,7 +7,7 @@ import {
 import { pbCompletion } from './pbCompletion';
 import { pbFormatter } from './pbFormatter';
 import { pbHelpers } from './pbHelpers';
-import { pbIndentation } from './pbIndentation';
+import { pbIndents } from './pbIndents';
 import { pbSettings } from './pbSettings';
 import { pbText } from './pbText';
 import { pbValidation } from './pbValidation';
@@ -32,7 +32,7 @@ export namespace pb {
 	/**
 	 * Provide functions used to indent source code
 	 */
-	export let indentation = pbIndentation;
+	export let indents = pbIndents;
 	/**
 	 * Provide functions used to analyze source code and retrieve diagnostic report
 	 */

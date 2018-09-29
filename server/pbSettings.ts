@@ -17,12 +17,12 @@ export namespace pbSettings {
 	/**
 	 * All Purebasic settings customized by user
 	 */
-	export interface ICustomizableSettings {
+	export interface IDocumentSettings {
 		diagnostics: {
 			maxNumberOfProblems: number;
 		};
 	}
-	const DEFAULT_SETTINGS: ICustomizableSettings = {
+	const DEFAULT_SETTINGS: IDocumentSettings = {
 		diagnostics: {
 			maxNumberOfProblems: 1000
 		}
@@ -32,12 +32,11 @@ export namespace pbSettings {
 	 * Please note that this is not the case when using this server with the client provided in this example
 	 * but could happen with other clients.
 	 */
-	let globalSettings: ICustomizableSettings = DEFAULT_SETTINGS;
+	let globalSettings: IDocumentSettings = DEFAULT_SETTINGS;
 	/**
 	 * Cache the settings of all open documents
 	 */
-	let documentSettings: Map<string, Thenable<ICustomizableSettings>> = new Map();
-
+	let documentSettings: Map<string, Thenable<IDocumentSettings>> = new Map();
 
 	export function initialize(params: InitializeParams) {
 		initParams = params;
@@ -51,14 +50,14 @@ export namespace pbSettings {
 
 	export function change(params: DidChangeConfigurationParams) {
 		if (!hasWorkspaceConfigCapability) {
-			globalSettings = <ICustomizableSettings>(params.settings.purebasicLanguage || DEFAULT_SETTINGS);
+			globalSettings = <IDocumentSettings>(params.settings.purebasicLanguage || DEFAULT_SETTINGS);
 		} else {
 			// Reset all cached document settings
 			documentSettings.clear();
 		}
 	}
 
-	export function load(doc: TextDocument): Thenable<ICustomizableSettings> {
+	export function load(doc: TextDocument): Thenable<IDocumentSettings> {
 		if (!hasWorkspaceConfigCapability) {
 			return Promise.resolve(globalSettings);
 		}

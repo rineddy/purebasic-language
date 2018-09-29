@@ -53,7 +53,7 @@ pb.documents.listen(pb.connection);
 // Only keep settings for open pb.documents
 pb.documents.onDidClose(e => {
 	pb.settings.remove(e.document);
-	pb.indentation.remove(e.document);
+	pb.indents.remove(e.document);
 });
 
 // The content of a text document has changed. This event is emitted
@@ -63,7 +63,7 @@ pb.documents.onDidChangeContent(change => {
 });
 
 pb.documents.onDidOpen(change => {
-	pb.indentation.load(change.document);
+	pb.indents.load(change.document);
 });
 
 pb.connection.onDidChangeWatchedFiles(_change => {
