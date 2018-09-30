@@ -100,7 +100,7 @@
 			}
 		}
 	},
-	"main": "./client/out/pbClient",
+	"main": "./client/out/",
 	"activationEvents": [
 		"onLanguage:purebasic"
 	],

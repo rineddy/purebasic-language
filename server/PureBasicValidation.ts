@@ -6,12 +6,12 @@ import {
 
 import { pb } from './pbAPI';
 
-export namespace pbValidation {
+export class PureBasicValidation {
 	/**
 	 * Detects any anomalies in source code
 	 * @param doc
 	 */
-	export async function validateDocument(doc: TextDocument): Promise<void> {
+	public async validateDocument(doc: TextDocument): Promise<void> {
 		// In this simple example we get the settings for every validate run.
 		let settings = await pb.settings.load(doc);
 

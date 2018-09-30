@@ -4,43 +4,43 @@ import {
 	createConnection
 } from 'vscode-languageserver';
 
-import { pbCompletion } from './pbCompletion';
-import { pbFormatter } from './pbFormatter';
-import { pbHelpers } from './pbHelpers';
-import { pbIndents } from './pbIndents';
-import { pbSettings } from './pbSettings';
-import { pbText } from './pbText';
-import { pbValidation } from './pbValidation';
+import { PureBasicCompletion } from './PureBasicCompletion';
+import { PureBasicFormatter } from './PureBasicFormatter';
+import { PureBasicHelpers } from './PureBasicHelpers';
+import { PureBasicIndents } from './PureBasicIndents';
+import { PureBasicSettings } from './PureBasicSettings';
+import { PureBasicText } from './PureBasicText';
+import { PureBasicValidation } from './PureBasicValidation';
 
 export namespace pb {
 	/**
 	 * Provide functions used by several API components
 	 */
-	export let helpers = pbHelpers;
+	export let helpers = new PureBasicHelpers();
 	/**
 	 * Provide functions used to examine and modify text from source code
 	 */
-	export let text = pbText;
+	export let text = new PureBasicText();
 	/**
 	 * Provide functions used to display code autocompletion list
 	 */
-	export let completion = pbCompletion;
+	export let completion = new PureBasicCompletion();
 	/**
 	 * Provide functions used to beautify source code by following some formatting rules
 	 */
-	export let formatter = pbFormatter;
+	export let formatter = new PureBasicFormatter();
 	/**
 	 * Provide functions used to indent source code
 	 */
-	export let indents = pbIndents;
+	export let indents = new PureBasicIndents();
 	/**
 	 * Provide functions used to analyze source code and retrieve diagnostic report
 	 */
-	export let validation = pbValidation;
+	export let validation = new PureBasicValidation();
 	/**
 	 * Provide functions used to save or load all language custom settings
 	 */
-	export let settings = pbSettings;
+	export let settings = new PureBasicSettings();
 	/**
 	 * Create a connection for the server. The connection uses Node's IPC as a transport.
 	 * Also include all preview / proposed LSP features.
@@ -52,3 +52,4 @@ export namespace pb {
 	 */
 	export let documents = new TextDocuments();
 }
+

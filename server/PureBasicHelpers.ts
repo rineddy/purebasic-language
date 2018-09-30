@@ -5,12 +5,12 @@ import {
 
 import { pb } from './pbAPI';
 
-export namespace pbHelpers {
+export class PureBasicHelpers {
 	/**
 	 * Find instance of existing text document identified by `docInfo`
 	 * @param docInfo
 	 */
-	export function FindDoc(docInfo: TextDocument | TextDocumentIdentifier | string): TextDocument | undefined {
+	public FindDoc(docInfo: TextDocument | TextDocumentIdentifier | string): TextDocument | undefined {
 		let doc: TextDocument | undefined;
 		if (typeof (docInfo) === 'string') {
 			doc = pb.documents.get(docInfo);

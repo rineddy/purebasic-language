@@ -4,12 +4,12 @@ import {
 	TextDocumentPositionParams
 } from 'vscode-languageserver';
 
-export namespace pbCompletion {
+export class PureBasicCompletion {
 	/**
 	 * This handler provides the initial list of the completion items.
 	 * @param txtDocPositionParams
 	 */
-	export function getCompletionItems(txtDocPositionParams: TextDocumentPositionParams): CompletionItem[] {
+	public getCompletionItems(txtDocPositionParams: TextDocumentPositionParams): CompletionItem[] {
 		// The pass parameter contains the position of the text document in
 		// which code complete got requested. For the example we ignore this
 		// info and always provide the same completion items.
@@ -30,7 +30,7 @@ export namespace pbCompletion {
 	 * This handler resolve additional information for the item selected in the completion list.
 	 * @param item
 	 */
-	export function getCompletionDescription(item: CompletionItem): CompletionItem {
+	public getCompletionDescription(item: CompletionItem): CompletionItem {
 		if (item.data === 1) {
 			(item.detail = 'Procedure details'),
 				(item.documentation = 'Procedure documentation');
