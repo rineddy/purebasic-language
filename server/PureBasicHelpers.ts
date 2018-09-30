@@ -3,12 +3,11 @@ import {
 	TextDocumentIdentifier,
 } from 'vscode-languageserver';
 
-import { pb } from './pbAPI';
+import { pb } from './PureBasicAPI';
 
 export class PureBasicHelpers {
 	/**
 	 * Find instance of existing text document identified by `docInfo`
-	 * @param docInfo
 	 */
 	public FindDoc(docInfo: TextDocument | TextDocumentIdentifier | string): TextDocument | undefined {
 		let doc: TextDocument | undefined;

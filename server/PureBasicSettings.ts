@@ -5,10 +5,10 @@ import {
 	TextDocument
 } from 'vscode-languageserver';
 
-import { pb } from './pbAPI';
+import { pb } from './PureBasicAPI';
 
 /**
- * All Purebasic settings customized by user
+ * Represents Purebasic settings customized by user
  */
 interface IDocumentSettings {
 	diagnostics: {
@@ -36,6 +36,9 @@ export class PureBasicSettings {
 	 */
 	private documentSettings: Map<string, Thenable<IDocumentSettings>> = new Map();
 
+	/**
+	 * Initializes cached document settings and technical settings
+	 */
 	public initialize(params: InitializeParams) {
 		this.initParams = params;
 		this.clientCapabilities = this.initParams.capabilities;
@@ -51,15 +54,19 @@ export class PureBasicSettings {
 			this.documentSettings.set('', Promise.resolve(pb.settings.DEFAULT_SETTINGS));
 		}
 	}
-
+	/**
+	 * Reset all cached document settings
+	 */
 	public change(change: DidChangeConfigurationParams) {
-		// Reset all cached document settings
 		this.documentSettings.clear();
 		if (!this.hasWorkspaceConfigCapability) {
 			let globalSettings = <IDocumentSettings>(change.settings.purebasicLanguage || pb.settings.DEFAULT_SETTINGS);
 			this.documentSettings.set('', Promise.resolve(globalSettings));
 		}
 	}
+	/**
+	 * Retrieves settings after opening document
+	 */
 
 	public load(doc: TextDocument): Thenable<IDocumentSettings> {
 		let settings = this.documentSettings.get(this.hasWorkspaceConfigCapability ? doc.uri : '');
@@ -69,6 +76,9 @@ export class PureBasicSettings {
 		}
 		return settings;
 	}
+	/**
+	 * Delete settings before closing document
+	 */
 
 	public remove(doc: TextDocument) {
 		this.documentSettings.delete(doc.uri);

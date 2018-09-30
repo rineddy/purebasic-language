@@ -7,7 +7,6 @@ import {
 export class PureBasicCompletion {
 	/**
 	 * This handler provides the initial list of the completion items.
-	 * @param txtDocPositionParams
 	 */
 	public getCompletionItems(txtDocPositionParams: TextDocumentPositionParams): CompletionItem[] {
 		// The pass parameter contains the position of the text document in
@@ -28,7 +27,6 @@ export class PureBasicCompletion {
 	}
 	/**
 	 * This handler resolve additional information for the item selected in the completion list.
-	 * @param item
 	 */
 	public getCompletionDescription(item: CompletionItem): CompletionItem {
 		if (item.data === 1) {

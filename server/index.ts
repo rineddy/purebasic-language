@@ -3,7 +3,7 @@ import {
 	InitializeParams,
 } from 'vscode-languageserver';
 
-import { pb } from './pbAPI';
+import { pb } from './PureBasicAPI';
 
 /* --------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -52,8 +52,8 @@ pb.documents.listen(pb.connection);
 
 // Only keep settings for open pb.documents
 pb.documents.onDidClose(e => {
-	pb.settings.remove(e.document);
 	pb.indents.remove(e.document);
+	pb.settings.remove(e.document);
 });
 
 // The content of a text document has changed. This event is emitted

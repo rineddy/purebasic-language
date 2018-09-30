@@ -4,7 +4,7 @@ import {
 	TextDocument
 } from 'vscode-languageserver';
 
-import { pb } from './pbAPI';
+import { pb } from './PureBasicAPI';
 
 export class PureBasicValidation {
 	/**
