@@ -62,8 +62,8 @@ pb.documents.onDidChangeContent(change => {
 	pb.validation.validateDocument(change.document);
 });
 
-pb.documents.onDidOpen(change => {
-	pb.indents.load(change.document);
+pb.documents.onDidOpen(async change => {
+	await pb.indents.load(change.document);
 });
 
 pb.connection.onDidChangeWatchedFiles(_change => {

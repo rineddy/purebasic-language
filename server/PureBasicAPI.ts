@@ -7,7 +7,7 @@ import {
 import { PureBasicCompletion } from './PureBasicCompletion';
 import { PureBasicFormatter } from './PureBasicFormatter';
 import { PureBasicHelpers } from './PureBasicHelpers';
-import { PureBasicIndentation } from './PureBasicIndents';
+import { PureBasicIndents } from './PureBasicIndents';
 import { PureBasicSettings } from './PureBasicSettings';
 import { PureBasicText } from './PureBasicText';
 import { PureBasicValidation } from './PureBasicValidation';
@@ -32,7 +32,7 @@ export namespace pb {
 	/**
 	 * Provide functions used to indent source code
 	 */
-	export let indents = new PureBasicIndentation();
+	export let indents = new PureBasicIndents();
 	/**
 	 * Provide functions used to analyze source code and retrieve diagnostic report
 	 */
