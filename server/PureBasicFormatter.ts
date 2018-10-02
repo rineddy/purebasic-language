@@ -13,22 +13,22 @@ export class PureBasicFormatter {
 	/**
 	 * Format whole doc
 	 */
-	public formatDocument(params: DocumentFormattingParams): TextEdit[] {
-		let doc = pb.helpers.FindDoc(params.textDocument.uri);
+	public formatAll(params: DocumentFormattingParams): TextEdit[] {
+		let doc = pb.helper.FindDoc(params.textDocument.uri);
 		return doc ? pb.formatter.applyFormattingRules(doc, Range.create(0, 0, doc.lineCount - 1, Number.MAX_SAFE_INTEGER)) : [];
 	}
 	/**
 	 * Format doc when user is selecting text
 	 */
-	public formatDocumentRange(params: DocumentRangeFormattingParams): TextEdit[] {
-		let doc = pb.helpers.FindDoc(params.textDocument.uri);
+	public formatRange(params: DocumentRangeFormattingParams): TextEdit[] {
+		let doc = pb.helper.FindDoc(params.textDocument.uri);
 		return doc ? pb.formatter.applyFormattingRules(doc, Range.create(params.range.start.line, 0, params.range.end.line, params.range.end.character)) : [];
 	}
 	/**
 	 * Format doc when user is typing
 	 */
-	public formatDocumentOnType(params: DocumentOnTypeFormattingParams): TextEdit[] {
-		let doc = pb.helpers.FindDoc(params.textDocument.uri);
+	public formatOnType(params: DocumentOnTypeFormattingParams): TextEdit[] {
+		let doc = pb.helper.FindDoc(params.textDocument.uri);
 		return doc ? pb.formatter.applyFormattingRules(doc, Range.create(params.position.line, 0, params.position.line, params.position.character)) : [];
 	}
 	/**

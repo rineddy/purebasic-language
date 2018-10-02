@@ -5,7 +5,7 @@ import {
 
 import { pb } from './PureBasicAPI';
 
-export class PureBasicHelpers {
+export class PureBasicHelper {
 	/**
 	 * Find instance of existing text document identified by `docInfo`
 	 */

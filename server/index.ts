@@ -44,7 +44,7 @@ pb.connection.onDidChangeConfiguration(change => {
 	pb.settings.change(change);
 
 	// Revalidate all open text pb.documents
-	pb.documents.all().forEach(pb.validation.validateDocument);
+	pb.documents.all().forEach(pb.validator.validate);
 });
 // Make the text document manager listen on the pb.connection
 // for open, change and close text document events
@@ -52,18 +52,18 @@ pb.documents.listen(pb.connection);
 
 // Only keep settings for open pb.documents
 pb.documents.onDidClose(e => {
-	pb.indents.remove(e.document);
+	pb.indentator.remove(e.document);
 	pb.settings.remove(e.document);
 });
 
 // The content of a text document has changed. This event is emitted
 // when the text document first opened or when its content has changed.
 pb.documents.onDidChangeContent(change => {
-	pb.validation.validateDocument(change.document);
+	pb.validator.validate(change.document);
 });
 
 pb.documents.onDidOpen(async change => {
-	await pb.indents.load(change.document);
+	await pb.indentator.load(change.document);
 });
 
 pb.connection.onDidChangeWatchedFiles(_change => {
@@ -74,9 +74,9 @@ pb.connection.onDidChangeWatchedFiles(_change => {
 pb.connection.onCompletion(pb.completion.getCompletionItems);
 pb.connection.onCompletionResolve(pb.completion.getCompletionDescription);
 
-pb.connection.onDocumentFormatting(pb.formatter.formatDocument);
-pb.connection.onDocumentRangeFormatting(pb.formatter.formatDocumentRange);
-pb.connection.onDocumentOnTypeFormatting(pb.formatter.formatDocumentOnType);
+pb.connection.onDocumentFormatting(pb.formatter.formatAll);
+pb.connection.onDocumentRangeFormatting(pb.formatter.formatRange);
+pb.connection.onDocumentOnTypeFormatting(pb.formatter.formatOnType);
 
 /**
 pb.connection.onDidOpenTextDocument((params) => {

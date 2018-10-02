@@ -6,12 +6,12 @@ import {
 
 import { pb } from './PureBasicAPI';
 
-export class PureBasicValidation {
+export class PureBasicValidator {
 	/**
 	 * Detects any anomalies in source code
 	 * @param doc
 	 */
-	public async validateDocument(doc: TextDocument): Promise<void> {
+	public async validate(doc: TextDocument): Promise<void> {
 		// In this simple example we get the settings for every validate run.
 		let settings = await pb.settings.load(doc);
 
