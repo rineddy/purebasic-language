@@ -6,17 +6,17 @@ import {
 
 import { PureBasicCompletion } from './PureBasicCompletion';
 import { PureBasicFormatter } from './PureBasicFormatter';
-import { PureBasicHelpers } from './PureBasicHelpers';
-import { PureBasicIndents } from './PureBasicIndents';
+import { PureBasicHelper } from './PureBasicHelper';
+import { PureBasicIndentator } from './PureBasicIndentator';
 import { PureBasicSettings } from './PureBasicSettings';
 import { PureBasicText } from './PureBasicText';
-import { PureBasicValidation } from './PureBasicValidation';
+import { PureBasicValidator } from './PureBasicValidator';
 
 export namespace pb {
 	/**
 	 * Provide functions used by several API components
 	 */
-	export let helpers = new PureBasicHelpers();
+	export let helper = new PureBasicHelper();
 	/**
 	 * Provide functions used to examine and modify text from source code
 	 */
@@ -32,11 +32,11 @@ export namespace pb {
 	/**
 	 * Provide functions used to indent source code
 	 */
-	export let indents = new PureBasicIndents();
+	export let indentator = new PureBasicIndentator();
 	/**
 	 * Provide functions used to analyze source code and retrieve diagnostic report
 	 */
-	export let validation = new PureBasicValidation();
+	export let validator = new PureBasicValidator();
 	/**
 	 * Provide functions used to save or load all language custom settings
 	 */

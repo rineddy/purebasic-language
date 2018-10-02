@@ -12,7 +12,7 @@ interface IDocumentIndents {
 	lineIndentations: Map<number, number>;
 }
 
-export class PureBasicIndents {
+export class PureBasicIndentator {
 	/**
 	 * Cache the indents of all open documents
 	 */
@@ -23,7 +23,7 @@ export class PureBasicIndents {
 	public load(doc: TextDocument): Thenable<IDocumentIndents> {
 		let indents = this.documentIndents.get(doc.uri);
 		if (!indents) {
-			indents = pb.indents.remap(doc, 0, doc.lineCount - 1);
+			indents = pb.indentator.remap(doc, 0, doc.lineCount - 1);
 			this.documentIndents.set(doc.uri, indents);
 		}
 		return indents;
