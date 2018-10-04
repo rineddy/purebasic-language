@@ -4,7 +4,6 @@ import {
 	DocumentFormattingRequest,
 	DocumentRangeFormattingRequest,
 	InitializeParams,
-	TextDocument,
 	TextDocumentChangeRegistrationOptions,
 	TextDocumentRegistrationOptions,
 	TextDocumentSyncKind,
@@ -17,8 +16,6 @@ import { pb } from './PureBasicAPI';
  * Licensed under the MIT License. See License.txt in the project root for license information.
  * ------------------------------------------------------------------------------------------ */
 'use strict';
-
-
 
 pb.connection.onInitialize((params: InitializeParams) => {
 	pb.settings.initialize(params);
@@ -35,7 +32,8 @@ pb.connection.onInitialize((params: InitializeParams) => {
 			documentRangeFormattingProvider: true,			// Tell the client that the server supports formatting
 			documentFormattingProvider: true, 				// Tell the client that the server supports formatting
 			documentOnTypeFormattingProvider: {				// Tell the client that the server supports formatting
-				firstTriggerCharacter: ':'                  // ,moreTriggerCharacter: ['(', '[', '{']
+				firstTriggerCharacter: ':'
+				// ,moreTriggerCharacter: ['(', '[', '{']
 			},
 			completionProvider: { resolveProvider: true }, 	// Tell the client that the server supports code completion
 			// colorProvider: undefined,
@@ -106,19 +104,18 @@ pb.connection.onDocumentFormatting(pb.formatter.formatAll);
 pb.connection.onDocumentRangeFormatting(pb.formatter.formatRange);
 pb.connection.onDocumentOnTypeFormatting(pb.formatter.formatOnType);
 
-pb.connection.onDidChangeTextDocument((params) => {
-	// The content of a text document did change in VSCode.
-	// params.uri uniquely identifies the document.
-	// params.contentChanges describe the content changes to the document.
-
-	pb.connection.console.log(`${params.textDocument.uri} changed: ${JSON.stringify(params.contentChanges)}`);
-});
 /**
 pb.connection.onDidOpenTextDocument((params) => {
 	// A text document got opened in VSCode.
 	// params.uri uniquely identifies the document. For pb.documents store on disk this is a file URI.
 	// params.text the initial full content of the document.
 	pb.connection.console.log(`${params.textDocument.uri} opened.`);
+});
+pb.connection.onDidChangeTextDocument((params) => {
+	// The content of a text document did change in VSCode.
+	// params.uri uniquely identifies the document.
+	// params.contentChanges describe the content changes to the document.
+	pb.connection.console.log(`${params.textDocument.uri} changed: ${JSON.stringify(params.contentChanges)}`);
 });
 pb.connection.onDidCloseTextDocument((params) => {
 	// A text document got closed in VSCode.
@@ -129,4 +126,3 @@ pb.connection.onDidCloseTextDocument((params) => {
 
 // Listen on the pb.connection
 pb.connection.listen();
-
