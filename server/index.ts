@@ -1,6 +1,13 @@
 import {
 	DidChangeConfigurationNotification,
+	DidChangeTextDocumentNotification,
+	DocumentFormattingRequest,
+	DocumentRangeFormattingRequest,
 	InitializeParams,
+	TextDocument,
+	TextDocumentChangeRegistrationOptions,
+	TextDocumentRegistrationOptions,
+	TextDocumentSyncKind,
 } from 'vscode-languageserver';
 
 import { pb } from './PureBasicAPI';
@@ -11,24 +18,45 @@ import { pb } from './PureBasicAPI';
  * ------------------------------------------------------------------------------------------ */
 'use strict';
 
+
+
 pb.connection.onInitialize((params: InitializeParams) => {
 	pb.settings.initialize(params);
-
 	return {
 		capabilities: {
 			textDocumentSync: pb.documents.syncKind,
+			// definitionProvider: true,
+			// typeDefinitionProvider: undefined,
+			// codeActionProvider: true,
+			// codeLensProvider: undefined,
+			// documentLinkProvider: undefined,
+			// documentHighlightProvider: true,
+			// documentSymbolProvider: true,
 			documentRangeFormattingProvider: true,			// Tell the client that the server supports formatting
 			documentFormattingProvider: true, 				// Tell the client that the server supports formatting
 			documentOnTypeFormattingProvider: {				// Tell the client that the server supports formatting
-				firstTriggerCharacter: ':'
-				// ,moreTriggerCharacter: ['(', '[', '{']
+				firstTriggerCharacter: ':'                  // ,moreTriggerCharacter: ['(', '[', '{']
 			},
-			completionProvider: { resolveProvider: true } 	// Tell the client that the server supports code completion
+			completionProvider: { resolveProvider: true }, 	// Tell the client that the server supports code completion
+			// colorProvider: undefined,
+			// referencesProvider: undefined,
+			// signatureHelpProvider: undefined,
+			// executeCommandProvider: undefined,
+			// hoverProvider: undefined,
+			// renameProvider: undefined,
+			// workspaceSymbolProvider: undefined
 		}
 	};
 });
 
 pb.connection.onInitialized(() => {
+	// Register for incremental text changes
+	pb.connection.client.register(DidChangeTextDocumentNotification.type, <TextDocumentChangeRegistrationOptions>{
+		syncKind: TextDocumentSyncKind.Full
+	});
+	pb.connection.client.register(DocumentRangeFormattingRequest.type, <TextDocumentRegistrationOptions>{});
+	pb.connection.client.register(DocumentFormattingRequest.type, <TextDocumentRegistrationOptions>{});
+
 	if (pb.settings.hasWorkspaceConfigCapability) {
 		// Register for all configuration changes.
 		pb.connection.client.register(DidChangeConfigurationNotification.type, undefined);
@@ -78,18 +106,19 @@ pb.connection.onDocumentFormatting(pb.formatter.formatAll);
 pb.connection.onDocumentRangeFormatting(pb.formatter.formatRange);
 pb.connection.onDocumentOnTypeFormatting(pb.formatter.formatOnType);
 
+pb.connection.onDidChangeTextDocument((params) => {
+	// The content of a text document did change in VSCode.
+	// params.uri uniquely identifies the document.
+	// params.contentChanges describe the content changes to the document.
+
+	pb.connection.console.log(`${params.textDocument.uri} changed: ${JSON.stringify(params.contentChanges)}`);
+});
 /**
 pb.connection.onDidOpenTextDocument((params) => {
 	// A text document got opened in VSCode.
 	// params.uri uniquely identifies the document. For pb.documents store on disk this is a file URI.
 	// params.text the initial full content of the document.
 	pb.connection.console.log(`${params.textDocument.uri} opened.`);
-});
-pb.connection.onDidChangeTextDocument((params) => {
-	// The content of a text document did change in VSCode.
-	// params.uri uniquely identifies the document.
-	// params.contentChanges describe the content changes to the document.
-	pb.connection.console.log(`${params.textDocument.uri} changed: ${JSON.stringify(params.contentChanges)}`);
 });
 pb.connection.onDidCloseTextDocument((params) => {
 	// A text document got closed in VSCode.
@@ -100,3 +129,4 @@ pb.connection.onDidCloseTextDocument((params) => {
 
 // Listen on the pb.connection
 pb.connection.listen();
+
