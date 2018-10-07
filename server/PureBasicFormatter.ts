@@ -29,6 +29,7 @@ export class PureBasicFormatter {
 	 */
 	public formatOnType(params: DocumentOnTypeFormattingParams): TextEdit[] {
 		let doc = pb.documents.find(params.textDocument.uri);
+		// params.options.;
 		return doc ? pb.formatter.applyFormattingRules(doc, Range.create(params.position.line, 0, params.position.line, params.position.character)) : [];
 	}
 	/**
@@ -36,6 +37,7 @@ export class PureBasicFormatter {
 	 */
 	private applyFormattingRules(doc: TextDocument, selection: Range): TextEdit[] {
 		let textEdits: TextEdit[] = [];
+		// let indentation = pb.indentator.start(doc, selection.start.line - 1);
 		for (let line = selection.start.line; line <= selection.end.line; line++) {
 			let rg: Range = Range.create(line, 0, line, line < selection.end.line ? Number.MAX_SAFE_INTEGER : selection.end.character);
 			let text = doc.getText(rg);
@@ -54,8 +56,8 @@ export class PureBasicFormatter {
 					part = part.replace(/(::)\s+/g, '$1');
 					part = part.replace(/\s+([})\]])/g, '$1');
 					part = part.replace(/([{([])\s+/g, '$1');
-					part = part.replace(/(\S)(?=<>|<=|>=|=>|>=|=)/g, '$1 ');
-					part = part.replace(/(<>|<=|>=|=>|>=|=)(?=\S)/g, '$1 ');
+					part = part.replace(/([^\s><=])(?=<>|<=|>=|=>|>=|=|<|>)/g, '$1 ');
+					part = part.replace(/(<>|<=|>=|=>|>=|=|<|>)(?=[^\s><=])/g, '$1 ');
 					part = part.replace(/(\S)(?=\/|<<|>>|\+)/g, '$1 ');
 					part = part.replace(/(\/|<<|>>|\+)(?=\S)/g, '$1 ');
 					part = part.replace(/([^\s:])(?=:[^:])/g, '$1 ');
