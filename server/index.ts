@@ -74,12 +74,12 @@ pb.documents.onDidChangeContent(change => {
 	pb.validator.validate(change.document);
 });
 
-pb.connection.onDidChangeConfiguration(change => {
-	pb.settings.change(change);
+pb.connection.onDidChangeConfiguration(changes => {
+	pb.settings.change(changes);
 	// Revalidate all open text pb.documents
 	pb.documents.all().forEach(pb.validator.validate);
 });
-pb.connection.onDidChangeWatchedFiles(_change => {
+pb.connection.onDidChangeWatchedFiles(changes => {
 	// Monitored files have change in VSCode
 	pb.connection.console.log('We received an file change event');
 });
@@ -89,8 +89,5 @@ pb.connection.onDocumentFormatting(pb.formatter.formatAll);
 pb.connection.onDocumentRangeFormatting(pb.formatter.formatRange);
 pb.connection.onDocumentOnTypeFormatting(pb.formatter.formatOnType);
 
-// Listen on the pb.connection
-pb.connection.listen();
-// Make the text document manager listen on the pb.connection
-// for open, change and close text document events
-pb.documents.listen(pb.connection);
+pb.connection.listen(); 			// Listen on the pb.connection
+pb.documents.listen(pb.connection); // Make the text document manager listen on the pb.connection (for open, change and close text document events)
