@@ -2,6 +2,7 @@ import {
 	DocumentFormattingParams,
 	DocumentOnTypeFormattingParams,
 	DocumentRangeFormattingParams,
+	FormattingOptions,
 	Range,
 	TextDocument,
 	TextEdit,
@@ -15,29 +16,28 @@ export class PureBasicFormatter {
 	 */
 	public formatAll(params: DocumentFormattingParams): TextEdit[] {
 		let doc = pb.documents.find(params.textDocument.uri);
-		return doc ? pb.formatter.applyFormattingRules(doc, Range.create(0, 0, doc.lineCount - 1, Number.MAX_SAFE_INTEGER)) : [];
+		return doc ? pb.formatter.applyFormattingRules(doc, params.options, Range.create(0, 0, doc.lineCount - 1, Number.MAX_SAFE_INTEGER)) : [];
 	}
 	/**
 	 * Format doc when user is selecting text
 	 */
 	public formatRange(params: DocumentRangeFormattingParams): TextEdit[] {
 		let doc = pb.documents.find(params.textDocument.uri);
-		return doc ? pb.formatter.applyFormattingRules(doc, Range.create(params.range.start.line, 0, params.range.end.line, params.range.end.character)) : [];
+		return doc ? pb.formatter.applyFormattingRules(doc, params.options, Range.create(params.range.start.line, 0, params.range.end.line, params.range.end.character)) : [];
 	}
 	/**
 	 * Format doc when user is typing
 	 */
 	public formatOnType(params: DocumentOnTypeFormattingParams): TextEdit[] {
 		let doc = pb.documents.find(params.textDocument.uri);
-		// params.options.;
-		return doc ? pb.formatter.applyFormattingRules(doc, Range.create(params.position.line, 0, params.position.line, params.position.character)) : [];
+		return doc ? pb.formatter.applyFormattingRules(doc, params.options, Range.create(params.position.line, 0, params.position.line, params.position.character)) : [];
 	}
 	/**
 	 * Apply formatting rules, line by line, on selected text
 	 */
-	private applyFormattingRules(doc: TextDocument, selection: Range): TextEdit[] {
+	private applyFormattingRules(doc: TextDocument, options: FormattingOptions, selection: Range): TextEdit[] {
 		let textEdits: TextEdit[] = [];
-		// let indentation = pb.indentator.start(doc, selection.start.line - 1);
+		//let indentation = pb.indentator.start(doc, options, selection.start.line - 1);
 		for (let line = selection.start.line; line <= selection.end.line; line++) {
 			let rg: Range = Range.create(line, 0, line, line < selection.end.line ? Number.MAX_SAFE_INTEGER : selection.end.character);
 			let text = doc.getText(rg);

@@ -81,12 +81,13 @@
 			"title": "PureBasic Configuration",
 			"properties": {
 				"purebasicLanguage.diagnostics.maxNumberOfProblems": {
+					"description": "Controls the maximum number of problems produced by the language server.",
 					"scope": "resource",
 					"type": "number",
-					"default": 100,
-					"description": "Controls the maximum number of problems produced by the language server."
+					"default": 100
 				},
 				"purebasicLanguage.trace.server": {
+					"description": "Traces the communication between VS Code and the language server.",
 					"scope": "window",
 					"type": "string",
 					"enum": [
@@ -94,8 +95,39 @@
 						"messages",
 						"verbose"
 					],
-					"default": "off",
-					"description": "Traces the communication between VS Code and the language server."
+					"default": "off"
+				},
+				"purebasicLanguage.indentation.rules": {
+					"description": "Determines how to indent the source code.",
+					"scope": "resource",
+					"type": "array",
+					"default": [
+						{
+							"match": "\\b(Procedure|If)\\b",
+							"before": 0,
+							"after": 1
+						},
+						{
+							"match": "\\b(EndProcedure|EndIf)\\b",
+							"before": -1,
+							"after": 0
+						},
+						{
+							"match": "\\b(Select)\\b",
+							"before": 0,
+							"after": 2
+						},
+						{
+							"match": "\\b(Case|Default)\\b",
+							"before": -1,
+							"after": 1
+						},
+						{
+							"match": "\\b(EndSelect)\\b",
+							"before": -2,
+							"after": 0
+						}
+					]
 				}
 			}
 		}

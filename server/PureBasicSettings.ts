@@ -14,6 +14,9 @@ interface IDocumentSettings {
 	diagnostics: {
 		maxNumberOfProblems: number;
 	};
+	indentation: {
+		rules: { match: string; before: number; after: number; }[];
+	};
 }
 
 export class PureBasicSettings {
@@ -29,6 +32,30 @@ export class PureBasicSettings {
 	private readonly DEFAULT_SETTINGS = <IDocumentSettings>{
 		diagnostics: {
 			maxNumberOfProblems: 1000
+		},
+		indentation: {
+			rules: [
+				{
+					match: '\\b(Procedure|If)\\b',
+					before: 0, after: 1
+				},
+				{
+					match: '\\b(EndProcedure|EndIf)\\b',
+					before: -1, after: 0
+				},
+				{
+					match: '\\b(Select)\\b',
+					before: 0, after: 2
+				},
+				{
+					match: '\\b(Case|Default)\\b',
+					before: -1, after: 1
+				},
+				{
+					match: '\\b(EndSelect)\\b',
+					before: -2, after: 0
+				},
+			]
 		}
 	};
 	/**
