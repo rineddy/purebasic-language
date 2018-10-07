@@ -60,21 +60,6 @@ pb.connection.onInitialized(() => {
 
 });
 
-pb.connection.onDidChangeConfiguration(change => {
-	pb.settings.change(change);
-	// Revalidate all open text pb.documents
-	pb.documents.all().forEach(pb.validator.validate);
-});
-pb.connection.onDidChangeWatchedFiles(_change => {
-	// Monitored files have change in VSCode
-	pb.connection.console.log('We received an file change event');
-});
-pb.connection.onCompletion(pb.completion.getCompletionItems);
-pb.connection.onCompletionResolve(pb.completion.getCompletionDescription);
-pb.connection.onDocumentFormatting(pb.formatter.formatAll);
-pb.connection.onDocumentRangeFormatting(pb.formatter.formatRange);
-pb.connection.onDocumentOnTypeFormatting(pb.formatter.formatOnType);
-
 pb.documents.onDidOpen(async change => {
 	await pb.indentator.load(change.document);
 });
@@ -89,6 +74,20 @@ pb.documents.onDidChangeContent(change => {
 	pb.validator.validate(change.document);
 });
 
+pb.connection.onDidChangeConfiguration(change => {
+	pb.settings.change(change);
+	// Revalidate all open text pb.documents
+	pb.documents.all().forEach(pb.validator.validate);
+});
+pb.connection.onDidChangeWatchedFiles(_change => {
+	// Monitored files have change in VSCode
+	pb.connection.console.log('We received an file change event');
+});
+pb.connection.onCompletion(pb.completion.getCompletionItems);
+pb.connection.onCompletionResolve(pb.completion.getCompletionDescription);
+pb.connection.onDocumentFormatting(pb.formatter.formatAll);
+pb.connection.onDocumentRangeFormatting(pb.formatter.formatRange);
+pb.connection.onDocumentOnTypeFormatting(pb.formatter.formatOnType);
 
 // Listen on the pb.connection
 pb.connection.listen();
