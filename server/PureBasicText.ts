@@ -1,10 +1,11 @@
 import { pb } from './PureBasicAPI';
 
 /**
- * Represents splitted text (indent, sub-parts)
+ * Represents parsed text (indentation spaces, words, sub-parts)
  */
-interface ISplittedText {
-	indentation: string;
+interface IParsedText {
+	spaces: string;
+	words: string[];
 	parts: string[];
 }
 
@@ -22,19 +23,25 @@ export class PureBasicText {
 	public readonly STARTS_WITH_COMMENT = /^;/;
 	/**
 	 * Determines if any text starts with a spacing character
-	 * @example if (thisText.match(pb.text.STARTS_WITH_SPACING)) { continue; }
+	 * @example if (thisText.match(pb.text.STARTS_WITH_SPACE)) { continue; }
 	 */
-	public readonly STARTS_WITH_SPACING = /^\s/;
+	public readonly STARTS_WITH_SPACE = /^\s/;
 	/**
 	 * Determines if any text starts with a string/comment character
 	 * @example if (thisText.match(pb.text.STARTS_WITH_STRING_OR_COMMENT)) { continue; }
 	 */
 	public readonly STARTS_WITH_STRING_OR_COMMENT = /^["';]/;
 	/**
-	 * Extracts indentation and content without line break characters from line text
-	 * @example let [match, indentation, content] = thisText.match(pb.text.EXTRACTS_INDENTATION_CONTENT)
+	 *
+	 * Extracts spaces and content without line break characters from line text
+	 * @example let [match, spaces, content] = thisLineText.match(pb.text.EXTRACTS_SPACES_CONTENT)
 	 */
-	public readonly EXTRACTS_INDENTATION_CONTENT = /^([\t ]*)(.*?)[\r\n]*$/;
+	public readonly EXTRACTS_SPACES_CONTENT = /^([\t ]*)(.*?)[\r\n]*$/;
+	/**
+	 * Extracts words from text (ex: _Word123,$myWord,OtherW0rd$)
+	 * @example let words = thisText.match(pb.text.EXTRACTS_WORDS)
+	 */
+	public readonly EXTRACTS_WORDS = /[$]?\b[_a-z]\w*\b[$]?/gi;
 	/**
 	 * Finds string or comment in line text
 	 */
@@ -42,15 +49,16 @@ export class PureBasicText {
 
 
 	/**
-	 * Split `text` into parts
+	 * Parse `text` to retrieve spaces, words and splitted parts
 	 * @param {string} text original text to parse
-	 * @returns {ISplittedText} splitted text info
+	 * @returns {IParsedText} parsed text info
 	 */
-	public splitParts(text: string): ISplittedText {
-		let [, indentation, content] = text.match(pb.text.EXTRACTS_INDENTATION_CONTENT) || [undefined, '', ''];
-		return <ISplittedText>{
-			indentation: indentation,
+	public parse(text: string): IParsedText {
+		let [, spaces, content] = text.match(pb.text.EXTRACTS_SPACES_CONTENT) || [undefined, '', ''];
+		return <IParsedText>{
+			spaces: spaces,
 			parts: content.split(pb.text.FINDS_STRING_OR_COMMENT).filter(part => part !== ''),
+			words: content.replace(pb.text.FINDS_STRING_OR_COMMENT, '').match(pb.text.EXTRACTS_WORDS) || []
 		};
 	}
 	/**

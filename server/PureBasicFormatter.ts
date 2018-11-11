@@ -37,11 +37,21 @@ export class PureBasicFormatter {
 	 */
 	private applyFormattingRules(doc: TextDocument, options: FormattingOptions, selection: Range): TextEdit[] {
 		let textEdits: TextEdit[] = [];
-		//let indentation = pb.indentator.start(doc, options, selection.start.line - 1);
+		let textIndents: TextIndents = { current: 0, next: 0 };
+		for (let line = selection.start.line - 1; line >= 0; line--) {
+			let rg: Range = Range.create(line, 0, line, Number.MAX_SAFE_INTEGER);
+			let text = doc.getText(rg);
+			let { spaces, words, parts } = pb.text.parse(text);
+			if (parts.length > 0) {
+				textIndents = pb.indentator.next(textIndents, words, spaces);
+				break;
+			}
+		}
 		for (let line = selection.start.line; line <= selection.end.line; line++) {
 			let rg: Range = Range.create(line, 0, line, line < selection.end.line ? Number.MAX_SAFE_INTEGER : selection.end.character);
 			let text = doc.getText(rg);
-			let { indentation, parts } = pb.text.splitParts(text);
+			let { spaces, words, parts } = pb.text.parse(text);
+			textIndents = pb.indentator.next(textIndents, words, spaces);
 			parts.forEach((part, index, parts) => {
 				if (!part.match(pb.text.STARTS_WITH_STRING_OR_COMMENT)) {
 					let charBeforePart = (index > 0) ? parts[index - 1].substr(-1) : '';
@@ -65,7 +75,7 @@ export class PureBasicFormatter {
 					parts[index] = pb.text.removeExtensions(part, charBeforePart, charAfterPart);
 				}
 			});
-			let formattedText = indentation + parts.join('');
+			let formattedText = textIndents.current + parts.join('');
 			formattedText = formattedText.trimRight();
 			if (formattedText !== text) {
 				textEdits.push(TextEdit.replace(rg, formattedText));
