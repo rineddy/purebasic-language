@@ -11,10 +11,7 @@
 		"sourceMap": true
 	},
 	"include": [
-		".",
-		"../server/PureBasicHelper.ts",
-		"../server/PureBasicIndentator.ts",
-		"../server/PureBasicValidator.ts",
+		"."
 	],
 	"exclude": [
 		"out",

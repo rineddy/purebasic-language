@@ -5,19 +5,8 @@ import {
 	TextDocument
 } from 'vscode-languageserver';
 
+import { ICustomSettings } from './PureBasicData';
 import { pb } from './PureBasicAPI';
-
-/**
- * Represents Purebasic settings customized by user
- */
-interface IDocumentSettings {
-	diagnostics: {
-		maxNumberOfProblems: number;
-	};
-	indentation: {
-		rules: { match: string; before: number; after: number; }[];
-	};
-}
 
 export class PureBasicSettings {
 	public initParams?: InitializeParams;
@@ -29,7 +18,7 @@ export class PureBasicSettings {
 	/**
 	 * Default settings
 	 */
-	private readonly DEFAULT_SETTINGS = <IDocumentSettings>{
+	private readonly DEFAULT_SETTINGS = <ICustomSettings>{
 		diagnostics: {
 			maxNumberOfProblems: 1000
 		},
@@ -61,7 +50,7 @@ export class PureBasicSettings {
 	/**
 	 * Cache the settings of all open documents
 	 */
-	private documentSettings: Map<string, Thenable<IDocumentSettings>> = new Map();
+	private documentSettings: Map<string, Thenable<ICustomSettings>> = new Map();
 
 	/**
 	 * Initializes cached document settings and technical settings
@@ -87,15 +76,14 @@ export class PureBasicSettings {
 	public change(change: DidChangeConfigurationParams) {
 		this.documentSettings.clear();
 		if (!this.hasWorkspaceConfigCapability) {
-			let globalSettings = <IDocumentSettings>(change.settings.purebasicLanguage || pb.settings.DEFAULT_SETTINGS);
+			let globalSettings = <ICustomSettings>(change.settings.purebasicLanguage || pb.settings.DEFAULT_SETTINGS);
 			this.documentSettings.set('', Promise.resolve(globalSettings));
 		}
 	}
 	/**
 	 * Retrieves settings after opening document
 	 */
-
-	public load(doc: TextDocument): Thenable<IDocumentSettings> {
+	public load(doc: TextDocument): Thenable<ICustomSettings> {
 		let settings = this.documentSettings.get(this.hasWorkspaceConfigCapability ? doc.uri : '');
 		if (!settings) {
 			settings = pb.connection.workspace.getConfiguration({ scopeUri: doc.uri, section: 'purebasicLanguage' });
@@ -106,7 +94,6 @@ export class PureBasicSettings {
 	/**
 	 * Delete settings before closing document
 	 */
-
 	public remove(doc: TextDocument) {
 		this.documentSettings.delete(doc.uri);
 	}

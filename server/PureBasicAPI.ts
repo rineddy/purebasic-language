@@ -47,4 +47,3 @@ export namespace pb {
 	 */
 	export let connection = createConnection(ProposedFeatures.all);
 }
-
