@@ -7,9 +7,14 @@ import { ICustomIndentation } from './PureBasicData';
 import { pb } from './PureBasicAPI';
 
 export class PureBasicIndentator {
+	/**
+	 * create indentation
+	 * @param doc
+	 * @param options
+	 */
 	public async create(doc: TextDocument, options: FormattingOptions): Promise<ICustomIndentation> {
-		let settings = await pb.settings.load(doc);
-		let indentation = <ICustomIndentation>{
+		const settings = await pb.settings.load(doc);
+		const indentation = <ICustomIndentation>{
 			current: '',
 			next: '',
 			options: options,
@@ -17,8 +22,10 @@ export class PureBasicIndentator {
 		};
 		return Promise.resolve(indentation);
 	}
-
-	public next(indentation: ICustomIndentation, words: string[], spaces: string) {
+	/**
+	 * Update indentation according to `words` and `spaces` of current line
+	 */
+	public update(indentation: ICustomIndentation, words: string[], spaces: string) {
 		let isCurrentIdentation = true;
 		indentation.current = spaces;
 		words.forEach(() => {

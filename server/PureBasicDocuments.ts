@@ -10,7 +10,7 @@ export class PureBasicDocuments extends TextDocuments {
 	/**
 	 * Find instance of existing text document identified by `docInfo`
 	 */
-	public find(docInfo: TextDocument | TextDocumentIdentifier | string): Promise<TextDocument> {
+	public find(docInfo: TextDocument | TextDocumentIdentifier | string): Thenable<TextDocument> {
 		let doc: TextDocument | undefined;
 		if (typeof (docInfo) === 'string') {
 			doc = pb.documents.get(docInfo);

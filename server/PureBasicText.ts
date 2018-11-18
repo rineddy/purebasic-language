@@ -1,13 +1,5 @@
+import { IParsedText } from './PureBasicData';
 import { pb } from './PureBasicAPI';
-
-/**
- * Represents parsed text (indentation spaces, words, sub-parts)
- */
-interface IParsedText {
-	spaces: string;
-	words: string[];
-	parts: string[];
-}
 
 export class PureBasicText {
 	/**
@@ -54,7 +46,7 @@ export class PureBasicText {
 	 * @returns {IParsedText} parsed text info
 	 */
 	public parse(text: string): IParsedText {
-		let [, spaces, content] = text.match(pb.text.EXTRACTS_SPACES_CONTENT) || [undefined, '', ''];
+		const [, spaces, content] = text.match(pb.text.EXTRACTS_SPACES_CONTENT) || [undefined, '', ''];
 		return <IParsedText>{
 			spaces: spaces,
 			parts: content.split(pb.text.FINDS_STRING_OR_COMMENT).filter(part => part !== ''),

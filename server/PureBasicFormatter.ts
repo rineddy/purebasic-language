@@ -14,36 +14,36 @@ export class PureBasicFormatter {
 	/**
 	 * Format whole doc
 	 */
-	public formatAll(params: DocumentFormattingParams): Thenable<TextEdit[]> {
-		return pb.documents.find(params.textDocument.uri)
-			.then(doc => pb.formatter.formatSelectedLines(doc, params.options, 0, doc.lineCount - 1, Number.MAX_SAFE_INTEGER));
+	public async formatAll(params: DocumentFormattingParams): Promise<TextEdit[]> {
+		const doc = await pb.documents.find(params.textDocument.uri);
+		return pb.formatter.formatSelectedLines(doc, params.options, 0, doc.lineCount - 1, Number.MAX_SAFE_INTEGER);
 	}
 	/**
 	 * Format doc when user is selecting text
 	 */
-	public formatRange(params: DocumentRangeFormattingParams): Thenable<TextEdit[]> {
-		return pb.documents.find(params.textDocument.uri)
-			.then(doc => pb.formatter.formatSelectedLines(doc, params.options, params.range.start.line, params.range.end.line, params.range.end.character));
+	public async formatRange(params: DocumentRangeFormattingParams): Promise<TextEdit[]> {
+		const doc = await pb.documents.find(params.textDocument.uri);
+		return pb.formatter.formatSelectedLines(doc, params.options, params.range.start.line, params.range.end.line, params.range.end.character);
 	}
 	/**
 	 * Format doc when user is typing
 	 */
-	public formatOnType(params: DocumentOnTypeFormattingParams): Thenable<TextEdit[]> {
-		return pb.documents.find(params.textDocument.uri)
-			.then(doc => pb.formatter.formatSelectedLines(doc, params.options, params.position.line, params.position.line, params.position.character));
+	public async formatOnType(params: DocumentOnTypeFormattingParams): Promise<TextEdit[]> {
+		const doc = await pb.documents.find(params.textDocument.uri);
+		return pb.formatter.formatSelectedLines(doc, params.options, params.position.line, params.position.line, params.position.character);
 	}
 	/**
 	 * Apply formatting rules, line by line, on selected text
 	 */
 	private async formatSelectedLines(doc: TextDocument, options: FormattingOptions, startLine: number, endLine: number, endLineCharacter: number): Promise<TextEdit[]> {
-		let textEdits: TextEdit[] = [];
-		let indentation = await pb.indentator.create(doc, options);
+		const textEdits: TextEdit[] = [];
+		const indentation = await pb.indentator.create(doc, options);
 		for (let line = startLine - 1; line >= 0; line--) {
 			let rg: Range = Range.create(line, 0, line, Number.MAX_SAFE_INTEGER);
 			let text = doc.getText(rg);
 			let { spaces, words, parts } = pb.text.parse(text);
 			if (parts.length > 0) {
-				pb.indentator.next(indentation, words, spaces);
+				pb.indentator.update(indentation, words, spaces);
 				break;
 			}
 		}
@@ -51,7 +51,7 @@ export class PureBasicFormatter {
 			let rg: Range = Range.create(line, 0, line, line < endLine ? Number.MAX_SAFE_INTEGER : endLineCharacter);
 			let text = doc.getText(rg);
 			let { spaces, words, parts } = pb.text.parse(text);
-			pb.indentator.next(indentation, words, spaces);
+			pb.indentator.update(indentation, words, spaces);
 			parts.forEach((part, index, parts) => {
 				if (!part.match(pb.text.STARTS_WITH_STRING_OR_COMMENT)) {
 					let charBeforePart = (index > 0) ? parts[index - 1].substr(-1) : '';

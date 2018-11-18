@@ -28,3 +28,11 @@ export interface ICustomIndentation {
 	options: FormattingOptions;
 	indentRules: ICustomIndentRule[];
 }
+/**
+ * Represents parsed text (indentation spaces, words, sub-parts)
+ */
+export interface IParsedText {
+	spaces: string;
+	words: string[];
+	parts: string[];
+}
