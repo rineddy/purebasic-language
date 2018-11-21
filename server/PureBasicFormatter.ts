@@ -43,7 +43,7 @@ export class PureBasicFormatter {
 			const rg: Range = Range.create(line, 0, line, Number.MAX_SAFE_INTEGER);
 			const text = doc.getText(rg);
 			let { indents, content, words, comment } = pb.text.deconstruct(text);
-			if (content && comment) {
+			if (content || comment) {
 				pb.indentator.update(indentation, words, indents);
 				break;
 			}
