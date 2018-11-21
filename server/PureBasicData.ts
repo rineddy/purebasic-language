@@ -29,10 +29,12 @@ export interface ICustomIndentation {
 	indentRules: ICustomIndentRule[];
 }
 /**
- * Represents parsed text (indentation spaces, words, sub-parts)
+ * Represents decontructed text (indentation spaces, text content, words, strings, comment)
  */
-export interface IParsedText {
-	spaces: string;
+export interface IDeconstructedText {
+	indents: string;
+	content: string;
 	words: string[];
-	parts: string[];
+	strings: string[];
+	comment: string;
 }

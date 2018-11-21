@@ -1,28 +1,7 @@
-import { IParsedText } from './PureBasicData';
+import { IDeconstructedText } from './PureBasicData';
 import { pb } from './PureBasicAPI';
 
 export class PureBasicText {
-	/**
-	 * Determines if any text ends with line breaks
-	 * @example thisText.replace(pb.text.ENDS_WITH_LINEBREAKS, '')
-	 * @example if (thisText.match(pb.text.ENDS_WITH_LINEBREAKS)) { continue; }
-	 */
-	public readonly ENDS_WITH_LINEBREAKS = /[\r\n]+$/;
-	/**
-	 * Determines if any text starts with a comment character
-	 * @example if (thisText.match(pb.text.STARTS_WITH_COMMENT)) { continue; }
-	 */
-	public readonly STARTS_WITH_COMMENT = /^;/;
-	/**
-	 * Determines if any text starts with a spacing character
-	 * @example if (thisText.match(pb.text.STARTS_WITH_SPACE)) { continue; }
-	 */
-	public readonly STARTS_WITH_SPACE = /^\s/;
-	/**
-	 * Determines if any text starts with a string/comment character
-	 * @example if (thisText.match(pb.text.STARTS_WITH_STRING_OR_COMMENT)) { continue; }
-	 */
-	public readonly STARTS_WITH_STRING_OR_COMMENT = /^["';]/;
 	/**
 	 *
 	 * Extracts spaces and content without line break characters from line text
@@ -35,41 +14,46 @@ export class PureBasicText {
 	 */
 	public readonly EXTRACTS_WORDS = /[$]?\b[_a-z]\w*\b[$]?/gi;
 	/**
-	 * Finds string or comment in line text
+	 * Finds strings and comment in text
 	 */
-	public readonly FINDS_STRING_OR_COMMENT = /(".+?"|'.+?'|["';].*)/g;
+	public readonly FINDS_STRINGS_AND_COMMENT = /(")(?:[^"\\]|\\.)*"|(')[^']*'|(["';]).*/g;
 
 
 	/**
-	 * Parse `text` to retrieve spaces, words and splitted parts
+	 * Deconstruct `text` to retrieve spaces, content, strings, words and comment
 	 * @param {string} text original text to parse
-	 * @returns {IParsedText} parsed text info
+	 * @returns {IDeconstructedText} deconstructed text info
 	 */
-	public parse(text: string): IParsedText {
-		const [, spaces, content] = text.match(pb.text.EXTRACTS_SPACES_CONTENT) || [undefined, '', ''];
-		return <IParsedText>{
-			spaces: spaces,
-			parts: content.split(pb.text.FINDS_STRING_OR_COMMENT).filter(part => part !== ''),
-			words: content.replace(pb.text.FINDS_STRING_OR_COMMENT, '').match(pb.text.EXTRACTS_WORDS) || []
+	public deconstruct(text: string): IDeconstructedText {
+		let [, spaces, content] = text.match(pb.text.EXTRACTS_SPACES_CONTENT) || [undefined, '', ''];
+		let strings: string[] = [];
+		let comment: string = '';
+		content = content.replace(pb.text.FINDS_STRINGS_AND_COMMENT, (match: string, s1: string, s2: string, s3: string) => {
+			if (s3) {
+				comment = match;
+			} else {
+				strings.push(match);
+			}
+			return (s1 + s1) || (s2 + s2) || s3 || ''; // empty string or empty comment result
+		});
+		return <IDeconstructedText>{
+			indents: spaces,
+			content: content,
+			words: content.match(pb.text.EXTRACTS_WORDS) || [],
+			strings: strings,
+			comment: comment
 		};
 	}
 	/**
-	 * Retrieves `text` with appended `suffix` and/or prepended `prefix`
-	 * @param text
-	 * @param prefix
-	 * @param suffix
+	 * Recontruct `deconstructed` text to retrieve indented line text with comment
+	 * @param {IDeconstructedText} deconstructed
+	 * @returns {string} contructed text
 	 */
-	public addExtensions(text: string, prefix: string, suffix: string) {
-		return (!prefix && !suffix) ? text : prefix + text + suffix;
-	}
-	/**
-	 * Retrieves `text` without
-	 * @param text
-	 * @param prefix
-	 * @param suffix
-	 */
-	public removeExtensions(text: string, prefix: string, suffix: string) {
-		return (!prefix && !suffix) ? text : text.substr(prefix.length, text.length - suffix.length - prefix.length);
+	public reconstruct(deconstructed: IDeconstructedText): string {
+		const { indents, content, strings, comment } = deconstructed;
+		const text = indents + content.replace(pb.text.FINDS_STRINGS_AND_COMMENT, (match: string) => {
+			return match[0] === ';' ? comment : strings.shift() || '';
+		});
+		return text;
 	}
 }
-

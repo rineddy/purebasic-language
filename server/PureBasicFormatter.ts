@@ -8,6 +8,7 @@ import {
 	TextEdit,
 } from 'vscode-languageserver';
 
+import { IDeconstructedText } from './PureBasicData';
 import { pb } from './PureBasicAPI';
 
 export class PureBasicFormatter {
@@ -39,43 +40,35 @@ export class PureBasicFormatter {
 		const textEdits: TextEdit[] = [];
 		const indentation = await pb.indentator.create(doc, options);
 		for (let line = startLine - 1; line >= 0; line--) {
-			let rg: Range = Range.create(line, 0, line, Number.MAX_SAFE_INTEGER);
-			let text = doc.getText(rg);
-			let { spaces, words, parts } = pb.text.parse(text);
-			if (parts.length > 0) {
-				pb.indentator.update(indentation, words, spaces);
+			const rg: Range = Range.create(line, 0, line, Number.MAX_SAFE_INTEGER);
+			const text = doc.getText(rg);
+			let { indents, content, words, comment } = pb.text.deconstruct(text);
+			if (content && comment) {
+				pb.indentator.update(indentation, words, indents);
 				break;
 			}
 		}
 		for (let line = startLine; line <= endLine; line++) {
-			let rg: Range = Range.create(line, 0, line, line < endLine ? Number.MAX_SAFE_INTEGER : endLineCharacter);
-			let text = doc.getText(rg);
-			let { spaces, words, parts } = pb.text.parse(text);
-			pb.indentator.update(indentation, words, spaces);
-			parts.forEach((part, index, parts) => {
-				if (!part.match(pb.text.STARTS_WITH_STRING_OR_COMMENT)) {
-					let charBeforePart = (index > 0) ? parts[index - 1].substr(-1) : '';
-					let charAfterPart = (index < parts.length - 1) ? parts[index + 1].substr(0, 1) : '';
-					part = pb.text.addExtensions(part, charBeforePart, charAfterPart);
-					part = part.replace(/\s+/g, ' ');
-					part = part.replace(/\s+(,)/g, '$1');
-					part = part.replace(/(,)(?=\S)/g, '$1 ');
-					part = part.replace(/\s+(\.|\\)/g, '$1');
-					part = part.replace(/(\.|\\)\s+/g, '$1');
-					part = part.replace(/\s+(::)/g, '$1');
-					part = part.replace(/(::)\s+/g, '$1');
-					part = part.replace(/\s+([})\]])/g, '$1');
-					part = part.replace(/([{([])\s+/g, '$1');
-					part = part.replace(/([^\s><=])(?=<>|<=|>=|=>|>=|=|<|>)/g, '$1 ');
-					part = part.replace(/(<>|<=|>=|=>|>=|=|<|>)(?=[^\s><=])/g, '$1 ');
-					part = part.replace(/(\S)(?=\/|<<|>>|\+)/g, '$1 ');
-					part = part.replace(/(\/|<<|>>|\+)(?=\S)/g, '$1 ');
-					part = part.replace(/([^\s:])(?=:[^:])/g, '$1 ');
-					part = part.replace(/([^:]:)(?=[^\s:])/g, '$1 ');
-					parts[index] = pb.text.removeExtensions(part, charBeforePart, charAfterPart);
-				}
-			});
-			let formattedText = indentation.current + parts.join('');
+			const rg: Range = Range.create(line, 0, line, line < endLine ? Number.MAX_SAFE_INTEGER : endLineCharacter);
+			const text = doc.getText(rg);
+			let { indents, content, words, strings, comment } = pb.text.deconstruct(text);
+			pb.indentator.update(indentation, words, indents);
+			content = content.replace(/\s+/g, ' ');
+			content = content.replace(/\s+(,)/g, '$1');
+			content = content.replace(/(,)(?=\S)/g, '$1 ');
+			content = content.replace(/\s+(\.|\\)/g, '$1');
+			content = content.replace(/(\.|\\)\s+/g, '$1');
+			content = content.replace(/\s+(::)/g, '$1');
+			content = content.replace(/(::)\s+/g, '$1');
+			content = content.replace(/\s+([})\]])/g, '$1');
+			content = content.replace(/([{([])\s+/g, '$1');
+			content = content.replace(/([^\s><=])(?=<>|<=|>=|=>|>=|=|<|>)/g, '$1 ');
+			content = content.replace(/(<>|<=|>=|=>|>=|=|<|>)(?=[^\s><=])/g, '$1 ');
+			content = content.replace(/(\S)(?=\/|<<|>>|\+)/g, '$1 ');
+			content = content.replace(/(\/|<<|>>|\+)(?=\S)/g, '$1 ');
+			content = content.replace(/([^\s:])(?=:[^:])/g, '$1 ');
+			content = content.replace(/([^:]:)(?=[^\s:])/g, '$1 ');
+			let formattedText = pb.text.reconstruct(<IDeconstructedText>{ indents: indentation.current, content, strings, comment });
 			formattedText = formattedText.trimRight();
 			if (formattedText !== text) {
 				textEdits.push(TextEdit.replace(rg, formattedText));
