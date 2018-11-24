@@ -65,7 +65,7 @@
 			"patterns": [
 				{
 					"begin": "~\"",
-					"end": "\"",
+					"end": "(\"|$)",
 					"name": "string.interpolated.purebasic",
 					"patterns": [
 						{
@@ -76,12 +76,12 @@
 				},
 				{
 					"begin": "\"",
-					"end": "\"",
+					"end": "(\"|$)",
 					"name": "string.quoted.double.purebasic"
 				},
 				{
 					"begin": "'",
-					"end": "'",
+					"end": "('|$)",
 					"name": "string.quoted.single.purebasic"
 				}
 			]
@@ -168,13 +168,13 @@
 							}
 						}
 					]
-				}		
+				}
 			},
 			"patterns": [
 				{
-					"match": "(?i)\\b(Dim|NewList|NewMap|Array|List|Map|Protected|Global|Shared|Static|Define|Runtime|UnuseModule|useModule|Align|And|As|Break|CallDebugger|Case|Continue|Data|ReDim|Debug|DebugLevel|Default|DisableASM|DisableDebugger|DisableExplicit|Else|ElseIf|EnableASM|EnableDebugger|EnableExplicit|End|EndIf|EndSelect|EndWith|Extends|FakeReturn|For|ForEach|ForEver|If|IncludeBinary|IncludeFile|IncludePath|MacroExpandedCount|Next|Not|Or|ProcedureReturn|Read|Repeat|Restore|Return|Select|Step|Swap|Threaded|To|UndefineMacro|Until|Wend|While|With|XIncludeFile|XOr|Prototype|PrototypeC|Declare|DeclareC|DeclareCDLL|DeclareDLL)\\b(\\s*[*%].+)?",										
+					"match": "(?i)\\b(Dim|NewList|NewMap|Array|List|Map|Protected|Global|Shared|Static|Define|Runtime|UnuseModule|useModule|Align|And|As|Break|CallDebugger|Case|Continue|Data|ReDim|Debug|DebugLevel|Default|DisableASM|DisableDebugger|DisableExplicit|Else|ElseIf|EnableASM|EnableDebugger|EnableExplicit|End|EndIf|EndSelect|EndWith|Extends|FakeReturn|For|ForEach|ForEver|If|IncludeBinary|IncludeFile|IncludePath|MacroExpandedCount|Next|Not|Or|ProcedureReturn|Read|Repeat|Restore|Return|Select|Step|Swap|Threaded|To|UndefineMacro|Until|Wend|While|With|XIncludeFile|XOr|Prototype|PrototypeC|Declare|DeclareC|DeclareCDLL|DeclareDLL)\\b(\\s*[*%].+)?",
 					"captures": {
-						"1":{
+						"1": {
 							"name": "keyword.control.purebasic",
 							"patterns": [
 								{
@@ -185,17 +185,17 @@
 									"match": "\\b(Array|List|Map)\\b",
 									"name": "keyword.control.modifier.params.purebasic"
 								}
-							]							
+							]
 						},
 						"2": {
 							"patterns": [
 								{
-									"include": "#keyword-first-parameter"	
+									"include": "#keyword-first-parameter"
 								},
 								{
-									"include": "$self"	
-								}									
-							]							
+									"include": "$self"
+								}
+							]
 						}
 					}
 				}
