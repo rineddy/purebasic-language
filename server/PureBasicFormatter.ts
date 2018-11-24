@@ -7,10 +7,27 @@ import {
 	TextDocument,
 	TextEdit,
 } from 'vscode-languageserver';
-
-import { pb } from './PureBasicAPI';
+import { ICustomRegexReplacer, pb } from './PureBasicAPI';
 
 export class PureBasicFormatter {
+	private readonly FORMATTING_RULES: ICustomRegexReplacer[] = [
+		[/\s+/g, ' '],
+		[/\s+(,)/g, '$1'],
+		[/(,)(?=\S)/g, '$1 '],
+		[/\s+(\.|\\)/g, '$1'],
+		[/(\.|\\)\s+/g, '$1'],
+		[/\s+(::)/g, '$1'],
+		[/(::)\s+/g, '$1'],
+		[/\s+([})\]])/g, '$1'],
+		[/([{([])\s+/g, '$1'],
+		[/([^\s><=])(?=<>|<=|>=|=>|>=|=|<|>)/g, '$1 '],
+		[/(<>|<=|>=|=>|>=|=|<|>)(?=[^\s><=])/g, '$1 '],
+		[/(\S)(?=\/|<<|>>|\+)/g, '$1 '],
+		[/(\/|<<|>>|\+)(?=\S)/g, '$1 '],
+		[/([^\s:])(?=:[^:])/g, '$1 '],
+		[/([^:]:)(?=[^\s:])/g, '$1 '],
+	];
+
 	/**
 	 * Format whole doc
 	 */
@@ -33,14 +50,13 @@ export class PureBasicFormatter {
 		return pb.formatter.formatSelectedLines(doc, params.options, params.position.line, params.position.line, params.position.character);
 	}
 	/**
-	 * Apply formatting rules, line by line, on selected text
+	 * Format doc line by line
 	 */
 	private async formatSelectedLines(doc: TextDocument, options: FormattingOptions, startLine: number, endLine: number, endLineCharacter: number): Promise<TextEdit[]> {
 		const textEdits: TextEdit[] = [];
 		const indents = await pb.indentation.create(doc, options);
 		for (let line = startLine - 1; line >= 0; line--) {
-			const rg: Range = Range.create(line, 0, line, Number.MAX_SAFE_INTEGER);
-			const lineText = doc.getText(rg);
+			const { lineText } = pb.documentation.readLine(doc, line, Number.MAX_SAFE_INTEGER);
 			let lineStruct = pb.text.deconstruct(lineText);
 			if (lineStruct.content || lineStruct.comment) {
 				pb.indentation.update(lineStruct, indents);
@@ -48,31 +64,14 @@ export class PureBasicFormatter {
 			}
 		}
 		for (let line = startLine; line <= endLine; line++) {
-			const rg: Range = Range.create(line, 0, line, line < endLine ? Number.MAX_SAFE_INTEGER : endLineCharacter);
-			const lineText = doc.getText(rg);
+			const { lineText, lineRange } = pb.documentation.readLine(doc, line, line < endLine ? Number.MAX_SAFE_INTEGER : endLineCharacter);
 			let lineStruct = pb.text.deconstruct(lineText);
 			pb.indentation.update(lineStruct, indents);
-			pb.text.beautify(lineStruct, [
-				[/\s+/g, ' '],
-				[/\s+(,)/g, '$1'],
-				[/(,)(?=\S)/g, '$1 '],
-				[/\s+(\.|\\)/g, '$1'],
-				[/(\.|\\)\s+/g, '$1'],
-				[/\s+(::)/g, '$1'],
-				[/(::)\s+/g, '$1'],
-				[/\s+([})\]])/g, '$1'],
-				[/([{([])\s+/g, '$1'],
-				[/([^\s><=])(?=<>|<=|>=|=>|>=|=|<|>)/g, '$1 '],
-				[/(<>|<=|>=|=>|>=|=|<|>)(?=[^\s><=])/g, '$1 '],
-				[/(\S)(?=\/|<<|>>|\+)/g, '$1 '],
-				[/(\/|<<|>>|\+)(?=\S)/g, '$1 '],
-				[/([^\s:])(?=:[^:])/g, '$1 '],
-				[/([^:]:)(?=[^\s:])/g, '$1 '],
-			]);
+			pb.text.beautify(lineStruct, pb.formatter.FORMATTING_RULES);
 			let formattedText = pb.text.reconstruct(lineStruct);
 			formattedText = formattedText.trimRight();
 			if (formattedText !== lineText) {
-				textEdits.push(TextEdit.replace(rg, formattedText));
+				textEdits.push(TextEdit.replace(lineRange, formattedText));
 			}
 		}
 		return Promise.resolve(textEdits);

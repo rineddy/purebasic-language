@@ -1,4 +1,4 @@
-import { ICustomLineStruct, pb } from './PureBasicAPI';
+import { ICustomLineStruct, ICustomRegexReplacer, pb } from './PureBasicAPI';
 
 export class PureBasicText {
 	/**
@@ -60,7 +60,7 @@ export class PureBasicText {
 	 * @param lineStruct
 	 * @param replacers
 	 */
-	public beautify(lineStruct: ICustomLineStruct, replacers: { 0: RegExp, 1: string }[]): any {
+	public beautify(lineStruct: ICustomLineStruct, replacers: ICustomRegexReplacer[]) {
 		let content = lineStruct.content;
 		for (const replacer of replacers) {
 			content = content.replace(replacer[0], replacer[1]);

@@ -1,9 +1,11 @@
 import {
+	Range,
 	TextDocument,
 	TextDocumentIdentifier,
 	TextDocuments,
 } from 'vscode-languageserver';
 
+import { ICustomReadLine } from './PureBasicDataModels';
 import { pb } from './PureBasicAPI';
 
 export class PureBasicDocumentation extends TextDocuments {
@@ -22,5 +24,18 @@ export class PureBasicDocumentation extends TextDocuments {
 			doc = docInfo;
 		}
 		return doc ? Promise.resolve(doc) : Promise.reject(`Invalid docInfo: ${docInfo.toString()}`);
+	}
+	/**
+	 * Read doc line
+	 * @param doc
+	 * @param line line to read
+	 * @param lineCharacter line last character position
+	 */
+	public readLine(doc: TextDocument, line: number, lineCharacter: number): ICustomReadLine {
+		const rg = Range.create(line, 0, line, lineCharacter);
+		return {
+			lineText: doc.getText(rg),
+			lineRange: rg,
+		};
 	}
 }

@@ -1,12 +1,19 @@
-import { FormattingOptions } from 'vscode-languageserver';
+import { FormattingOptions, Range } from 'vscode-languageserver';
 
 /**
-		 * Represents Purebasic indentation rules
-		 */
+ * Represents Purebasic indentation rules
+ */
 export interface ICustomIndentRule {
 	match: string;
 	before: number;
 	after: number;
+}
+/**
+ * Represents regex replacer
+ */
+export interface ICustomRegexReplacer {
+	0: RegExp;
+	1: string;
 }
 /**
  * Represents Purebasic settings customized by user
@@ -37,4 +44,11 @@ export interface ICustomLineStruct {
 	words: string[];
 	strings: string[];
 	comment: string;
+}
+/**
+ * Represents read line
+ */
+export interface ICustomReadLine {
+	lineText: string;
+	lineRange: Range;
 }
