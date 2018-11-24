@@ -15,21 +15,21 @@ export class PureBasicFormatter {
 	 * Format whole doc
 	 */
 	public async formatAll(params: DocumentFormattingParams): Promise<TextEdit[]> {
-		const doc = await pb.documents.find(params.textDocument.uri);
+		const doc = await pb.documentation.find(params.textDocument.uri);
 		return pb.formatter.formatSelectedLines(doc, params.options, 0, doc.lineCount - 1, Number.MAX_SAFE_INTEGER);
 	}
 	/**
 	 * Format doc when user is selecting text
 	 */
 	public async formatRange(params: DocumentRangeFormattingParams): Promise<TextEdit[]> {
-		const doc = await pb.documents.find(params.textDocument.uri);
+		const doc = await pb.documentation.find(params.textDocument.uri);
 		return pb.formatter.formatSelectedLines(doc, params.options, params.range.start.line, params.range.end.line, params.range.end.character);
 	}
 	/**
 	 * Format doc when user is typing
 	 */
 	public async formatOnType(params: DocumentOnTypeFormattingParams): Promise<TextEdit[]> {
-		const doc = await pb.documents.find(params.textDocument.uri);
+		const doc = await pb.documentation.find(params.textDocument.uri);
 		return pb.formatter.formatSelectedLines(doc, params.options, params.position.line, params.position.line, params.position.character);
 	}
 	/**

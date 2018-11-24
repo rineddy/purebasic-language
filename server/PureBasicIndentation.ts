@@ -21,17 +21,17 @@ export class PureBasicIndentation {
 		return Promise.resolve(indentation);
 	}
 	/**
-	 * Update indentation according to `words` and `spaces` of current line
+	 * Update line indents according to words and indentation context
 	 */
 	public update(lineStruct: ICustomLineStruct, indentContext: ICustomIndentation) {
 		let isCurrentIdentation = true;
-		indentContext.current = lineStruct.indents;
-		words.forEach(() => {
+		lineStruct.words.forEach(() => {
 			if (isCurrentIdentation) {
 			}
 			else {
 			}
 		});
+		indentContext.current = lineStruct.indents;
 	}
 
 	/**

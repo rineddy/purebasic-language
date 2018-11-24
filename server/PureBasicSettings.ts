@@ -4,8 +4,7 @@ import {
 	InitializeParams,
 	TextDocument
 } from 'vscode-languageserver';
-
-import { pb } from './PureBasicAPI';
+import { ICustomSettings, pb } from './PureBasicAPI';
 
 export class PureBasicSettings {
 	public initParams?: InitializeParams;

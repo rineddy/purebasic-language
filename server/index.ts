@@ -55,22 +55,22 @@ pb.connection.onInitialized(() => {
 
 });
 
-pb.documents.onDidOpen(async () => {
+pb.documentation.onDidOpen(async () => {
 });
 // Only keep settings for open pb.documents
-pb.documents.onDidClose(e => {
+pb.documentation.onDidClose(e => {
 	pb.settings.remove(e.document);
 });
 // The content of a text document has changed. This event is emitted
 // when the text document first opened or when its content has changed.
-pb.documents.onDidChangeContent(change => {
+pb.documentation.onDidChangeContent(change => {
 	pb.validation.validate(change.document);
 });
 
 pb.connection.onDidChangeConfiguration(changes => {
 	pb.settings.change(changes);
 	// Revalidate all open text pb.documents
-	pb.documents.all().forEach(pb.validation.validate);
+	pb.documentation.all().forEach(pb.validation.validate);
 });
 pb.connection.onDidChangeWatchedFiles(() => {
 	// Monitored files have change in VSCode
@@ -83,4 +83,4 @@ pb.connection.onDocumentRangeFormatting(pb.formatter.formatRange);
 pb.connection.onDocumentOnTypeFormatting(pb.formatter.formatOnType);
 
 pb.connection.listen(); 			// Listen on the pb.connection
-pb.documents.listen(pb.connection); // Make the text document manager listen on the pb.connection (for open, change and close text document events)
+pb.documentation.listen(pb.connection); // Make the text document manager listen on the pb.connection (for open, change and close text document events)
