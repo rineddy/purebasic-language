@@ -3,7 +3,6 @@ import {
 	DocumentOnTypeFormattingParams,
 	DocumentRangeFormattingParams,
 	FormattingOptions,
-	Range,
 	TextDocument,
 	TextEdit,
 } from 'vscode-languageserver';
@@ -57,7 +56,7 @@ export class PureBasicFormatter {
 		const indents = await pb.indentation.create(doc, options);
 		for (let line = startLine - 1; line >= 0; line--) {
 			const { lineText } = pb.documentation.readLine(doc, line, Number.MAX_SAFE_INTEGER);
-			let lineStruct = pb.text.deconstruct(lineText);
+			const lineStruct = pb.text.deconstruct(lineText);
 			if (lineStruct.content || lineStruct.comment) {
 				pb.indentation.update(lineStruct, indents);
 				break;
@@ -65,7 +64,7 @@ export class PureBasicFormatter {
 		}
 		for (let line = startLine; line <= endLine; line++) {
 			const { lineText, lineRange } = pb.documentation.readLine(doc, line, line < endLine ? Number.MAX_SAFE_INTEGER : endLineCharacter);
-			let lineStruct = pb.text.deconstruct(lineText);
+			const lineStruct = pb.text.deconstruct(lineText);
 			pb.indentation.update(lineStruct, indents);
 			pb.text.beautify(lineStruct, pb.formatter.FORMATTING_RULES);
 			let formattedText = pb.text.reconstruct(lineStruct);
