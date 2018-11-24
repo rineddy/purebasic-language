@@ -25,13 +25,13 @@ export interface ICustomSettings {
 export interface ICustomIndentation {
 	current: string;
 	next: string;
-	options: FormattingOptions;
-	indentRules: ICustomIndentRule[];
+	readonly options: FormattingOptions;
+	readonly indentRules: ICustomIndentRule[];
 }
 /**
- * Represents decontructed text (indentation spaces, text content, words, strings, comment)
+ * Represents line text structure (indentation spaces, text content, words, strings, comment)
  */
-export interface IDeconstructedText {
+export interface ICustomLineStruct {
 	indents: string;
 	content: string;
 	words: string[];

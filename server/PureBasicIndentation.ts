@@ -2,11 +2,11 @@ import {
 	FormattingOptions,
 	TextDocument
 } from 'vscode-languageserver';
+import { ICustomIndentation, ICustomLineStruct } from './PureBasicData';
 
-import { ICustomIndentation } from './PureBasicData';
 import { pb } from './PureBasicAPI';
 
-export class PureBasicIndentator {
+export class PureBasicIndentation {
 	/**
 	 * create indentation
 	 * @param doc
@@ -25,9 +25,9 @@ export class PureBasicIndentator {
 	/**
 	 * Update indentation according to `words` and `spaces` of current line
 	 */
-	public update(indentation: ICustomIndentation, words: string[], spaces: string) {
+	public update(lineStruct: ICustomLineStruct, indentContext: ICustomIndentation) {
 		let isCurrentIdentation = true;
-		indentation.current = spaces;
+		indentContext.current = lineStruct.indents;
 		words.forEach(() => {
 			if (isCurrentIdentation) {
 			}

@@ -6,10 +6,10 @@ import {
 import { PureBasicCompletion } from './PureBasicCompletion';
 import { PureBasicDocuments } from './PureBasicDocuments';
 import { PureBasicFormatter } from './PureBasicFormatter';
-import { PureBasicIndentator } from './PureBasicIndentator';
+import { PureBasicIndentation } from './PureBasicIndentator';
 import { PureBasicSettings } from './PureBasicSettings';
 import { PureBasicText } from './PureBasicText';
-import { PureBasicValidator } from './PureBasicValidator';
+import { PureBasicValidation } from './PureBasicValidator';
 
 export namespace pb {
 	/**
@@ -17,21 +17,21 @@ export namespace pb {
 	 */
 	export const text = new PureBasicText();
 	/**
-	 * Provide functions used to display code autocompletion list
-	 */
-	export const completion = new PureBasicCompletion();
-	/**
 	 * Provide functions used to beautify source code by following some formatting rules
 	 */
 	export const formatter = new PureBasicFormatter();
 	/**
+	 * Provide functions used to display code autocompletion list
+	 */
+	export const completion = new PureBasicCompletion();
+	/**
 	 * Provide functions used to indent source code
 	 */
-	export const indentator = new PureBasicIndentator();
+	export const indentation = new PureBasicIndentation();
 	/**
 	 * Provide functions used to analyze source code and retrieve diagnostic report
 	 */
-	export const validator = new PureBasicValidator();
+	export const validation = new PureBasicValidation();
 	/**
 	 * Provide functions used to save or load all language custom settings
 	 */

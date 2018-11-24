@@ -8,7 +8,6 @@ import {
 	TextEdit,
 } from 'vscode-languageserver';
 
-import { IDeconstructedText } from './PureBasicData';
 import { pb } from './PureBasicAPI';
 
 export class PureBasicFormatter {
@@ -38,21 +37,22 @@ export class PureBasicFormatter {
 	 */
 	private async formatSelectedLines(doc: TextDocument, options: FormattingOptions, startLine: number, endLine: number, endLineCharacter: number): Promise<TextEdit[]> {
 		const textEdits: TextEdit[] = [];
-		const indentation = await pb.indentator.create(doc, options);
+		const indents = await pb.indentation.create(doc, options);
 		for (let line = startLine - 1; line >= 0; line--) {
 			const rg: Range = Range.create(line, 0, line, Number.MAX_SAFE_INTEGER);
-			const text = doc.getText(rg);
-			let { indents, content, words, comment } = pb.text.deconstruct(text);
-			if (content || comment) {
-				pb.indentator.update(indentation, words, indents);
+			const lineText = doc.getText(rg);
+			let lineStruct = pb.text.deconstruct(lineText);
+			if (lineStruct.content || lineStruct.comment) {
+				pb.indentation.update(indents, lineStruct);
 				break;
 			}
 		}
 		for (let line = startLine; line <= endLine; line++) {
 			const rg: Range = Range.create(line, 0, line, line < endLine ? Number.MAX_SAFE_INTEGER : endLineCharacter);
-			const text = doc.getText(rg);
-			let { indents, content, words, strings, comment } = pb.text.deconstruct(text);
-			pb.indentator.update(indentation, words, indents);
+			const lineText = doc.getText(rg);
+			let lineStruct = pb.text.deconstruct(lineText);
+			pb.indentation.update(indents, lineStruct);
+			let { content } = lineStruct;
 			content = content.replace(/\s+/g, ' ');
 			content = content.replace(/\s+(,)/g, '$1');
 			content = content.replace(/(,)(?=\S)/g, '$1 ');
@@ -68,9 +68,10 @@ export class PureBasicFormatter {
 			content = content.replace(/(\/|<<|>>|\+)(?=\S)/g, '$1 ');
 			content = content.replace(/([^\s:])(?=:[^:])/g, '$1 ');
 			content = content.replace(/([^:]:)(?=[^\s:])/g, '$1 ');
-			let formattedText = pb.text.reconstruct(<IDeconstructedText>{ indents: indentation.current, content, strings, comment });
+			lineStruct.content = content;
+			let formattedText = pb.text.reconstruct(lineStruct);
 			formattedText = formattedText.trimRight();
-			if (formattedText !== text) {
+			if (formattedText !== lineText) {
 				textEdits.push(TextEdit.replace(rg, formattedText));
 			}
 		}
