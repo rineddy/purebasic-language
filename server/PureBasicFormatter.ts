@@ -43,7 +43,7 @@ export class PureBasicFormatter {
 			const lineText = doc.getText(rg);
 			let lineStruct = pb.text.deconstruct(lineText);
 			if (lineStruct.content || lineStruct.comment) {
-				pb.indentation.update(indents, lineStruct);
+				pb.indentation.update(lineStruct, indents);
 				break;
 			}
 		}
@@ -51,24 +51,24 @@ export class PureBasicFormatter {
 			const rg: Range = Range.create(line, 0, line, line < endLine ? Number.MAX_SAFE_INTEGER : endLineCharacter);
 			const lineText = doc.getText(rg);
 			let lineStruct = pb.text.deconstruct(lineText);
-			pb.indentation.update(indents, lineStruct);
-			let { content } = lineStruct;
-			content = content.replace(/\s+/g, ' ');
-			content = content.replace(/\s+(,)/g, '$1');
-			content = content.replace(/(,)(?=\S)/g, '$1 ');
-			content = content.replace(/\s+(\.|\\)/g, '$1');
-			content = content.replace(/(\.|\\)\s+/g, '$1');
-			content = content.replace(/\s+(::)/g, '$1');
-			content = content.replace(/(::)\s+/g, '$1');
-			content = content.replace(/\s+([})\]])/g, '$1');
-			content = content.replace(/([{([])\s+/g, '$1');
-			content = content.replace(/([^\s><=])(?=<>|<=|>=|=>|>=|=|<|>)/g, '$1 ');
-			content = content.replace(/(<>|<=|>=|=>|>=|=|<|>)(?=[^\s><=])/g, '$1 ');
-			content = content.replace(/(\S)(?=\/|<<|>>|\+)/g, '$1 ');
-			content = content.replace(/(\/|<<|>>|\+)(?=\S)/g, '$1 ');
-			content = content.replace(/([^\s:])(?=:[^:])/g, '$1 ');
-			content = content.replace(/([^:]:)(?=[^\s:])/g, '$1 ');
-			lineStruct.content = content;
+			pb.indentation.update(lineStruct, indents);
+			pb.text.beautify(lineStruct, [
+				[/\s+/g, ' '],
+				[/\s+(,)/g, '$1'],
+				[/(,)(?=\S)/g, '$1 '],
+				[/\s+(\.|\\)/g, '$1'],
+				[/(\.|\\)\s+/g, '$1'],
+				[/\s+(::)/g, '$1'],
+				[/(::)\s+/g, '$1'],
+				[/\s+([})\]])/g, '$1'],
+				[/([{([])\s+/g, '$1'],
+				[/([^\s><=])(?=<>|<=|>=|=>|>=|=|<|>)/g, '$1 '],
+				[/(<>|<=|>=|=>|>=|=|<|>)(?=[^\s><=])/g, '$1 '],
+				[/(\S)(?=\/|<<|>>|\+)/g, '$1 '],
+				[/(\/|<<|>>|\+)(?=\S)/g, '$1 '],
+				[/([^\s:])(?=:[^:])/g, '$1 '],
+				[/([^:]:)(?=[^\s:])/g, '$1 '],
+			]);
 			let formattedText = pb.text.reconstruct(lineStruct);
 			formattedText = formattedText.trimRight();
 			if (formattedText !== lineText) {

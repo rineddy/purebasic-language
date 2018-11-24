@@ -4,14 +4,19 @@ import {
 } from 'vscode-languageserver';
 
 import { PureBasicCompletion } from './PureBasicCompletion';
-import { PureBasicDocuments } from './PureBasicDocuments';
+import { PureBasicDocumentation } from './PureBasicDocumentation';
 import { PureBasicFormatter } from './PureBasicFormatter';
-import { PureBasicIndentation } from './PureBasicIndentator';
+import { PureBasicIndentation } from './PureBasicIndentation';
 import { PureBasicSettings } from './PureBasicSettings';
 import { PureBasicText } from './PureBasicText';
-import { PureBasicValidation } from './PureBasicValidator';
+import { PureBasicValidation } from './PureBasicValidation';
 
+export * from './PureBasicDataModels';
 export namespace pb {
+	/**
+	 * Provide functions used to save or load all language custom settings
+	 */
+	export const settings = new PureBasicSettings();
 	/**
 	 * Provide functions used to examine and modify text from source code
 	 */
@@ -33,17 +38,14 @@ export namespace pb {
 	 */
 	export const validation = new PureBasicValidation();
 	/**
-	 * Provide functions used to save or load all language custom settings
-	 */
-	export const settings = new PureBasicSettings();
-	/**
 	 * Create a simple text document manager. The text document manager
 	 * supports full document sync only
 	 */
-	export const documents = new PureBasicDocuments();
+	export const documentation = new PureBasicDocumentation();
 	/**
 	 * Create a connection for the server. The connection uses Node's IPC as a transport.
 	 * Also include all preview / proposed LSP features.
 	 */
 	export const connection = createConnection(ProposedFeatures.all);
 }
+

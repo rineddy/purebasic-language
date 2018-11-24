@@ -1,5 +1,4 @@
-import { ICustomLineStruct } from './PureBasicData';
-import { pb } from './PureBasicAPI';
+import { ICustomLineStruct, pb } from './PureBasicAPI';
 
 export class PureBasicText {
 	/**
@@ -55,5 +54,17 @@ export class PureBasicText {
 			return match[0] === ';' ? comment : strings.shift() || '';
 		});
 		return lineText;
+	}
+	/**
+	 * Beautify line content by replacing substrings
+	 * @param lineStruct
+	 * @param replacers
+	 */
+	public beautify(lineStruct: ICustomLineStruct, replacers: { 0: RegExp, 1: string }[]): any {
+		let content = lineStruct.content;
+		for (const replacer of replacers) {
+			content = content.replace(replacer[0], replacer[1]);
+		}
+		lineStruct.content = content;
 	}
 }

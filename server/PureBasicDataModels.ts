@@ -1,8 +1,8 @@
 import { FormattingOptions } from 'vscode-languageserver';
 
 /**
- * Represents Purebasic indentation rules
- */
+		 * Represents Purebasic indentation rules
+		 */
 export interface ICustomIndentRule {
 	match: string;
 	before: number;

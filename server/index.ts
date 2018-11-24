@@ -64,13 +64,13 @@ pb.documents.onDidClose(e => {
 // The content of a text document has changed. This event is emitted
 // when the text document first opened or when its content has changed.
 pb.documents.onDidChangeContent(change => {
-	pb.validator.validate(change.document);
+	pb.validation.validate(change.document);
 });
 
 pb.connection.onDidChangeConfiguration(changes => {
 	pb.settings.change(changes);
 	// Revalidate all open text pb.documents
-	pb.documents.all().forEach(pb.validator.validate);
+	pb.documents.all().forEach(pb.validation.validate);
 });
 pb.connection.onDidChangeWatchedFiles(() => {
 	// Monitored files have change in VSCode

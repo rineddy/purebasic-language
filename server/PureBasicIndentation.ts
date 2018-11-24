@@ -2,9 +2,7 @@ import {
 	FormattingOptions,
 	TextDocument
 } from 'vscode-languageserver';
-import { ICustomIndentation, ICustomLineStruct } from './PureBasicData';
-
-import { pb } from './PureBasicAPI';
+import { ICustomIndentation, ICustomLineStruct, pb } from './PureBasicAPI';
 
 export class PureBasicIndentation {
 	/**

@@ -5,7 +5,6 @@ import {
 	TextDocument
 } from 'vscode-languageserver';
 
-import { ICustomSettings } from './PureBasicData';
 import { pb } from './PureBasicAPI';
 
 export class PureBasicSettings {

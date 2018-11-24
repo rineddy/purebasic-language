@@ -6,7 +6,7 @@ import {
 
 import { pb } from './PureBasicAPI';
 
-export class PureBasicValidator {
+export class PureBasicValidation {
 	/**
 	 * Detects any anomalies in source code
 	 * @param doc
