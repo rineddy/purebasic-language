@@ -37,6 +37,7 @@ export interface ICustomLineStruct {
 	words: string[];
 	strings: string[];
 	comment: string;
+	isBlank: boolean;
 }
 /**
  * Represents read line

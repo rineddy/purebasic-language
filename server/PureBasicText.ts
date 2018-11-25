@@ -19,9 +19,22 @@ export class PureBasicText {
 
 
 	/**
+	 * Retrieves line text after modifying its structure data
+	 * @param lineText original text to parse
+	 * @param modifyStruct function to modify line structure data
+	 * @returns output text
+	 */
+	public restructure(lineText: string, modifyStruct: (lineStruct: ICustomLineStruct) => void): string {
+		let lineStruct = this.deconstruct(lineText);
+		if (modifyStruct) {
+			modifyStruct(lineStruct);
+		}
+		return this.reconstruct(lineStruct);
+	}
+	/**
 	 * Retrieves line structure data from `linetext` by extracting indents, content, strings, words and comment
-	 * @param {string} lineText original text to parse
-	 * @returns {ICustomLineStruct} output structure data
+	 * @param lineText original text to parse
+	 * @returns output structure data
 	 */
 	public deconstruct(lineText: string): ICustomLineStruct {
 		let [, indents, fullContent] = lineText.match(pb.text.EXTRACTS_INDENTS_FULLCONTENT) || [undefined, '', ''];
@@ -40,13 +53,14 @@ export class PureBasicText {
 			content: content,
 			words: content.match(pb.text.EXTRACTS_WORDS) || [],
 			strings: strings,
-			comment: comment
+			comment: comment,
+			isBlank: content === '' && comment === ''
 		};
 	}
 	/**
 	 * Retrieves line text from `lineStruct` by combining indents, content, strings and comment
-	 * @param {ICustomLineStruct} lineStruct
-	 * @returns {string} output text
+	 * @param lineStruct
+	 * @returns output text
 	 */
 	public reconstruct(lineStruct: ICustomLineStruct): string {
 		const { indents, content, strings, comment } = lineStruct;
@@ -58,13 +72,11 @@ export class PureBasicText {
 	/**
 	 * Beautify line content by replacing substrings
 	 * @param lineStruct
-	 * @param replacers
+	 * @param replacers array of replacement rules
 	 */
 	public beautify(lineStruct: ICustomLineStruct, replacers: ICustomRegexReplacer[]) {
-		let content = lineStruct.content;
 		for (const replacer of replacers) {
-			content = content.replace(replacer[0], replacer[1]);
+			lineStruct.content = lineStruct.content.replace(replacer[0], replacer[1]);
 		}
-		lineStruct.content = content;
 	}
 }

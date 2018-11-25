@@ -50,6 +50,12 @@ export class PureBasicFormatter {
 	}
 	/**
 	 * Format doc line by line
+	 * @param doc
+	 * @param options format options to used
+	 * @param startLine start line to format
+	 * @param endLine end line to format
+	 * @param endLineCharacter end line last character position
+	 * @returns array of text modifications
 	 */
 	private async formatSelectedLines(doc: TextDocument, options: FormattingOptions, startLine: number, endLine: number, endLineCharacter: number): Promise<TextEdit[]> {
 		const textEdits: TextEdit[] = [];
@@ -57,17 +63,17 @@ export class PureBasicFormatter {
 		for (let line = startLine - 1; line >= 0; line--) {
 			const { lineText } = pb.documentation.readLine(doc, line, Number.MAX_SAFE_INTEGER);
 			const lineStruct = pb.text.deconstruct(lineText);
-			if (lineStruct.content || lineStruct.comment) {
+			if (!lineStruct.isBlank) {
 				pb.indentation.update(lineStruct, indents);
 				break;
 			}
 		}
 		for (let line = startLine; line <= endLine; line++) {
 			const { lineText, lineRange } = pb.documentation.readLine(doc, line, line < endLine ? Number.MAX_SAFE_INTEGER : endLineCharacter);
-			const lineStruct = pb.text.deconstruct(lineText);
-			pb.indentation.update(lineStruct, indents);
-			pb.text.beautify(lineStruct, pb.formatter.FORMATTING_RULES);
-			let formattedText = pb.text.reconstruct(lineStruct);
+			let formattedText = pb.text.restructure(lineText, lineStruct => {
+				pb.indentation.update(lineStruct, indents);
+				pb.text.beautify(lineStruct, pb.formatter.FORMATTING_RULES);
+			});
 			formattedText = formattedText.trimRight();
 			if (formattedText !== lineText) {
 				textEdits.push(TextEdit.replace(lineRange, formattedText));
