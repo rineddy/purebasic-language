@@ -47,6 +47,7 @@ export interface ICustomReadLine {
 }
 /**
  * Represents regex replacer
+ * @example let replacer: ICustomRegexReplacer = { /\s(\w+)/g, '$1' }
  */
 export interface ICustomRegexReplacer {
 	0: RegExp;
