@@ -9,13 +9,6 @@ export interface ICustomIndentRule {
 	after: number;
 }
 /**
- * Represents regex replacer
- */
-export interface ICustomRegexReplacer {
-	0: RegExp;
-	1: string;
-}
-/**
  * Represents Purebasic settings customized by user
  */
 export interface ICustomSettings {
@@ -51,4 +44,11 @@ export interface ICustomLineStruct {
 export interface ICustomReadLine {
 	lineText: string;
 	lineRange: Range;
+}
+/**
+ * Represents regex replacer
+ */
+export interface ICustomRegexReplacer {
+	0: RegExp;
+	1: string;
 }
