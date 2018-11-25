@@ -6,16 +6,16 @@ export class PureBasicText {
 	 * Extracts indents and full content without line break characters from line text
 	 * @example let [match, indents, fullContent] = thisLineText.match(pb.text.EXTRACTS_INDENTS_FULLCONTENT)
 	 */
-	public readonly EXTRACTS_INDENTS_FULLCONTENT = /^([\t ]*)(.*?)[\r\n]*$/;
+	private readonly EXTRACTS_INDENTS_FULLCONTENT = /^([\t ]*)(.*?)[\r\n]*$/;
 	/**
 	 * Extracts words from text (ex: _Word123,$myWord,OtherW0rd$)
 	 * @example let words = thisText.match(pb.text.EXTRACTS_WORDS)
 	 */
-	public readonly EXTRACTS_WORDS = /[$]?\b[_a-z]\w*\b[$]?/gi;
+	private readonly EXTRACTS_WORDS = /[$]?\b[_a-z]\w*\b[$]?/gi;
 	/**
 	 * Finds strings, cut strings and comment in text
 	 */
-	public readonly FINDS_STRINGS_CUTSTRINGS_AND_COMMENT = /(")(?:[^"\\]|\\.)*"|(')[^']*'|(["';]).*/g;
+	private readonly FINDS_STRINGS_CUTSTRINGS_AND_COMMENT = /(")(?:[^"\\]|\\.)*"|(')[^']*'|(["';]).*/g;
 
 
 	/**
