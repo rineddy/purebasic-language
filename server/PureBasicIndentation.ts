@@ -4,6 +4,8 @@ import {
 } from 'vscode-languageserver';
 import { ICustomIndentation, ICustomLineStruct, pb } from './PureBasicAPI';
 
+import { settings } from 'cluster';
+
 export class PureBasicIndentation {
 	/**
 	 * create indentation
@@ -16,45 +18,26 @@ export class PureBasicIndentation {
 			current: '',
 			next: '',
 			options: options,
-			indentRules: settings.indentation.rules
+			settings: settings
 		};
 		return Promise.resolve(indentation);
 	}
 	/**
 	 * Update line indents according to words and indentation context
 	 */
-	public update(lineStruct: ICustomLineStruct, indentContext: ICustomIndentation) {
+	public update(lineStruct: ICustomLineStruct, currentIndentation: ICustomIndentation) {
+		const { settings, options } = currentIndentation;
 		let isCurrentIdentation = true;
-		lineStruct.words.forEach(() => {
-			if (isCurrentIdentation) {
-			}
-			else {
+		lineStruct.words.forEach(word => {
+			const indentRule = settings.indentationRules.find(indentRule => word.match(indentRule.regex) != null);
+			if (indentRule) {
+				if (isCurrentIdentation) {
+				}
+				else {
+				}
 			}
 		});
-		indentContext.current = lineStruct.indents;
+		currentIndentation.current = lineStruct.indents;
 	}
 
-	/**
-	 * Remap indents of open document between start line and end line
-	 */
-	// private remap(doc: TextDocument, startLine: number, endLine: number, indents?: Thenable<IDocumentIndents>): Thenable<IDocumentIndents> {
-	// 	if (!indents) {
-	// 		indents = Promise.resolve(<IDocumentIndents>{ lineIndentations: new Map<number, number>() });
-	// 	}
-	// 	indents.then(res => {
-	// 		for (let line = startLine; line <= endLine; line++) {
-	// 			let rg: Range = Range.create(line, 0, line, Number.MAX_SAFE_INTEGER);
-	// 			let text = doc.getText(rg).replace(pb.text.FINDS_STRING_OR_COMMENT, '');
-	// 			let countIndents = (text.match(/\b(If|Select|Procedure)\b/gi) || []).length;
-	// 			let countUnindents = (text.match(/\b(EndIf|EndSelect|EndProcedure)\b/gi) || []).length;
-	// 			if ((countIndents - countUnindents) !== 0) {
-	// 				res.lineIndentations.set(line, countIndents - countUnindents);
-	// 			} else if (res.lineIndentations.has(line)) {
-	// 				res.lineIndentations.delete(line);
-	// 			}
-	// 		}
-	// 		return res;
-	// 	});
-	// 	return indents;
-	// }
 }

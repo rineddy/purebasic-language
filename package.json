@@ -103,27 +103,27 @@
 					"type": "array",
 					"default": [
 						{
-							"match": "\\b(Procedure|If)\\b",
+							"regex": "\\b(Procedure|If)\\b",
 							"before": 0,
 							"after": 1
 						},
 						{
-							"match": "\\b(EndProcedure|EndIf)\\b",
+							"regex": "\\b(EndProcedure|EndIf)\\b",
 							"before": -1,
 							"after": 0
 						},
 						{
-							"match": "\\b(Select)\\b",
+							"regex": "\\b(Select)\\b",
 							"before": 0,
 							"after": 2
 						},
 						{
-							"match": "\\b(Case|Default)\\b",
+							"regex": "\\b(Case|Default)\\b",
 							"before": -1,
 							"after": 1
 						},
 						{
-							"match": "\\b(EndSelect)\\b",
+							"regex": "\\b(EndSelect)\\b",
 							"before": -2,
 							"after": 0
 						}

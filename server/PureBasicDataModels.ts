@@ -4,7 +4,7 @@ import { FormattingOptions, Range } from 'vscode-languageserver';
  * Represents Purebasic indentation rules
  */
 export interface ICustomIndentRule {
-	match: string;
+	regex: string;
 	before: number;
 	after: number;
 }
@@ -15,9 +15,7 @@ export interface ICustomSettings {
 	diagnostics: {
 		maxNumberOfProblems: number;
 	};
-	indentation: {
-		rules: ICustomIndentRule[];
-	};
+	indentationRules: ICustomIndentRule[];
 }
 /**
  * Represents custom line indentation
@@ -26,7 +24,7 @@ export interface ICustomIndentation {
 	current: string;
 	next: string;
 	readonly options: FormattingOptions;
-	readonly indentRules: ICustomIndentRule[];
+	readonly settings: ICustomSettings;
 }
 /**
  * Represents line text structure (indentation spaces, text content, words, strings, comment)

@@ -20,30 +20,28 @@ export class PureBasicSettings {
 		diagnostics: {
 			maxNumberOfProblems: 1000
 		},
-		indentation: {
-			rules: [
-				{
-					match: '\\b(Procedure|If)\\b',
-					before: 0, after: 1
-				},
-				{
-					match: '\\b(EndProcedure|EndIf)\\b',
-					before: -1, after: 0
-				},
-				{
-					match: '\\b(Select)\\b',
-					before: 0, after: 2
-				},
-				{
-					match: '\\b(Case|Default)\\b',
-					before: -1, after: 1
-				},
-				{
-					match: '\\b(EndSelect)\\b',
-					before: -2, after: 0
-				},
-			]
-		}
+		indentationRules: [
+			{
+				regex: '\\b(Procedure|If)\\b',
+				before: 0, after: 1
+			},
+			{
+				regex: '\\b(EndProcedure|EndIf)\\b',
+				before: -1, after: 0
+			},
+			{
+				regex: '\\b(Select)\\b',
+				before: 0, after: 2
+			},
+			{
+				regex: '\\b(Case|Default)\\b',
+				before: -1, after: 1
+			},
+			{
+				regex: '\\b(EndSelect)\\b',
+				before: -2, after: 0
+			},
+		]
 	};
 	/**
 	 * Cache the settings of all open documents
