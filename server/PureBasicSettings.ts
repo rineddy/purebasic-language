@@ -22,23 +22,23 @@ export class PureBasicSettings {
 		},
 		indentationRules: [
 			{
-				regex: '\\b(Procedure|If)\\b',
+				regex: /\b(Procedure|If)\b/i,
 				before: 0, after: 1
 			},
 			{
-				regex: '\\b(EndProcedure|EndIf)\\b',
+				regex: /\b(EndProcedure|EndIf)\b/i,
 				before: -1, after: 0
 			},
 			{
-				regex: '\\b(Select)\\b',
+				regex: /\b(Select)\b/i,
 				before: 0, after: 2
 			},
 			{
-				regex: '\\b(Case|Default)\\b',
+				regex: /\b(Case|Default)\b/i,
 				before: -1, after: 1
 			},
 			{
-				regex: '\\b(EndSelect)\\b',
+				regex: /\b(EndSelect)\b/i,
 				before: -2, after: 0
 			},
 		]
@@ -72,25 +72,42 @@ export class PureBasicSettings {
 	public change(change: DidChangeConfigurationParams) {
 		this.documentSettings.clear();
 		if (!this.hasWorkspaceConfigCapability) {
-			let globalSettings = <ICustomSettings>(change.settings.purebasicLanguage || pb.settings.DEFAULT_SETTINGS);
-			this.documentSettings.set('', Promise.resolve(globalSettings));
+			let globalSettings = Promise.resolve(<ICustomSettings>(change.settings.purebasicLanguage || pb.settings.DEFAULT_SETTINGS));
+			this.saveDocumentSettings('', globalSettings);
 		}
 	}
 	/**
-	 * Retrieves settings after opening document
+	 * Load settings after opening document
+	 * @param doc
 	 */
 	public load(doc: TextDocument): Thenable<ICustomSettings> {
 		let settings = this.documentSettings.get(this.hasWorkspaceConfigCapability ? doc.uri : '');
 		if (!settings) {
 			settings = pb.connection.workspace.getConfiguration({ scopeUri: doc.uri, section: 'purebasicLanguage' });
-			this.documentSettings.set(doc.uri, settings);
+			this.saveDocumentSettings(doc.uri, settings);
 		}
 		return settings;
 	}
 	/**
 	 * Delete settings before closing document
+	 * @param doc
 	 */
 	public remove(doc: TextDocument) {
 		this.documentSettings.delete(doc.uri);
+	}
+	/**
+	 * Save settings in dictionary after converting indent rules from JSON into regex
+	 * @param docUri
+	 * @param settings
+	 */
+	private saveDocumentSettings(docUri: string, settings: Thenable<ICustomSettings>) {
+		settings.then(s => {
+			s.indentationRules.forEach(r => {
+				// convert indent rules from string to RegExp
+				if (typeof (r.regex) === 'string') { r.regex = new RegExp(r.regex, r.flags); }
+			});
+			return s;
+		});
+		this.documentSettings.set(docUri, settings);
 	}
 }

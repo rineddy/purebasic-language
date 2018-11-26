@@ -97,33 +97,38 @@
 					],
 					"default": "off"
 				},
-				"purebasicLanguage.indentation.rules": {
+				"purebasicLanguage.indentationRules": {
 					"description": "Determines how to indent the source code.",
 					"scope": "resource",
 					"type": "array",
 					"default": [
 						{
 							"regex": "\\b(Procedure|If)\\b",
+							"flags": "i",
 							"before": 0,
 							"after": 1
 						},
 						{
 							"regex": "\\b(EndProcedure|EndIf)\\b",
+							"flags": "i",
 							"before": -1,
 							"after": 0
 						},
 						{
 							"regex": "\\b(Select)\\b",
+							"flags": "i",
 							"before": 0,
 							"after": 2
 						},
 						{
 							"regex": "\\b(Case|Default)\\b",
+							"flags": "i",
 							"before": -1,
 							"after": 1
 						},
 						{
 							"regex": "\\b(EndSelect)\\b",
+							"flags": "i",
 							"before": -2,
 							"after": 0
 						}
