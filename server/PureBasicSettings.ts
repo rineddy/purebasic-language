@@ -101,12 +101,12 @@ export class PureBasicSettings {
 	 * @param settings
 	 */
 	private saveDocumentSettings(docUri: string, settings: Thenable<ICustomSettings>) {
-		settings.then(s => {
-			s.indentationRules.forEach(r => {
+		settings.then(newSettings => {
+			newSettings.indentationRules.forEach(r => {
 				// convert indent rules from string to RegExp
 				if (typeof (r.regex) === 'string') { r.regex = new RegExp(r.regex, r.flags); }
 			});
-			return s;
+			return newSettings;
 		});
 		this.documentSettings.set(docUri, settings);
 	}
