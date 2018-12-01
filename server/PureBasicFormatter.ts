@@ -32,21 +32,21 @@ export class PureBasicFormatter {
 	 */
 	public async formatAll(params: DocumentFormattingParams): Promise<TextEdit[]> {
 		const doc = await pb.documentation.find(params.textDocument.uri);
-		return pb.formatter.formatSelectedLines(doc, params.options, 0, doc.lineCount - 1, Number.MAX_SAFE_INTEGER);
+		return pb.formatter.formatLineByLine(doc, params.options, 0, doc.lineCount - 1, Number.MAX_SAFE_INTEGER);
 	}
 	/**
 	 * Format doc when user is selecting text
 	 */
 	public async formatRange(params: DocumentRangeFormattingParams): Promise<TextEdit[]> {
 		const doc = await pb.documentation.find(params.textDocument.uri);
-		return pb.formatter.formatSelectedLines(doc, params.options, params.range.start.line, params.range.end.line, params.range.end.character);
+		return pb.formatter.formatLineByLine(doc, params.options, params.range.start.line, params.range.end.line, params.range.end.character);
 	}
 	/**
 	 * Format doc when user is typing
 	 */
 	public async formatOnType(params: DocumentOnTypeFormattingParams): Promise<TextEdit[]> {
 		const doc = await pb.documentation.find(params.textDocument.uri);
-		return pb.formatter.formatSelectedLines(doc, params.options, params.position.line, params.position.line, params.position.character);
+		return pb.formatter.formatLineByLine(doc, params.options, params.position.line, params.position.line, params.position.character);
 	}
 	/**
 	 * Format doc line by line
@@ -57,21 +57,21 @@ export class PureBasicFormatter {
 	 * @param endLineCharacter end line last character position
 	 * @returns array of text modifications
 	 */
-	private async formatSelectedLines(doc: TextDocument, options: FormattingOptions, startLine: number, endLine: number, endLineCharacter: number): Promise<TextEdit[]> {
+	private async formatLineByLine(doc: TextDocument, options: FormattingOptions, startLine: number, endLine: number, endLineCharacter: number): Promise<TextEdit[]> {
 		const textEdits: TextEdit[] = [];
-		const indents = await pb.indentation.create(doc, options);
+		const indenting = await pb.indentation.create(doc, options);
 		for (let line = startLine - 1; line >= 0; line--) {
 			const { lineText } = pb.documentation.readLine(doc, line, Number.MAX_SAFE_INTEGER);
 			const lineStruct = pb.text.deconstruct(lineText);
 			if (!lineStruct.isBlank) {
-				pb.indentation.update(lineStruct, indents);
+				pb.indentation.pick(lineStruct, indenting);
 				break;
 			}
 		}
 		for (let line = startLine; line <= endLine; line++) {
 			const { lineText, lineRange } = pb.documentation.readLine(doc, line, line < endLine ? Number.MAX_SAFE_INTEGER : endLineCharacter);
 			let formattedText = pb.text.restructure(lineText, lineStruct => {
-				pb.indentation.update(lineStruct, indents);
+				pb.indentation.update(lineStruct, indenting);
 				pb.text.beautify(lineStruct, pb.formatter.FORMATTING_RULES);
 			});
 			formattedText = formattedText.trimRight();

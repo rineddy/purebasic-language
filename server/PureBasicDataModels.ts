@@ -19,13 +19,15 @@ export interface ICustomSettings {
 	indentationRules: ICustomIndentRule[];
 }
 /**
- * Represents custom line indentation
+ * Represents custom indenting context for current and next line
  */
-export interface ICustomIndentation {
+export interface ICustomIndenting {
 	current: number;
 	next: number;
 	readonly options: FormattingOptions;
 	readonly settings: ICustomSettings;
+	readonly oneIndent: string;
+	readonly tabSpaces: string;
 }
 /**
  * Represents line text structure (indentation spaces, text content, words, strings, comment)
