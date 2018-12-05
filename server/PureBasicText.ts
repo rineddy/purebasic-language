@@ -13,9 +13,9 @@ export class PureBasicText {
 	 */
 	private readonly EXTRACTS_WORDS = /[$]?\b[_a-z]\w*\b[$]?/gi;
 	/**
-	 * Finds strings, cut strings and comment in text
+	 * Finds strings, comment and end spaces in text
 	 */
-	private readonly FINDS_STRINGS_CUTSTRINGS_AND_COMMENT = /(")(?:[^"\\]|\\.)*"|(')[^']*'|(["';]).*/g;
+	private readonly FINDS_STRINGS_COMMENT_ENDSPACES = /(")(?:[^"\\]|\\.)*"?|(')[^']*'?|(;).*?(?=\s*$)|(\s)\s*$/g;
 
 
 	/**
@@ -39,11 +39,16 @@ export class PureBasicText {
 	public deconstruct(lineText: string): ICustomLineStruct {
 		let [, indents, fullContent] = lineText.match(pb.text.EXTRACTS_INDENTS_FULLCONTENT) || [undefined, '', ''];
 		let strings: string[] = [];
-		let comment: string = '';
-		let content = fullContent.replace(pb.text.FINDS_STRINGS_CUTSTRINGS_AND_COMMENT, (match: string, s1: string, s2: string, s3: string) => {
-			if (match[0] === ';') {
+		let comment = '';
+		let endSpaces = '';
+		let content = fullContent.replace(pb.text.FINDS_STRINGS_COMMENT_ENDSPACES, (match: string, s1: string, s2: string, s3: string, s4: string) => {
+			if (s3) {
 				comment = match;
-			} else {
+			}
+			else if (s4) {
+				endSpaces = match;
+			}
+			else {
 				strings.push(match);
 			}
 			return (s1 + s1) || (s2 + s2) || s3 || ''; // empty string or empty comment result
@@ -54,6 +59,7 @@ export class PureBasicText {
 			words: content.match(pb.text.EXTRACTS_WORDS) || [],
 			strings: strings,
 			comment: comment,
+			endSpaces: endSpaces,
 			isBlank: content === '' && comment === ''
 		};
 	}
@@ -63,10 +69,10 @@ export class PureBasicText {
 	 * @returns output text
 	 */
 	public reconstruct(lineStruct: ICustomLineStruct): string {
-		const { indents, content, strings, comment } = lineStruct;
-		const lineText = indents + content.replace(pb.text.FINDS_STRINGS_CUTSTRINGS_AND_COMMENT, (match: string) => {
+		const { indents, content, strings, comment, endSpaces } = lineStruct;
+		const lineText = indents + content.replace(pb.text.FINDS_STRINGS_COMMENT_ENDSPACES, (match: string) => {
 			return match[0] === ';' ? comment : strings.shift() || '';
-		});
+		}) + endSpaces;
 		return lineText;
 	}
 	/**

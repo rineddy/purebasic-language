@@ -56,14 +56,17 @@ export class PureBasicIndentation {
 	}
 	/**
 	 * Pick line indents used for next indentation
+	 * @returns True if line indentation is picked
 	 */
-	public pick(lineStruct: ICustomLineStruct, indenting: ICustomIndenting) {
+	public pick(lineStruct: ICustomLineStruct, indenting: ICustomIndenting): boolean {
 		const { settings, options, tabSpaces } = indenting;
 		let isIndentingCurrentLine = true;
+		let isIndentsPicked = false;
 		indenting.next = lineStruct.indents.replace(/\t/g, tabSpaces).length / options.tabSize;
 		lineStruct.words.forEach(word => {
 			const indentRule = settings.indentationRules.find(indentRule => word.match(indentRule.regex) != null);
 			if (indentRule) {
+				isIndentsPicked = true;
 				if (isIndentingCurrentLine) {
 					if (indentRule.after) {
 						indenting.next += indentRule.after;
@@ -75,5 +78,6 @@ export class PureBasicIndentation {
 				}
 			}
 		});
+		return isIndentsPicked;
 	}
 }

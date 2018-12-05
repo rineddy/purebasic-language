@@ -27,13 +27,16 @@ export class PureBasicDocumentation extends TextDocuments {
 	 * Read doc line
 	 * @param doc
 	 * @param line line to read
-	 * @param lineCharacter line last character position
+	 * @param lineCharacter line last character position ( or end of line position if 'undefined' )
 	 */
-	public readLine(doc: TextDocument, line: number, lineCharacter: number): ICustomReadLine {
-		const rg = Range.create(line, 0, line, lineCharacter);
+	public readLine(doc: TextDocument, line: number, lineCharacter?: number): ICustomReadLine {
+		const rg = Range.create(line, 0, line, lineCharacter ? lineCharacter : Number.MAX_SAFE_INTEGER);
+		const rgCut = lineCharacter ? Range.create(line, lineCharacter, line, Number.MAX_SAFE_INTEGER) : undefined;
 		return {
-			lineText: doc.getText(rg),
 			lineRange: rg,
+			lineText: doc.getText(rg),
+			lineCutRange: rgCut,
+			lineCutText: rgCut ? doc.getText(rgCut) : undefined,
 		};
 	}
 }

@@ -38,6 +38,7 @@ export interface ICustomLineStruct {
 	words: string[];
 	strings: string[];
 	comment: string;
+	endSpaces: string;
 	isBlank: boolean;
 }
 /**
@@ -46,6 +47,8 @@ export interface ICustomLineStruct {
 export interface ICustomReadLine {
 	lineText: string;
 	lineRange: Range;
+	lineCutText?: string;
+	lineCutRange?: Range;
 }
 /**
  * Represents regex replacer

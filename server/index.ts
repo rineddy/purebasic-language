@@ -22,7 +22,7 @@ pb.connection.onInitialize((params: InitializeParams) => {
 			documentFormattingProvider: true, 				// Tell the client that the server supports formatting
 			documentOnTypeFormattingProvider: {				// Tell the client that the server supports formatting
 				firstTriggerCharacter: ':'
-				// ,moreTriggerCharacter: ['(', '[', '{']
+				, moreTriggerCharacter: ['\n', '(', '[', '{']
 			},
 			// definitionProvider: true,
 			// typeDefinitionProvider: undefined,
