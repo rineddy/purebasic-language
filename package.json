@@ -103,13 +103,13 @@
 					"type": "array",
 					"default": [
 						{
-							"regex": "\\b(While|Repeat|ForEach|For|ForEver|With|Structure|StructureUnion|Macro|Import|ImportC|Interface|Procedure|ProcedureDLL|ProcedureCDLL|ProcedureC|If|CompilerIf|DataSection|DeclareModule|Module|Enumeration|EnumerationBinary)\\b",
+							"regex": "\\b(While|Repeat|ForEach|For|With|Structure|StructureUnion|Macro|Import|ImportC|Interface|Procedure|ProcedureDLL|ProcedureCDLL|ProcedureC|If|CompilerIf|DataSection|DeclareModule|Module|Enumeration|EnumerationBinary)\\b",
 							"flags": "i",
 							"before": 0,
 							"after": 1
 						},
 						{
-							"regex": "\\b(Wend|Until|Next|EndWith|EndStructure|EndStructureUnion|EndMacro|EndImport|EndInterface|EndProcedure|EndIf|CompilerEndIf|EndDataSection|EndDeclareModule|EndModule|EndEnumeration)\\b",
+							"regex": "\\b(Wend|Until|ForEver|Next|EndWith|EndStructure|EndStructureUnion|EndMacro|EndImport|EndInterface|EndProcedure|EndIf|CompilerEndIf|EndDataSection|EndDeclareModule|EndModule|EndEnumeration)\\b",
 							"flags": "i",
 							"before": -1,
 							"after": 0
