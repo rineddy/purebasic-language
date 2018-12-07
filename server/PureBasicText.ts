@@ -37,7 +37,7 @@ export class PureBasicText {
 	 * @returns output structure data
 	 */
 	public deconstruct(lineText: string): ICustomLineStruct {
-		let [, indents, fullContent] = lineText.match(pb.text.EXTRACTS_INDENTS_FULLCONTENT) || [undefined, '', ''];
+		let [, indents, fullContent] = lineText.match(pb.text.EXTRACTS_INDENTS_FULLCONTENT) || [, '', ''];
 		let strings: string[] = [];
 		let comment = '';
 		let endSpaces = '';
