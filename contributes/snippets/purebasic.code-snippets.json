@@ -1,38 +1,47 @@
 {
-    "For": {
-        "prefix": "For",
-        "body": [
-            "For ${1:variable} = ${2:startValue} To ${3:endValue}",
-            "\t$0",
-            "Next"
-        ],
-        "description": "For loop"
-    },
-    "For_Step": {
-        "prefix": "Fors",
-        "body": [
-            "For ${1:variable} = ${2:startValue} To ${3:endValue} Step ${4:1}",
-            "\t$0",
-            "Next"
-        ],
-        "description": "For loop with steps"
-    },
-    "For_Reverse": {
-        "prefix": "Forr",
-        "body": [
-            "For ${1:variable} = ${2:startValue} To ${3:endValue} Step -${4:1}",
-            "\t$0",
-            "Next"
-        ],
-        "description": "Reverse for loop"
-    },
-    "Region": {
-        "prefix": "Region",
-        "body": [
-            ";{ ${1:region}",
-            "${TM_SELECTED_TEXT}$0",
-            ";}"
-        ],
-        "description": ";{ Custom folding region"
-    }
+	"Procedure": {
+		"prefix": "Ife",
+		"body": [
+			"If $0",
+			"Else",
+			"EndIf"
+		],
+		"description": "If Else"
+	},
+	"For": {
+		"prefix": "For",
+		"body": [
+			"For ${1:variable} = ${2:startValue} To ${3:endValue}",
+			"\t$0",
+			"Next"
+		],
+		"description": "For loop"
+	},
+	"For_Step": {
+		"prefix": "Fors",
+		"body": [
+			"For ${1:variable} = ${2:startValue} To ${3:endValue} Step ${4:1}",
+			"\t$0",
+			"Next"
+		],
+		"description": "For loop with steps"
+	},
+	"For_Reverse": {
+		"prefix": "Forr",
+		"body": [
+			"For ${1:variable} = ${2:startValue} To ${3:endValue} Step -${4:1}",
+			"\t$0",
+			"Next"
+		],
+		"description": "Reverse for loop"
+	},
+	"Region": {
+		"prefix": "Region",
+		"body": [
+			";{ ${1:region}",
+			"${TM_SELECTED_TEXT}$0",
+			";}"
+		],
+		"description": ";{ Custom folding region"
+	}
 }

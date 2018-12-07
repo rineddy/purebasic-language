@@ -82,5 +82,5 @@ pb.connection.onDocumentFormatting(pb.formatter.formatAll);
 pb.connection.onDocumentRangeFormatting(pb.formatter.formatRange);
 pb.connection.onDocumentOnTypeFormatting(pb.formatter.formatOnType);
 
-pb.connection.listen(); 			// Listen on the pb.connection
+pb.connection.listen(); 				// Listen on the pb.connection
 pb.documentation.listen(pb.connection); // Make the text document manager listen on the pb.connection (for open, change and close text document events)
