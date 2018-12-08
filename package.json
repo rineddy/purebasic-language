@@ -1,160 +1,69 @@
 {
-	"name": "purebasic-extension",
-	"displayName": "PureBasic Extension",
-	"description": "PureBasic language support for Visual Studio Code",
-	"version": "1.0.1",
-	"license": "MIT",
-	"publisher": "eddy-r",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/rineddy/extension-pb"
-	},
-	"engines": {
-		"vscode": "^1.26.0"
-	},
-	"categories": [
-		"Programming Languages",
-		"Themes",
-		"Snippets",
-		"Debuggers",
-		"Formatters",
-		"Linters"
-	],
-	"keywords": [
-		"multi-root ready"
-	],
-	"contributes": {
-		"languages": [
-			{
-				"id": "purebasic",
-				"aliases": [
-					"purebasic",
-					"PureBasic"
-				],
-				"extensions": [
-					".pb",
-					".pbi"
-				],
-				"configuration": "./contributes/languages/purebasic.language-configuration.json"
-			}
-		],
-		"grammars": [
-			{
-				"language": "purebasic",
-				"scopeName": "source.purebasic",
-				"path": "./contributes/grammars/purebasic.tmLanguage.json"
-			}
-		],
-		"themes": [
-			{
-				"id": "PureBasic Dark+",
-				"label": "Dark+ (PureBasic)",
-				"uiTheme": "vs-dark",
-				"path": "./contributes/themes/darkplus.color-theme.json"
-			}
-		],
-		"snippets": [
-			{
-				"language": "purebasic",
-				"path": "./contributes/snippets/purebasic.code-snippets.json"
-			}
-		],
-		"iconThemes": [
-			{
-				"id": "PureBasic Seti",
-				"label": "Seti (PureBasic)",
-				"path": "./contributes/iconThemes/seti.icon-theme.json"
-			}
-		],
-		"configurationDefaults": {
-			"[purebasic]": {
-				"editor.insertSpaces": false,
-				"editor.formatOnSave": true,
-				"editor.formatOnType": true,
-				"editor.detectIndentation": false,
-				"editor.autoIndent": true,
-				"editor.tabSize": 3
-			}
-		},
-		"configuration": {
-			"type": "object",
-			"title": "PureBasic Configuration",
-			"properties": {
-				"purebasicLanguage.diagnostics.maxNumberOfProblems": {
-					"description": "Controls the maximum number of problems produced by the language server.",
-					"scope": "resource",
-					"type": "number",
-					"default": 100
-				},
-				"purebasicLanguage.trace.server": {
-					"description": "Traces the communication between VS Code and the language server.",
-					"scope": "window",
-					"type": "string",
-					"enum": [
-						"off",
-						"messages",
-						"verbose"
-					],
-					"default": "off"
-				},
-				"purebasicLanguage.indentationRules": {
-					"description": "Determines how to indent the source code.",
-					"scope": "resource",
-					"type": "array",
-					"default": [
-						{
-							"regex": "\\b(While|Repeat|ForEach|For|With|Structure|StructureUnion|Macro|Import|ImportC|Interface|Procedure|ProcedureDLL|ProcedureCDLL|ProcedureC|If|CompilerIf|DataSection|DeclareModule|Module|Enumeration|EnumerationBinary)\\b",
-							"flags": "i",
-							"before": 0,
-							"after": 1
-						},
-						{
-							"regex": "\\b(Wend|Until|ForEver|Next|EndWith|EndStructure|EndStructureUnion|EndMacro|EndImport|EndInterface|EndProcedure|EndIf|CompilerEndIf|EndDataSection|EndDeclareModule|EndModule|EndEnumeration)\\b",
-							"flags": "i",
-							"before": -1,
-							"after": 0
-						},
-						{
-							"regex": "\\b(Else|ElseIf|Case|Default|CompilerElse|CompilerElseIf|CompilerCase|CompilerDefault)\\b",
-							"flags": "i",
-							"before": -1,
-							"after": 1
-						},
-						{
-							"regex": "\\b(Select|CompilerSelect)\\b",
-							"flags": "i",
-							"before": 0,
-							"after": 2
-						},
-						{
-							"regex": "\\b(EndSelect|CompilerEndSelect)\\b",
-							"flags": "i",
-							"before": -2,
-							"after": 0
-						}
-					]
-				}
-			}
-		}
-	},
-	"main": "./client/out/",
-	"activationEvents": [
-		"onLanguage:purebasic"
-	],
-	"scripts": {
-		"vscode:prepublish": "cd client && npm run update-vscode && cd .. && npm run compile",
-		"compile:client": "tsc -p  ./client/tsconfig.json --skipLibCheck --strictNullChecks false --noUnusedParameters false",
-		"compile:server": "tsc -p  ./server/tsconfig.json --skipLibCheck --strictNullChecks false --noUnusedParameters false",
-		"watch:client": "tsc -w -p ./client/tsconfig.json",
-		"watch:server": "tsc -w -p ./server/tsconfig.json",
-		"compile": "npm run compile:client && npm run compile:server",
-		"postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
-		"test": "npm run compile && node ./node_modules/vscode/bin/test"
-	},
-	"devDependencies": {
-		"@types/mocha": "^5.2.5",
-		"@types/node": "^10.12.12",
-		"tslint": "^5.8.0",
-		"typescript": "^3.1.6"
-	}
+    "name": "purebasic-language-support",
+    "displayName": "PureBasic language support",
+    "description": "PureBasic language support for Visual Studio Code",
+    "version": "1.0.0",
+    "publisher": "eddy-r",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/rineddy/purebasic-language-support"
+    },
+    "engines": {
+        "vscode": "^1.28.0"
+    },
+    "categories": [
+        "Programming Languages",
+        "Themes",
+        "Snippets"
+    ],
+    "keywords": [
+        "purebasic",
+        "syntax",
+        "theme",
+        "icons"
+    ],
+    "contributes": {
+        "languages": [
+            {
+                "id": "purebasic",
+                "aliases": [
+                    "purebasic",
+                    "PureBasic"
+                ],
+                "extensions": [
+                    ".pb",
+                    ".pbi"
+                ],
+                "configuration": "./contributes/languages/purebasic.language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "purebasic",
+                "scopeName": "source.purebasic",
+                "path": "./contributes/grammars/purebasic.tmLanguage.json"
+            }
+        ],
+        "themes": [
+            {
+                "id": "PureBasic Dark+",
+                "label": "Dark+ (PureBasic)",
+                "uiTheme": "vs-dark",
+                "path": "./contributes/themes/darkplus.color-theme.json"
+            }
+        ],
+        "snippets": [
+            {
+                "language": "purebasic",
+                "path": "./contributes/snippets/purebasic.code-snippets.json"
+            }
+        ],
+        "iconThemes": [
+            {
+                "id": "PureBasic Seti",
+                "label": "Seti (PureBasic)",
+                "path": "./contributes/iconThemes/seti.icon-theme.json"
+            }
+        ]
+    }
 }
