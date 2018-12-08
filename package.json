@@ -2,7 +2,7 @@
     "name": "purebasic-language-support",
     "displayName": "PureBasic language support",
     "description": "PureBasic language support for Visual Studio Code",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "publisher": "eddy-r",
     "repository": {
         "type": "git",
@@ -22,6 +22,7 @@
         "theme",
         "icons"
     ],
+    "icon": "icon/purebasic.png",
     "contributes": {
         "languages": [
             {
