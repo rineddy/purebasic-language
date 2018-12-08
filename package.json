@@ -1,14 +1,14 @@
 {
-    "name": "purebasic-language-support",
-    "displayName": "PureBasic language support",
+    "name": "purebasic-language",
+    "displayName": "PureBasic Language",
     "description": "PureBasic language support for Visual Studio Code",
-    "version": "1.0.2",
+    "version": "1.0.0",
     "license": "MIT",
     "author": "Eddy R.",
     "publisher": "eddy-r",
     "repository": {
         "type": "git",
-        "url": "https://github.com/rineddy/purebasic-language-support"
+        "url": "https://github.com/rineddy/purebasic-language"
     },
     "engines": {
         "vscode": "^1.28.0"
