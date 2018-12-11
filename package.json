@@ -68,5 +68,12 @@
                 "path": "./contributes/iconThemes/seti.icon-theme.json"
             }
         ]
+    },
+    "scripts": {
+        "deploy": "rimraf \"*.vsix\" && npm version patch && vsce publish"
+    },
+    "devDependencies": {
+        "@types/node": "^8.0.0",
+        "rimraf": "^2.6.2"
     }
 }
